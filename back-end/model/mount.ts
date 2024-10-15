@@ -28,4 +28,12 @@ export class Mount {
     public set speed(value) {
         this._speed = value;
     }
+
+    equals(other: Mount): boolean {
+        return (
+            this._id === other._id &&
+            this._speed === other._speed &&
+            this._name === other._name
+        );
+    }
 }
