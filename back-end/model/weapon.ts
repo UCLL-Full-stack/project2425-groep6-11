@@ -2,14 +2,14 @@ export class Weapon {
     readonly _id?: number;
     readonly _name: string;
     readonly _type: string;
-    readonly _damage: string;
+    readonly _damage: number;
     readonly _quality: number;
 
     constructor(weapon: {
-        id: number,
+        id?: number,
         name: string,
         type: string,
-        damage: string,
+        damage: number,
         quality: number
     }) {
         this._id = weapon.id
@@ -36,10 +36,6 @@ export class Weapon {
     }
 
     equals(other: Weapon): boolean {
-        if (!other) {
-            return false;
-        }
-
         return (
             this._id === other._id &&
             this._name === other._name &&

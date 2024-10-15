@@ -2,10 +2,10 @@ import {Weapon} from "./weapon";
 import {Mount} from "./mount";
 import {Quest} from "./quest";
 
-class Character {
+export class Character {
     readonly _id?: number;
     private _name: string;
-    private _role: string;
+    private _class: string;
     private _level: number;
 
     private _power: number;
@@ -13,14 +13,14 @@ class Character {
     private _health: number;
     private _defense: number;
 
-    private _weapons: Weapon[];
     private _mount: Mount;
-    private _quests: Quest[];
+    private readonly _weapons: Weapon[];
+    private readonly _quests: Quest[];
 
-    constructor(
-        id: number,
+    constructor(character: {
+        id?: number,
         name: string,
-        role: string,
+        class: string,
         level: number,
         power: number,
         mana: number,
@@ -29,20 +29,20 @@ class Character {
         weapons: Weapon[],
         mount: Mount,
         quests: Quest[]
-    ) {
-        this._id = id;
-        this._name = name;
-        this._role = role;
-        this._level = level;
+    }) {
+        this._id = character.id;
+        this._name = character.name;
+        this._class = character.class;
+        this._level = character.level;
 
-        this._power = power;
-        this._mana = mana;
-        this._health = health;
-        this._defense = defense;
+        this._power = character.power;
+        this._mana = character.mana;
+        this._health = character.health;
+        this._defense = character.defense;
 
-        this._weapons = weapons;
-        this._mount = mount;
-        this._quests = quests;
+        this._weapons = character.weapons;
+        this._mount = character.mount;
+        this._quests = character.quests;
     }
 
     public get name() {
@@ -53,12 +53,12 @@ class Character {
         this._name = value;
     }
 
-    public get role() {
-        return this._role;
+    public get class() {
+        return this._class;
     }
 
-    public set role(value) {
-        this._role = value;
+    public set class(value) {
+        this._class = value;
     }
 
     public get level() {
@@ -101,20 +101,20 @@ class Character {
         this._defense = value;
     }
 
-    public get weapons() {
-        return this._weapons;
-    }
-
-    public addWeapon(weapon: Weapon) {
-        this._weapons.push(weapon);
-    }
-
     public get mount() {
         return this._mount;
     }
 
     public set mount(value) {
         this._mount = value;
+    }
+
+    public get weapons() {
+        return this._weapons;
+    }
+
+    public addWeapon(weapon: Weapon) {
+        this._weapons.push(weapon);
     }
 
     public get quests() {
@@ -125,14 +125,10 @@ class Character {
         this._quests.push(quest);
     }
     equals(other: Character): boolean {
-        if (!other) {
-            return false;
-        }
-
         return (
             this._id === other._id &&
             this._name === other._name &&
-            this._role === other._role &&
+            this._class === other._class &&
             this._level === other._level &&
             this._power === other._power &&
             this._mana === other._mana &&

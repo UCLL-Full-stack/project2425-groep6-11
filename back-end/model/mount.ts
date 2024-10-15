@@ -4,7 +4,7 @@ export class Mount {
     private _speed: number;
 
     constructor(mount: {
-        id: number,
+        id?: number,
         name: string,
         speed: number
     }) {
