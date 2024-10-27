@@ -1,4 +1,4 @@
-import { Quest } from '../model/quest';
+import { Quest } from '../domain/model/quest';
 
 describe('Quest', () => {
     let quest: Quest;

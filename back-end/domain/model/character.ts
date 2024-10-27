@@ -1,11 +1,17 @@
 import {Weapon} from "./weapon";
 import {Mount} from "./mount";
 import {Quest} from "./quest";
+import {
+    Character as CharacterPrisma,
+    Mount as MountPrisma,
+    Weapon as WeaponPrisma,
+    Quest as QuestPrisma
+} from "@prisma/client";
 
 export class Character {
     readonly _id?: number;
     private _name: string;
-    private _class: string;
+    private _role: string;
     private _level: number;
 
     private _power: number;
@@ -13,26 +19,26 @@ export class Character {
     private _health: number;
     private _defense: number;
 
-    private _mount: Mount;
+    private _mount?: Mount;
     private readonly _weapons: Weapon[];
     private readonly _quests: Quest[];
 
     constructor(character: {
         id?: number,
         name: string,
-        class: string,
+        role: string,
         level: number,
         power: number,
         mana: number,
         health: number,
         defense: number,
         weapons: Weapon[],
-        mount: Mount,
+        mount?: Mount,
         quests: Quest[]
     }) {
         this._id = character.id;
         this._name = character.name;
-        this._class = character.class;
+        this._role = character.role;
         this._level = character.level;
 
         this._power = character.power;
@@ -53,12 +59,12 @@ export class Character {
         this._name = value;
     }
 
-    public get class() {
-        return this._class;
+    public get role() {
+        return this._role;
     }
 
-    public set class(value) {
-        this._class = value;
+    public set role(value) {
+        this._role = value;
     }
 
     public get level() {
@@ -128,7 +134,7 @@ export class Character {
         return (
             this._id === other._id &&
             this._name === other._name &&
-            this._class === other._class &&
+            this._role === other._role &&
             this._level === other._level &&
             this._power === other._power &&
             this._mana === other._mana &&
@@ -137,4 +143,35 @@ export class Character {
         );
     }
 
+    static from({
+        id,
+        name,
+        role,
+        level,
+        power,
+        mana,
+        health,
+        defense,
+        mount,
+        weapons,
+        quests
+    }: CharacterPrisma
+        & { mount: MountPrisma | null }
+        & { weapons: WeaponPrisma[] }
+        & { quests: QuestPrisma[] }
+    ): Character {
+        return new Character({
+            id,
+            name,
+            role,
+            level,
+            power,
+            mana,
+            health,
+            defense,
+            mount: mount ? Mount.from(mount) : undefined,
+            weapons: weapons.map((weapon: any) => Weapon.from(weapon)),
+            quests: quests.map((quest: any) => Quest.from(quest))
+        });
+    }
 }

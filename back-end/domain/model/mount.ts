@@ -1,3 +1,5 @@
+import {Mount as MountPrisma} from "@prisma/client";
+
 export class Mount {
     readonly _id?: number;
     private _name: string;
@@ -35,5 +37,9 @@ export class Mount {
             this._speed === other._speed &&
             this._name === other._name
         );
+    }
+
+    static from({id, speed, name}: MountPrisma) {
+        return new Mount({ id, speed, name })
     }
 }

@@ -5,7 +5,7 @@
 // Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
 
 generator client {
-  provider = "prismaClient-client-js"
+  provider = "prisma-client-js"
 }
 
 datasource db {
@@ -16,14 +16,14 @@ datasource db {
 model Character {
   id      Int      @id @default(autoincrement())
   name    String   @unique
-  class   String
+  role    String
   level   Int      @default(0)
   power   Int      @default(0)
   mana    Int      @default(100)
   health  Int      @default(100)
   defense Int      @default(100)
-  mountId Int      @unique
-  mount   Mount    @relation(fields: [mountId], references: [id])
+  mountId Int?     @unique
+  mount   Mount?   @relation(fields: [mountId], references: [id])
   weapons Weapon[]
   quests  Quest[]
 }

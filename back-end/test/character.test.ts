@@ -1,7 +1,7 @@
-import { Character } from '../model/character';
-import {Mount} from "../model/mount";
-import {Quest} from "../model/quest";
-import {Weapon} from "../model/weapon";
+import { Character } from '../domain/model/character';
+import {Mount} from "../domain/model/mount";
+import {Quest} from "../domain/model/quest";
+import {Weapon} from "../domain/model/weapon";
 
 
 describe('Character', () => {
@@ -24,7 +24,7 @@ describe('Character', () => {
 
         character = new Character({
             name: 'Maenoir',
-            class: 'Death blade',
+            role: 'Death blade',
             level: 12,
             power: 36,
             mana: 100,
@@ -38,7 +38,7 @@ describe('Character', () => {
 
     it('should create a character with the corresponding properties', () => {
         expect(character.name).toEqual('Maenoir');
-        expect(character.class).toEqual('Death blade');
+        expect(character.role).toEqual('Death blade');
         expect(character.level).toEqual(12);
         expect(character.power).toEqual(36);
         expect(character.mana).toEqual(100);
@@ -51,7 +51,7 @@ describe('Character', () => {
 
     it('should allow updating character properties', () => {
         character.name = 'Akinoir';
-        character.class = 'Soul eater';
+        character.role = 'Soul eater';
         character.level = 13;
         character.power = 40;
         character.mana = 120;
@@ -59,7 +59,7 @@ describe('Character', () => {
         character.defense = 30;
 
         expect(character.name).toEqual('Akinoir');
-        expect(character.class).toEqual('Soul eater');
+        expect(character.role).toEqual('Soul eater');
         expect(character.level).toEqual(13);
         expect(character.power).toEqual(40);
         expect(character.mana).toEqual(120);
@@ -86,7 +86,7 @@ describe('Character', () => {
     it('should return true for equal characters', () => {
         const other = new Character({
             name: 'Maenoir',
-            class: 'Death blade',
+            role: 'Death blade',
             level: 12,
             power: 36,
             mana: 100,
@@ -103,7 +103,7 @@ describe('Character', () => {
     it('should return false for unequal characters', () => {
         const other = new Character({
             name: 'Akinoir',
-            class: 'Death blade',
+            role: 'Death blade',
             level: 12,
             power: 36,
             mana: 100,

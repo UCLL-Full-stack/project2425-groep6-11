@@ -1,3 +1,5 @@
+import {Quest as QuestPrisma} from "@prisma/client";
+
 export class Quest {
     readonly _id?: number;
     readonly _xp: number;
@@ -45,5 +47,9 @@ export class Quest {
             this._title === other._title &&
             this._description === other._description
         );
+    }
+
+    static from({id, xp, title, description}: QuestPrisma): Quest {
+        return new Quest({ id, xp, title, description })
     }
 }

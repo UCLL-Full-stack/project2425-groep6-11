@@ -1,3 +1,5 @@
+import {Weapon as WeaponPrisma} from "@prisma/client";
+
 export class Weapon {
     readonly _id?: number;
     readonly _name: string;
@@ -45,4 +47,7 @@ export class Weapon {
         );
     }
 
+    static from({ id, name, type, damage, quality }: WeaponPrisma) {
+        return new Weapon({ id, name, type, damage, quality });
+    }
 }

@@ -2,7 +2,7 @@
 CREATE TABLE "Character" (
     "id" SERIAL NOT NULL,
     "name" TEXT NOT NULL,
-    "class" TEXT NOT NULL,
+    "role" TEXT NOT NULL,
     "level" INTEGER NOT NULL DEFAULT 0,
     "power" INTEGER NOT NULL DEFAULT 0,
     "mana" INTEGER NOT NULL DEFAULT 100,
@@ -52,6 +52,9 @@ CREATE TABLE "_CharacterToQuest" (
 
 -- CreateIndex
 CREATE UNIQUE INDEX "Character_name_key" ON "Character"("name");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "Character_mountId_key" ON "Character"("mountId");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "_CharacterToQuest_AB_unique" ON "_CharacterToQuest"("A", "B");
