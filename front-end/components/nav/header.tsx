@@ -18,28 +18,23 @@ function NavBar(): ReactElement {
             <NavigationMenu className="p-4">
                 <NavigationMenuList>
                     <NavigationMenuItem>
-                        <NavigationMenuLink className={navigationMenuTriggerStyle()} href="/">
-                            Home
-                        </NavigationMenuLink>
-                    </NavigationMenuItem>
-                    <NavigationMenuItem>
                         <NavigationMenuLink className={navigationMenuTriggerStyle()} href="/characters/characterOverview">
                             Characters
                         </NavigationMenuLink>
                     </NavigationMenuItem>
                     <NavigationMenuItem>
-                        <NavigationMenuLink className={navigationMenuTriggerStyle()} href="/">
-                            Weapon smith
+                        <NavigationMenuLink className={navigationMenuTriggerStyle()} href="/weapons/weaponOverview">
+                            Weapons
                         </NavigationMenuLink>
                     </NavigationMenuItem>
                     <NavigationMenuItem>
                         <NavigationMenuLink className={navigationMenuTriggerStyle()} href="/">
-                            Quest log
+                            Quests
                         </NavigationMenuLink>
                     </NavigationMenuItem>
                     <NavigationMenuItem>
-                        <NavigationMenuLink className={navigationMenuTriggerStyle()} href="/">
-                            Mount tamer
+                        <NavigationMenuLink className={navigationMenuTriggerStyle()} href="/mounts/mountsOverview">
+                            Mounts
                         </NavigationMenuLink>
                     </NavigationMenuItem>
                 </NavigationMenuList>

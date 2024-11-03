@@ -3,6 +3,15 @@ export type CreateCharacterDTO = {
     role: string
 }
 
+export type CreateWeaponDTO = {
+    name: string,
+    type: string,
+}
+
+export type CreateMountDTO = {
+    name: string
+}
+
 export interface Character {
     _id?: number;
     _name: string;
@@ -13,7 +22,7 @@ export interface Character {
     _health: number;
     _defense: number;
     _mount?: MountDTO;
-    _weapons?: WeaponDTO[];
+    _weapons?: Weapon[];
     _quests?: QuestDTO[];
 }
 
@@ -23,12 +32,12 @@ export interface MountDTO {
     speed?: number
 }
 
-export interface WeaponDTO {
-    id?: number,
-    name: string,
-    type: string,
-    damage?: number,
-    quality?: number
+export interface Weapon {
+    _id?: number,
+    _name: string,
+    _type: string,
+    _damage: number,
+    _quality: number
 }
 
 export interface QuestDTO {

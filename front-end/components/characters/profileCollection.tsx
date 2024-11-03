@@ -35,7 +35,7 @@ function ProfileCollection() {
             <div className="flex justify-center">
                 <Carousel className="max-w-sm">
                     <CarouselContent>
-                        {characters.map((character, index) => (
+                        {characters && characters.map((character, index) => (
                             <CarouselItem key={index}>
                                 <div className="flex justify-center p-1">
                                         <Profile character={character}/>

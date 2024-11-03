@@ -20,31 +20,32 @@ import {
 import { Input } from '@/components/ui/input';
 import CharacterService from '@/services/characterService';
 import { useToast } from '@/hooks/use-toast';
+import WeaponService from '@/services/weaponService';
 import { Toaster } from '@/components/ui/toaster';
 
 function Create() {
     const { toast } = useToast()
 
     const [name, setName] = React.useState("");
-    const [role, setRole] = React.useState("Warrior");
+    const [role, setRole] = React.useState("Sword");
 
     const handleSubmit = (event: React.FormEvent) => {
         event.preventDefault();
-        createCharacter(name, role).then(_ => console.log("Creating character..."));
+        createWeapon(name, role).then(_ => console.log("Creating character..."));
     };
 
-    const createCharacter = async (name: string, role: string) => {
-        await CharacterService.createCharacter({ name, role }).then(_ => {
+    const createWeapon = async (name: string, type: string) => {
+        await WeaponService.createWeapon({ name, type }).then(_ => {
             toast({
-                title: "Character created successfully!",
-                description: `${name} as a ${role}`,
-            });
+                title: "Crafted weapon successfully!",
+                description: `${type} weapon: ${name}`,
+            })
         });
     }
 
     return (
         <div className="flex justify-center">
-            <Card className="my-1 w-[400px]">
+            <Card className="w-[400px]">
                 <CardContent>
                     <form onSubmit={handleSubmit}>
                         <div className="my-5">
@@ -59,27 +60,26 @@ function Create() {
                             </div>
 
                             <div className="flex flex-col space-y-3 mt-3">
-                                <Label htmlFor="role">Role</Label>
+                                <Label htmlFor="type">Type</Label>
                                 <Select onValueChange={(value) => setRole(value)}>
-                                    <SelectTrigger id="role">
-                                        <SelectValue placeholder="Warrior" />
+                                    <SelectTrigger id="type">
+                                        <SelectValue placeholder="Sword" />
                                     </SelectTrigger>
                                     <SelectContent position="popper">
-                                        <SelectItem value="warrior">Warrior</SelectItem>
-                                        <SelectItem value="mage">Mage</SelectItem>
-                                        <SelectItem value="ranger">Ranger</SelectItem>
-
+                                        <SelectItem value="warrior">Sword</SelectItem>
+                                        <SelectItem value="mage">Staff</SelectItem>
+                                        <SelectItem value="ranger">Bow</SelectItem>
                                     </SelectContent>
                                 </Select>
                             </div>
                         </div>
                         <CardFooter className="p-0">
-                            <Button type="submit" className="font-semibold">Create Character</Button>
+                            <Button type="submit" className="font-semibold">Craft weapon</Button>
                         </CardFooter>
                     </form>
                 </CardContent>
             </Card>
-            <Toaster/>
+            <Toaster />
         </div>
     );
 }

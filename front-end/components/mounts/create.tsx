@@ -20,7 +20,7 @@ import {
 import { Input } from '@/components/ui/input';
 import CharacterService from '@/services/characterService';
 import { useToast } from '@/hooks/use-toast';
-import { Toaster } from '@/components/ui/toaster';
+import { Checkbox } from '@/components/ui/checkbox';
 
 function Create() {
     const { toast } = useToast()
@@ -35,10 +35,12 @@ function Create() {
 
     const createCharacter = async (name: string, role: string) => {
         await CharacterService.createCharacter({ name, role }).then(_ => {
-            toast({
-                title: "Character created successfully!",
-                description: `${name} as a ${role}`,
-            });
+            console.log("Character created successfully!");
+        });
+
+        toast({
+            title: "Character created successfully!",
+            description: `${name} as ${role}`,
         });
     }
 
@@ -58,19 +60,9 @@ function Create() {
                                 />
                             </div>
 
-                            <div className="flex flex-col space-y-3 mt-3">
-                                <Label htmlFor="role">Role</Label>
-                                <Select onValueChange={(value) => setRole(value)}>
-                                    <SelectTrigger id="role">
-                                        <SelectValue placeholder="Warrior" />
-                                    </SelectTrigger>
-                                    <SelectContent position="popper">
-                                        <SelectItem value="warrior">Warrior</SelectItem>
-                                        <SelectItem value="mage">Mage</SelectItem>
-                                        <SelectItem value="ranger">Ranger</SelectItem>
-
-                                    </SelectContent>
-                                </Select>
+                            <div className="flex gap-1 mt-3">
+                                <Checkbox/>
+                                <Label htmlFor="role">Can fly</Label>
                             </div>
                         </div>
                         <CardFooter className="p-0">
@@ -79,7 +71,6 @@ function Create() {
                     </form>
                 </CardContent>
             </Card>
-            <Toaster/>
         </div>
     );
 }

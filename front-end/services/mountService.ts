@@ -1,7 +1,7 @@
-import { CreateCharacterDTO } from '@/types';
+import { CreateCharacterDTO, CreateMountDTO } from '@/types';
 
-const getAllCharacters = async () => {
-    const res = await fetch(process.env.NEXT_PUBLIC_API_URL + "/characters", {
+const getAllMounts = async () => {
+    const res = await fetch(process.env.NEXT_PUBLIC_API_URL + "/mounts", {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json'
@@ -10,14 +10,14 @@ const getAllCharacters = async () => {
     return await res.json();
 };
 
-const createCharacter = async ({ name, role }: CreateCharacterDTO) => {
+const createMount = async ({ name }: CreateMountDTO) => {
     try {
-        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/characters`, {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/mounts`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ name: name, role: role }),
+            body: JSON.stringify({ name: name }),
         });
 
         console.log(response.body)
@@ -26,17 +26,18 @@ const createCharacter = async ({ name, role }: CreateCharacterDTO) => {
         }
 
         const data = await response.json();
-        console.log("Character created:", data);
+        console.log("Mount created:", data);
         return data;
     } catch (error) {
-        console.error("Failed to create character:", error);
+        console.error("Failed to create mount:", error);
         throw error;
     }
 };
 
+
 const CharacterService = {
-    getAllCharacters,
-    createCharacter,
+    getAllMounts,
+    createMount,
 };
 
 export default CharacterService;
