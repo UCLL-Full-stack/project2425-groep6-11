@@ -105,3 +105,6 @@ dist
 
 .DS_Store
 .vscode
+front-end/public/fonts/DMSans_18pt-BoldItalic.ttf
+/front-end/public/fonts
+*.ttf

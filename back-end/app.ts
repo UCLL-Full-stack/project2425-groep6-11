@@ -5,6 +5,9 @@ import * as bodyParser from 'body-parser';
 import swaggerJSDoc from 'swagger-jsdoc';
 import swaggerUi from 'swagger-ui-express';
 import characterRouter from "./controller/character.routes";
+import mountRouter from './controller/mount.routes';
+import weaponRouter from './controller/weapon.routes';
+import questRouter from './controller/quest.routes';
 
 const app = express();
 dotenv.config();
@@ -30,7 +33,11 @@ const swaggerOpts = {
 
 const swaggerSpec = swaggerJSDoc(swaggerOpts);
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+
 app.use('/characters', characterRouter);
+app.use('/mounts', mountRouter);
+app.use('/weapons', weaponRouter);
+app.use('quests', questRouter);
 
 app.listen(port || 3000, () => {
     console.log(`Back-end is running on port ${port}.`);

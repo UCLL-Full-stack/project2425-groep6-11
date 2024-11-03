@@ -1,4 +1,4 @@
-import { Weapon } from '../domain/model/weapon';
+import { Weapon } from '../../domain/model/weapon';
 
 describe('Weapon', () => {
     let weapon: Weapon;

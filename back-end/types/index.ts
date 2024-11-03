@@ -14,14 +14,14 @@ export interface CharacterDTO {
 
 export interface MountDTO {
     id?: number,
-    type: string,
-    speed: number
+    name: string,
+    speed?: number
 }
 
 export interface WeaponDTO {
     id?: number,
     name: string,
-    type?: string,
+    type: string,
     damage?: number,
     quality?: number
 }

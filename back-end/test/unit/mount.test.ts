@@ -1,4 +1,4 @@
-import { Mount } from '../domain/model/mount';
+import { Mount } from '../../domain/model/mount';
 
 describe('Mount', () => {
     let mount: Mount;

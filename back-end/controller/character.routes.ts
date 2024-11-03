@@ -1,5 +1,5 @@
 import express, { Request, Response } from "express";
-import characterService from "../service/character.service";
+import characterService from ".././services/character.service";
 
 const characterRouter = express.Router();
 
@@ -27,13 +27,13 @@ const characterRouter = express.Router();
  *         description: Internal server error
  */
 characterRouter.post('/', async (req: Request, res: Response) => {
-    try {
-        const { name, role } = req.body;
-        const newCharacter = await characterService.createCharacter({ name, role });
-        res.status(201).json(newCharacter);
-    } catch (error: any) {
-        res.status(500).json({ status: 'error', errorMessage: error.message });
-    }
+        try {
+                const { name, role } = req.body;
+                const newCharacter = await characterService.createCharacter({ name, role });
+                res.status(201).json(newCharacter);
+        } catch (error: any) {
+                res.status(500).json({ status: 'error', errorMessage: error.message });
+        }
 });
 
 /**
@@ -59,19 +59,19 @@ characterRouter.post('/', async (req: Request, res: Response) => {
  *         description: Internal server error
  */
 characterRouter.delete('/:id', async (req: Request, res: Response) => {
-    try {
-        const id = parseInt(req.params.id, 10);
-        if (isNaN(id)) {
-            return res.status(400).json({ status: 'error', errorMessage: 'Invalid character ID' });
+        try {
+                const id = parseInt(req.params.id, 10);
+                if (isNaN(id)) {
+                        return res.status(400).json({ status: 'error', errorMessage: 'Invalid character ID' });
+                }
+                const character = await characterService.deleteCharacter(id);
+                if (!character) {
+                        return res.status(404).json({ status: 'error', errorMessage: 'Character not found' });
+                }
+                res.status(204).send();
+        } catch (error: any) {
+                res.status(500).json({ status: 'error', errorMessage: error.message });
         }
-        const character = await characterService.deleteCharacter(id);
-        if (!character) {
-            return res.status(404).json({ status: 'error', errorMessage: 'Character not found' });
-        }
-        res.status(204).send();
-    } catch (error: any) {
-        res.status(500).json({ status: 'error', errorMessage: error.message });
-    }
 });
 
 /**
@@ -97,19 +97,19 @@ characterRouter.delete('/:id', async (req: Request, res: Response) => {
  *         description: Internal server error
  */
 characterRouter.get('/:id', async (req: Request, res: Response) => {
-    try {
-        const id = parseInt(req.params.id, 10);
-        if (isNaN(id)) {
-            return res.status(400).json({ status: 'error', errorMessage: 'Invalid character ID' });
+        try {
+                const id = parseInt(req.params.id, 10);
+                if (isNaN(id)) {
+                        return res.status(400).json({ status: 'error', errorMessage: 'Invalid character ID' });
+                }
+                const character = await characterService.getCharacterById(id);
+                if (!character) {
+                        return res.status(404).json({ status: 'error', errorMessage: 'Character not found' });
+                }
+                res.status(200).json(character);
+        } catch (error: any) {
+                res.status(500).json({ status: 'error', errorMessage: error.message });
         }
-        const character = await characterService.getCharacterById(id);
-        if (!character) {
-            return res.status(404).json({ status: 'error', errorMessage: 'Character not found' });
-        }
-        res.status(200).json(character);
-    } catch (error: any) {
-        res.status(500).json({ status: 'error', errorMessage: error.message });
-    }
 });
 
 /**
@@ -125,12 +125,12 @@ characterRouter.get('/:id', async (req: Request, res: Response) => {
  *         description: Internal server error
  */
 characterRouter.get('/', async (req: Request, res: Response) => {
-    try {
-        const characters = await characterService.getAllCharacters();
-        res.status(200).json(characters);
-    } catch (error: any) {
-        res.status(500).json({ status: 'error', errorMessage: error.message });
-    }
+        try {
+                const characters = await characterService.getAllCharacters();
+                res.status(200).json(characters);
+        } catch (error: any) {
+                res.status(500).json({ status: 'error', errorMessage: error.message });
+        }
 });
 
 /**
@@ -194,20 +194,25 @@ characterRouter.get('/', async (req: Request, res: Response) => {
  *         description: Internal server error
  */
 characterRouter.put('/:id', async (req: Request, res: Response) => {
-    const id = parseInt(req.params.id, 10);
+        const id = parseInt(req.params.id, 10);
 
-    if (isNaN(id)) {
-        return res.status(400).json({ error: 'Invalid character ID' });
-    }
+        if (isNaN(id)) {
+                return res.status(400).json({ error: 'Invalid character ID' });
+        }
 
-    try {
-        const { name, role, level, power, mana, health, defense, mount, quests, weapons } = req.body;
-        const updatedCharacter = await characterService.updateCharacter(id, { name, role, level, power, mana, health, defense, mount, weapons, quests });
-        return res.status(200).json(updatedCharacter);
-    } catch (error) {
-        console.error(error);
-        return res.status(500).json({ error: 'Failed to update character' });
-    }
+        try {
+                const { name, role, level, power, mana, health, defense,
+                        mount, quests, weapons } = req.body;
+                const updatedCharacter = await characterService.updateCharacter(
+                    id, {
+                            name, role, level, power, mana, health, defense,
+                            mount, weapons, quests
+                    });
+                return res.status(200).json(updatedCharacter);
+        } catch (error) {
+                console.error(error);
+                return res.status(500).json({ error: 'Failed to update character' });
+        }
 });
 
 export default characterRouter;
