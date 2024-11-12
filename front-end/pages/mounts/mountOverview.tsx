@@ -1,10 +1,10 @@
 import React from 'react';
 import NavBar from '@/components/nav/header';
-import ProfileCollection from '@/components/weapons/profileCollection';
+import ProfileCollection from '@/components/mounts/profileCollection';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import Create from '@/components/weapons/create';
+import Create from '@/components/mounts/create';
 
-const WeaponOverview: React.FC = () => {
+const CharacterOverview: React.FC = () => {
     return (
         <>
             <NavBar />
@@ -12,12 +12,12 @@ const WeaponOverview: React.FC = () => {
                 <Tabs defaultValue="overview" className="w-[350px]">
                     <TabsList className="grid w-full grid-cols-2">
                         <TabsTrigger value="overview">Overview</TabsTrigger>
-                        <TabsTrigger value="craft">Craft</TabsTrigger>
+                        <TabsTrigger value="create">Create</TabsTrigger>
                     </TabsList>
                     <TabsContent value="overview">
                         <ProfileCollection />
                     </TabsContent>
-                    <TabsContent value="craft">
+                    <TabsContent value="create">
                         <Create />
                     </TabsContent>
                 </Tabs>
@@ -26,4 +26,4 @@ const WeaponOverview: React.FC = () => {
     );
 }
 
-export default WeaponOverview;
+export default CharacterOverview;

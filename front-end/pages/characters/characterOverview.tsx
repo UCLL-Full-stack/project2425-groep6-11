@@ -10,7 +10,7 @@ const CharacterOverview: React.FC = () => {
             <NavBar />
             <div className="flex justify-center">
                 <Tabs defaultValue="overview" className="w-[350px]">
-                    <TabsList className="grid w-full grid-cols-2 p-0">
+                    <TabsList className="grid w-full grid-cols-2">
                         <TabsTrigger value="overview">Overview</TabsTrigger>
                         <TabsTrigger value="create">Create</TabsTrigger>
                     </TabsList>

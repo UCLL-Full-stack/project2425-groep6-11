@@ -1,8 +1,15 @@
 import * as React from "react";
-
+import {
+    Carousel,
+    CarouselContent,
+    CarouselItem,
+    CarouselNext,
+    CarouselPrevious,
+} from "@/components/ui/carousel";
+import Profile from './profile';
+import MountService from '@/services/mountService';
+import { Character, Mount } from '@/types';
 import CharacterService from '@/services/characterService';
-import { Character } from '@/types';
-import Profile from "./profile";
 
 const getCharacterById = async (): Promise<Character> => {
     const id = localStorage.getItem('id');
@@ -25,13 +32,10 @@ function ProfileCollection() {
         return () => clearInterval(interval);
     }, []);
 
-        return (
-            <div className="flex justify-center">
-                {character &&
-                    <Profile character={character}/>
-                }
-            </div>
-
-)}
+    return (
+        <div className="flex justify-center">
+            {character?._mount && <Profile mount={character?._mount}/>}
+        </div>
+    )}
 
 export default ProfileCollection;

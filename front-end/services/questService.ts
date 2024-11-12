@@ -1,7 +1,7 @@
-import { CreateMountDTO } from '@/types';
+import { CreateQuestDTO } from '@/types';
 
-const getAllMounts = async () => {
-    const res = await fetch(process.env.NEXT_PUBLIC_API_URL + "/mounts", {
+const getAllQuests = async () => {
+    const res = await fetch(process.env.NEXT_PUBLIC_API_URL + "/quests", {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json'
@@ -10,16 +10,18 @@ const getAllMounts = async () => {
     return await res.json();
 };
 
-const createMount = async (id: number, { name, type, legs, can_fly }: CreateMountDTO) => {
+const createQuest = async ({ title, description, xp, reward }: CreateQuestDTO) => {
+    console.log(title, description, xp, reward);
     try {
-        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/mounts/${id}`, {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/quests`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ name: name, base: type, legs: legs, can_fly: can_fly }),
+            body: JSON.stringify({ title: title, description: description, xp: xp, reward: reward }),
         });
 
+        console.log(response)
         if (!response.ok) {
             throw new Error(`Error: ${response.status} ${response.statusText}`);
         }
@@ -32,8 +34,8 @@ const createMount = async (id: number, { name, type, legs, can_fly }: CreateMoun
 
 
 const MountService = {
-    getAllMounts,
-    createMount,
+    getAllQuests,
+    createQuest,
 };
 
 export default MountService;

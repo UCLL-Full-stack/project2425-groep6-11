@@ -35,7 +35,8 @@ function Create() {
     };
 
     const createWeapon = async (name: string, type: string) => {
-        await WeaponService.createWeapon({ name, type }).then(_ => {
+        const id = localStorage.getItem('id');
+        await WeaponService.createWeapon(Number(id), { name, type }).then(_ => {
             toast({
                 title: "Crafted weapon successfully!",
                 description: `${type} weapon: ${name}`,
@@ -66,9 +67,9 @@ function Create() {
                                         <SelectValue placeholder="Sword" />
                                     </SelectTrigger>
                                     <SelectContent position="popper">
-                                        <SelectItem value="warrior">Sword</SelectItem>
-                                        <SelectItem value="mage">Staff</SelectItem>
-                                        <SelectItem value="ranger">Bow</SelectItem>
+                                        <SelectItem value="sword">Sword</SelectItem>
+                                        <SelectItem value="staff">Staff</SelectItem>
+                                        <SelectItem value="bow">Bow</SelectItem>
                                     </SelectContent>
                                 </Select>
                             </div>

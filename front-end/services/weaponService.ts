@@ -10,9 +10,11 @@ const getAllWeapons = async () => {
     return await res.json();
 };
 
-const createWeapon = async ({ name, type }: CreateWeaponDTO) => {
+
+
+const createWeapon = async (id: number, { name, type }: CreateWeaponDTO) => {
     try {
-        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/weapons`, {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/weapons/${id}`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -34,10 +36,9 @@ const createWeapon = async ({ name, type }: CreateWeaponDTO) => {
     }
 };
 
-
-const CharacterService = {
+const WeaponService = {
     getAllWeapons,
     createWeapon,
 };
 
-export default CharacterService;
+export default WeaponService;

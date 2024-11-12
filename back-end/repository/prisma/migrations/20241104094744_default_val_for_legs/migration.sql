@@ -1,0 +1,2 @@
+-- AlterTable
+ALTER TABLE "Mount" ALTER COLUMN "legs" SET DEFAULT 2;

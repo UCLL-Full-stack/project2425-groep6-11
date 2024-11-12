@@ -7,6 +7,7 @@ export interface CharacterDTO {
     mana?: number;
     health?: number;
     defense?: number;
+    currency?: number;
     mount?: MountDTO;
     weapons?: WeaponDTO[];
     quests?: QuestDTO[];
@@ -15,7 +16,11 @@ export interface CharacterDTO {
 export interface MountDTO {
     id?: number,
     name: string,
-    speed?: number
+    speed?: number,
+    can_fly?: boolean,
+    cost?: number,
+    legs?: number,
+    base: string
 }
 
 export interface WeaponDTO {
@@ -23,12 +28,14 @@ export interface WeaponDTO {
     name: string,
     type: string,
     damage?: number,
-    quality?: number
+    quality?: number,
+    cost?: number
 }
 
 export interface QuestDTO {
     id?: number,
     xp: number,
     title: string,
-    description: string
+    description: string,
+    reward: number
 }

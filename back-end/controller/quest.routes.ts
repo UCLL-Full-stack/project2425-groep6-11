@@ -37,16 +37,16 @@ const questRouter = express.Router();
  *         description: Failed to retrieve quest
  */
 questRouter.get('/:id', async (req, res) => {
-        const { id } = req.params;
-        try {
-                const quest = await questService.getQuestById(parseInt(id, 10));
-                if (!quest) {
-                        return res.status(404).json({ message: `Quest with id ${id} not found` });
-                }
-                res.status(200).json(quest);
-        } catch (error: any) {
-                res.status(500).json({ error: error.message });
+    const { id } = req.params;
+    try {
+        const quest = await questService.getQuestById(parseInt(id, 10));
+        if (!quest) {
+            return res.status(404).json({ message: `Quest with id ${id} not found` });
         }
+        res.status(200).json(quest);
+    } catch (error: any) {
+        res.status(500).json({ error: error.message });
+    }
 });
 
 /**
@@ -73,14 +73,14 @@ questRouter.get('/:id', async (req, res) => {
  *       500:
  *         description: Failed to create quest
  */
-questRouter.post('', async (req, res) => {
-        const data: QuestDTO = req.body;
-        try {
-                const quest = await questService.createQuest(data);
-                res.status(201).json(quest);
-        } catch (error: any) {
-                res.status(500).json({ error: error.message });
-        }
+questRouter.post('/', async (req, res) => {
+    try {
+        const { title, description, xp, reward } =  req.body;
+        const quest = await questService.createQuest({ title, description, xp, reward });
+        res.status(201).json(quest);
+    } catch (error: any) {
+        res.status(500).json({ error: error.message });
+    }
 });
 
 /**
@@ -109,13 +109,13 @@ questRouter.post('', async (req, res) => {
  *         description: Failed to delete quest
  */
 questRouter.delete('/:id', async (req, res) => {
-        const { id } = req.params;
-        try {
-                const quest = await questService.deleteQuest(parseInt(id, 10));
-                res.status(200).json(quest);
-        } catch (error: any) {
-                res.status(500).json({ error: error.message });
-        }
+    const { id } = req.params;
+    try {
+        const quest = await questService.deleteQuest(parseInt(id, 10));
+        res.status(200).json(quest);
+    } catch (error: any) {
+        res.status(500).json({ error: error.message });
+    }
 });
 
 /**
@@ -137,12 +137,12 @@ questRouter.delete('/:id', async (req, res) => {
  *         description: Failed to retrieve quests
  */
 questRouter.get('/', async (req, res) => {
-        try {
-                const quests = await questService.getAllQuests();
-                res.status(200).json(quests);
-        } catch (error: any) {
-                res.status(500).json({ error: error.message });
-        }
+    try {
+        const quests = await questService.getAllQuests();
+        res.status(200).json(quests);
+    } catch (error: any) {
+        res.status(500).json({ error: error.message });
+    }
 });
 
 /**
@@ -179,14 +179,14 @@ questRouter.get('/', async (req, res) => {
  *         description: Failed to update quest
  */
 questRouter.put('/:id', async (req, res) => {
-        const { id } = req.params;
-        const data: QuestDTO = req.body;
-        try {
-                const quest = await questService.updateQuest(parseInt(id, 10), data);
-                res.status(200).json(quest);
-        } catch (error: any) {
-                res.status(500).json({ error: error.message });
-        }
+    const { id } = req.params;
+    const data: QuestDTO = req.body;
+    try {
+        const quest = await questService.updateQuest(parseInt(id, 10), data);
+        res.status(200).json(quest);
+    } catch (error: any) {
+        res.status(500).json({ error: error.message });
+    }
 });
 
 export default questRouter;

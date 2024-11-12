@@ -14,25 +14,30 @@ datasource db {
 }
 
 model Character {
-  id      Int      @id @default(autoincrement())
-  name    String   @unique
-  role    String
-  level   Int      @default(0)
-  power   Int      @default(0)
-  mana    Int      @default(100)
-  health  Int      @default(100)
-  defense Int      @default(100)
-  mountId Int?     @unique
-  mount   Mount?   @relation(fields: [mountId], references: [id])
-  weapons Weapon[]
-  quests  Quest[]
+  id       Int      @id @default(autoincrement())
+  name     String   @unique
+  role     String
+  level    Int      @default(0)
+  power    Int      @default(0)
+  mana     Int      @default(100)
+  health   Int      @default(100)
+  defense  Int      @default(100)
+  currency Int      @default(0)
+  mountId  Int?     @unique
+  mount    Mount?   @relation(fields: [mountId], references: [id])
+  weapons  Weapon[]
+  quests   Quest[]
 }
 
 model Mount {
   id        Int        @id @default(autoincrement())
   name      String
+  base      String
   speed     Int        @default(100)
-  Character Character?
+  legs      Int        @default(2)
+  can_fly   Boolean    @default(false)
+  cost      Int        @default(0)
+  character Character?
 }
 
 model Weapon {
@@ -41,6 +46,7 @@ model Weapon {
   type        String
   damage      Int        @default(10)
   quality     Int        @default(100)
+  cost        Int        @default(0)
   character   Character? @relation(fields: [characterId], references: [id])
   characterId Int?
 }
@@ -50,5 +56,6 @@ model Quest {
   title       String
   description String
   xp          Int
+  reward      Int
   character   Character[]
 }

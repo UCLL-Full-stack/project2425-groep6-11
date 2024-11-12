@@ -15,7 +15,7 @@ async function getWeaponById(id: number): Promise<Weapon> {
         }
 }
 
-async function createWeapon({ name, type }: WeaponDTO): Promise<Weapon> {
+async function createWeapon(id: number, { name, type }: WeaponDTO): Promise<Weapon> {
         const defaultDamage = 10;
         const defaultQuality = 50;
 
@@ -24,7 +24,7 @@ async function createWeapon({ name, type }: WeaponDTO): Promise<Weapon> {
         }
 
         try {
-                const weapon = await weaponDB.createWeapon({ name, type, damage: defaultDamage, quality: defaultQuality });
+                const weapon = await weaponDB.createWeapon(id, { name, type, damage: defaultDamage, quality: defaultQuality });
                 if (!weapon) {
                         throw new Error(`Failed to create weapon with name: ${name}.`);
                 }

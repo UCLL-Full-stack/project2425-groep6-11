@@ -31,10 +31,16 @@ const mountRouter = express.Router();
  *       500:
  *         description: Internal server error
  */
-mountRouter.post('/', async (req: Request, res: Response) => {
+mountRouter.post('/:id', async (req: Request, res: Response) => {
         try {
-                const { name } = req.body;
-                const newMount = await mountService.createMount({ name });
+                const { id } = req.params;
+                const { name, base, legs, can_fly } = req.body;
+
+                if (isNaN(Number(id))) {
+                        return res.status(400).json({ status: 'error', errorMessage: 'Invalid mount ID' });
+                }
+
+                const newMount = await mountService.createMount(Number(id), { name, base, legs, can_fly });
                 res.status(201).json(newMount);
         } catch (error: any) {
                 res.status(500).json({ status: 'error', errorMessage: error.message });
@@ -201,8 +207,8 @@ mountRouter.put('/:id', async (req: Request, res: Response) => {
         }
 
         try {
-                const { name, speed } = req.body;
-                const updatedMount = await mountService.updateMount(id, { name, speed });
+                const { name, speed, base, legs } = req.body;
+                const updatedMount = await mountService.updateMount(id, { name, speed, base, legs });
                 return res.status(200).json(updatedMount);
         } catch (error) {
                 console.error(error);

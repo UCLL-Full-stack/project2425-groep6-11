@@ -19,7 +19,7 @@ function NavBar(): ReactElement {
                 <NavigationMenuList>
                     <NavigationMenuItem>
                         <NavigationMenuLink className={navigationMenuTriggerStyle()} href="/characters/characterOverview">
-                            Characters
+                            Profile
                         </NavigationMenuLink>
                     </NavigationMenuItem>
                     <NavigationMenuItem>
@@ -28,13 +28,13 @@ function NavBar(): ReactElement {
                         </NavigationMenuLink>
                     </NavigationMenuItem>
                     <NavigationMenuItem>
-                        <NavigationMenuLink className={navigationMenuTriggerStyle()} href="/">
+                        <NavigationMenuLink className={navigationMenuTriggerStyle()} href="/quests/questOverview">
                             Quests
                         </NavigationMenuLink>
                     </NavigationMenuItem>
                     <NavigationMenuItem>
-                        <NavigationMenuLink className={navigationMenuTriggerStyle()} href="/mounts/mountsOverview">
-                            Mounts
+                        <NavigationMenuLink className={navigationMenuTriggerStyle()} href="/mounts/mountOverview">
+                            Mount
                         </NavigationMenuLink>
                     </NavigationMenuItem>
                 </NavigationMenuList>

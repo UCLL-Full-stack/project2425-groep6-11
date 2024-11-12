@@ -12,15 +12,7 @@ import {
 import { Label } from "@/components/ui/label"
 import { Badge } from '@/components/ui/badge';
 import { Weapon } from '@/types';
-
-
-const equipWeapon = async () => {
-
-}
-
-const deleteWeapon = async () => {
-
-}
+import { Separator } from '@/components/ui/separator';
 
 type ProfileProps = {
     weapon: Weapon
@@ -36,14 +28,14 @@ function Profile({ weapon }: ProfileProps) {
                     <CardDescription className="pt-1">
                         <div className="flex gap-2">
                             <Badge>{weapon._type}</Badge>
-                            <PinBottomIcon onClick={equipWeapon} className="mt-1 hover:cursor-pointer"/>
-                            <TrashIcon onClick={deleteWeapon} className="mt-1 hover:cursor-pointer text-red-500"/>
-
+                            <PinBottomIcon className="mt-1 hover:cursor-pointer"/>
+                            <TrashIcon className="mt-1 hover:cursor-pointer text-red-500"/>
                         </div>
                     </CardDescription>
                 </CardHeader>
                 <CardContent>
                     <div className="grid w-full items-center gap-4">
+                        <Separator />
                         <div className="grid grid-cols-2">
                             <div>
                                 <Label htmlFor="stats" className="font-semibold">DMG</Label>

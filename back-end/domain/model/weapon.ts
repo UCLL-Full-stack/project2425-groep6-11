@@ -6,19 +6,22 @@ export class Weapon {
     readonly _type: string;
     readonly _damage: number;
     readonly _quality: number;
+    readonly _cost: number;
 
     constructor(weapon: {
         id?: number,
         name: string,
         type: string,
         damage: number,
-        quality: number
+        quality: number,
+        cost: number
     }) {
         this._id = weapon.id
         this._name = weapon.name;
         this._type = weapon.type;
         this._damage = weapon.damage;
         this._quality = weapon.quality;
+        this._cost = weapon.cost;
     }
 
     public get name() {
@@ -47,7 +50,7 @@ export class Weapon {
         );
     }
 
-    static from({ id, name, type, damage, quality }: WeaponPrisma) {
-        return new Weapon({ id, name, type, damage, quality });
+    static from({ id, name, type, damage, quality, cost }: WeaponPrisma) {
+        return new Weapon({ id, name, type, damage, quality, cost });
     }
 }

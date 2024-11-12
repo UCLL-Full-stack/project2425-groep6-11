@@ -34,13 +34,26 @@ function Create() {
     };
 
     const createCharacter = async (name: string, role: string) => {
-        await CharacterService.createCharacter({ name, role }).then(_ => {
+        try {
+            const character = await CharacterService.createCharacter({ name, role });
+
+            localStorage.setItem('id', character._id.toString());
+            localStorage.setItem('name', character._name);
+
             toast({
                 title: "Character created successfully!",
                 description: `${name} as a ${role}`,
+                variant: "default"
             });
-        });
-    }
+        } catch (error) {
+            console.error("Error creating character:", error);
+            toast({
+                title: "Character creation failed",
+                description: "There was an error creating your character.",
+                variant: "destructive",
+            });
+        }
+    };
 
     return (
         <div className="flex justify-center">

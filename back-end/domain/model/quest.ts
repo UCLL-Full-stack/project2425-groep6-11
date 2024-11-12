@@ -6,18 +6,21 @@ export class Quest {
     readonly _title: string;
     readonly _description: string;
     private _completed: boolean;
+    readonly _reward: number;
 
     constructor(quest: {
         id?: number,
         xp: number,
         title: string,
-        description: string
+        description: string,
+        reward: number
     }) {
         this._id = quest.id;
         this._xp = quest.xp;
         this._title = quest.title;
         this._description = quest.description;
         this._completed = false;
+        this._reward = quest.reward;
     }
 
     public get xp() {
@@ -45,11 +48,12 @@ export class Quest {
             this._id === other._id &&
             this._xp === other._xp &&
             this._title === other._title &&
-            this._description === other._description
+            this._description === other._description &&
+            this._reward === other._reward
         );
     }
 
-    static from({id, xp, title, description}: QuestPrisma): Quest {
-        return new Quest({ id, xp, title, description })
+    static from({id, xp, title, description, reward }: QuestPrisma): Quest {
+        return new Quest({ id, xp, title, description, reward })
     }
 }

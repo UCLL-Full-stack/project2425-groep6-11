@@ -35,10 +35,11 @@ const weaponRouter = express.Router();
  *       500:
  *         description: Internal server error
  */
-weaponRouter.post('/', async (req: Request, res: Response) => {
+weaponRouter.post('/:id', async (req: Request, res: Response) => {
         try {
+                const { id } = req.params;
                 const { name, type }: WeaponDTO = req.body;
-                const newWeapon = await weaponService.createWeapon({ name, type });
+                const newWeapon = await weaponService.createWeapon(Number(id), { name, type });
                 res.status(201).json(newWeapon);
         } catch (error: any) {
                 res.status(500).json({ status: 'error', errorMessage: error.message });
@@ -72,12 +73,12 @@ weaponRouter.post('/', async (req: Request, res: Response) => {
  */
 weaponRouter.get('/:id', async (req: Request, res: Response) => {
         try {
-                const id = parseInt(req.params.id, 10);
-                if (isNaN(id)) {
+                const id = req.params.id;
+                if (isNaN(Number(id))) {
                         return res.status(400).json({ status: 'error', errorMessage: 'Invalid weapon ID' });
                 }
 
-                const weapon = await weaponService.getWeaponById(id);
+                const weapon = await weaponService.getWeaponById(Number(id));
                 res.status(200).json(weapon);
         } catch (error: any) {
                 res.status(500).json({ status: 'error', errorMessage: error.message });
@@ -126,13 +127,13 @@ weaponRouter.get('/:id', async (req: Request, res: Response) => {
  */
 weaponRouter.put('/:id', async (req: Request, res: Response) => {
         try {
-                const id = parseInt(req.params.id, 10);
-                if (isNaN(id)) {
+                const id = req.params.id;
+                if (isNaN(Number(id))) {
                         return res.status(400).json({ status: 'error', errorMessage: 'Invalid weapon ID' });
                 }
 
                 const { name, type, damage, quality }: WeaponDTO = req.body;
-                const updatedWeapon = await weaponService.updateWeapon(id, { name, type, damage, quality });
+                const updatedWeapon = await weaponService.updateWeapon(Number(id), { name, type, damage, quality });
                 res.status(200).json(updatedWeapon);
         } catch (error: any) {
                 res.status(500).json({ status: 'error', errorMessage: error.message });
@@ -162,12 +163,12 @@ weaponRouter.put('/:id', async (req: Request, res: Response) => {
  */
 weaponRouter.delete('/:id', async (req: Request, res: Response) => {
         try {
-                const id = parseInt(req.params.id, 10);
-                if (isNaN(id)) {
+                const id = req.params.id;
+                if (isNaN(Number(id))) {
                         return res.status(400).json({ status: 'error', errorMessage: 'Invalid weapon ID' });
                 }
 
-                await weaponService.deleteWeapon(id);
+                await weaponService.deleteWeapon(Number(id));
                 res.status(204).send();
         } catch (error: any) {
                 res.status(500).json({ status: 'error', errorMessage: error.message });

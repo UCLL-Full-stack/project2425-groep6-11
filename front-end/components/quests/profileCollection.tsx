@@ -7,27 +7,27 @@ import {
     CarouselPrevious,
 } from "@/components/ui/carousel";
 import CharacterService from '@/services/characterService';
-import { Character, Weapon } from '@/types';
+import { Character, Quest } from '@/types';
 import Profile from './profile';
-import WeaponService from '@/services/weaponService';
+import { useState } from 'react';
+import QuestService from '@/services/questService';
 
-const getCharacterById = async (): Promise<Character> => {
-    const id = localStorage.getItem('id');
-    const character = await CharacterService.getCharacterById(Number(id));
-    return character || [];
+const getAllQuests = async (): Promise<Quest[]> => {
+    const quests = await QuestService.getAllQuests();
+    return quests || [];
 };
 
 function ProfileCollection() {
-    const [character, setCharacter] = React.useState<Character>();
+    const [quests, setQuests] = useState<Quest[]>();
 
     React.useEffect(() => {
-        const fetchCharacters = async () => {
-            const characterData = await getCharacterById();
-            setCharacter(characterData);
+        const fetchQuests = async () => {
+            const questData = await getAllQuests();
+            setQuests(questData);
         };
 
-        fetchCharacters().then(_ => console.log("Fetching characters..."));
-        const interval = setInterval(fetchCharacters, 10000);
+        fetchQuests().then(_ => console.log("Fetching characters..."));
+        const interval = setInterval(fetchQuests, 10000);
 
         return () => clearInterval(interval);
     }, []);
@@ -36,10 +36,10 @@ function ProfileCollection() {
         <div className="flex justify-center">
             <Carousel className="max-w-sm">
                 <CarouselContent>
-                    {character?._weapons && character._weapons.map((weapon, index) => (
+                    {quests && quests.map((quest, index) => (
                         <CarouselItem key={index}>
                             <div className="flex justify-center p-1">
-                                <Profile weapon={weapon}/>
+                                <Profile quest={quest}/>
                             </div>
                         </CarouselItem>
                     ))}

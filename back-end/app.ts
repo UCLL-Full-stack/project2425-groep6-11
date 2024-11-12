@@ -37,7 +37,7 @@ app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 app.use('/characters', characterRouter);
 app.use('/mounts', mountRouter);
 app.use('/weapons', weaponRouter);
-app.use('quests', questRouter);
+app.use('/quests', questRouter);
 
 app.listen(port || 3000, () => {
     console.log(`Back-end is running on port ${port}.`);
