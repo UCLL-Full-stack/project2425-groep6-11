@@ -34,7 +34,10 @@ function ProfileCollection() {
 
     return (
         <div className="flex justify-center">
-            {character?._mount && <Profile mount={character?._mount}/>}
+            {character?._mount ? (
+                <Profile mount={character?._mount}/>
+            ) :
+                <p className="text-xl font-medium my-10">No mount yet!</p>}
         </div>
     )}
 

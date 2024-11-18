@@ -99,6 +99,7 @@ characterRouter.delete('/:id', async (req: Request, res: Response) => {
 characterRouter.get('/:id', async (req: Request, res: Response) => {
     try {
         const id = parseInt(req.params.id, 10);
+
         if (isNaN(id)) {
             return res.status(400).json({ status: 'error', errorMessage: 'Invalid character ID' });
         }
@@ -242,16 +243,33 @@ characterRouter.put('/switchWeapon/:characterId/:weaponId', async (req: Request,
     const characterId = Number(req.params.characterId);
     const weaponId = Number(req.params.weaponId);
 
-    if (isNaN(characterId)) {
-        return res.status(400).json({ error: 'Invalid weapon ID' });
+    if (isNaN(characterId) || isNaN(weaponId)) {
+        return res.status(400).json({ error: 'Invalid character or weapon ID' });
     }
 
     try {
-        const acceptQuest = await characterService.switchWeapon(characterId, weaponId);
-        return res.status(200).json(acceptQuest);
+        const switchWeapon = await characterService.switchWeapon(characterId, weaponId);
+        return res.status(200).json(switchWeapon);
     } catch (error: any) {
-        console.error("Error in accepting quest:", error);
-        return res.status(500).json({ error: 'Failed to accept quest', details: error.message });
+        console.error("Error in switching weapon:", error);
+        return res.status(500).json({ error: 'Failed to switch weapon', details: error.message });
+    }
+});
+
+characterRouter.put('/switchMount/:characterId/:mountId', async (req: Request, res: Response) => {
+    const characterId = Number(req.params.characterId);
+    const mountId = Number(req.params.mountId);
+
+    if (isNaN(characterId) || isNaN(mountId)) {
+        return res.status(400).json({ error: 'Invalid character or mount ID' });
+    }
+
+    try {
+        const switchMount = await characterService.switchMount(characterId, mountId);
+        return res.status(200).json(switchMount);
+    } catch (error: any) {
+        console.error("Error in switching mount:", error);
+        return res.status(500).json({ error: 'Failed to switch mount', details: error.message });
     }
 });
 

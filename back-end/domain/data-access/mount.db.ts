@@ -20,7 +20,7 @@ async function createMount(id: number, { name, speed, legs, can_fly, base }: Mou
             can_fly,
             base,
             character: {
-                connect: { id: id}
+                connect: { id: id }
             }
         }
     });

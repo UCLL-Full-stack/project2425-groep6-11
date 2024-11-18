@@ -22,6 +22,7 @@ export class Character {
 
     private _mount?: Mount;
     private _weapons: Weapon[];
+    private _equipped?: Weapon;
     private _quests: Quest[];
 
     constructor(character: {
@@ -35,6 +36,7 @@ export class Character {
         defense: number,
         currency: number,
         weapons: Weapon[],
+        equipped?: Weapon,
         mount?: Mount,
         quests: Quest[]
     }) {
@@ -50,6 +52,7 @@ export class Character {
         this._currency = character.currency;
 
         this._weapons = character.weapons;
+        this._equipped = character.equipped;
         this._mount = character.mount;
         this._quests = character.quests;
     }
@@ -159,7 +162,8 @@ export class Character {
             this._mana === other._mana &&
             this._health === other._health &&
             this._defense === other._defense &&
-            this._currency === other._currency
+            this._currency === other._currency &&
+            this._equipped === other._equipped
         );
     }
 
@@ -173,12 +177,14 @@ export class Character {
         health,
         defense,
         currency,
+        equipped,
         mount,
         weapons,
         quests
     }: CharacterPrisma
         & { mount: MountPrisma | null }
         & { weapons: WeaponPrisma[] }
+        & { equipped: WeaponPrisma | null }
         & { quests: QuestPrisma[] }
     ): Character {
         return new Character({
@@ -191,6 +197,7 @@ export class Character {
             health,
             defense,
             currency,
+            equipped: equipped ? Weapon.from(equipped) : undefined,
             mount: mount ? Mount.from(mount) : undefined,
             weapons: weapons.map((weapon: any) => Weapon.from(weapon)),
             quests: quests.map((quest: any) => Quest.from(quest))

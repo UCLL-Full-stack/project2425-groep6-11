@@ -40,6 +40,23 @@ const createCharacter = async ({ name, role }: CreateCharacterDTO) => {
     }
 };
 
+const deleteCharacter = async (characterId: number) => {
+    try {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/characters/${characterId}/`, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json',
+            }
+        })
+
+        if (!response.ok) {
+            throw new Error(`Error: ${response.status} ${response.statusText}`);
+        }
+    } catch (error) {
+        console.error("Failed to delete weapon:", error);
+        throw error;
+    }
+}
 const switchWeapon = async (characterId: number, weaponId: number) => {
     try {
         const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/characters/switchWeapon/${characterId}/${weaponId}`, {
@@ -49,14 +66,11 @@ const switchWeapon = async (characterId: number, weaponId: number) => {
             }
         })
 
-        console.log(response.body)
         if (!response.ok) {
             throw new Error(`Error: ${response.status} ${response.statusText}`);
         }
 
-        const data = await response.json();
-        console.log("Weapon switched:", data);
-        return data;
+        return await response.json();
     } catch (error) {
         console.error("Failed to switch weapon:", error);
         throw error;
@@ -108,7 +122,8 @@ const CharacterService = {
     getCharacterById,
     acceptQuest,
     switchWeapon,
-    updateCharacter
+    updateCharacter,
+    deleteCharacter
 };
 
 export default CharacterService;

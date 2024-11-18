@@ -22,7 +22,7 @@ export type CreateQuestDTO = {
     reward: number
 }
 export interface Character {
-    _id?: number,
+    _id: number,
     _name: string,
     _role: string,
     _level: number,
@@ -31,13 +31,14 @@ export interface Character {
     _health: number,
     _defense: number,
     _currency: number,
+    _equipped?: Weapon,
     _mount?: Mount,
     _weapons?: Weapon[],
     _quests?: Quest[],
 }
 
 export interface Mount {
-    _id?: number,
+    _id: number,
     _name: string,
     _base: string,
     _speed: number,
@@ -47,7 +48,7 @@ export interface Mount {
 }
 
 export interface Weapon {
-    _id?: number,
+    _id: number,
     _name: string,
     _type: string,
     _damage: number,
@@ -55,7 +56,7 @@ export interface Weapon {
 }
 
 export interface Quest {
-    _id?: number,
+    _id: number,
     _xp: number,
     _title: string,
     _description: string,

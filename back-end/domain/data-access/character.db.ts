@@ -8,7 +8,8 @@ async function getCharacterById(id: number): Promise<Character | null> {
         include: {
             mount: true,
             weapons: true,
-            quests: true
+            quests: true,
+            equipped: true,
         }
     });
 
@@ -27,12 +28,16 @@ async function createCharacter({ name, role }: CharacterDTO): Promise<Character>
             },
             weapons: {
                 create: []
+            },
+            equipped: {
+                create: undefined
             }
         },
         include: {
             mount: true,
             quests: true,
-            weapons: true
+            weapons: true,
+            equipped: true
         }
     });
 
@@ -45,7 +50,8 @@ async function deleteCharacter(id: number): Promise<Character> {
         include: {
             mount: true,
             weapons: true,
-            quests: true
+            quests: true,
+            equipped: true
         }
     });
 
@@ -57,16 +63,16 @@ async function getAllCharacters(): Promise<Character[]> {
         include: {
             mount: true,
             weapons: true,
-            quests: true
+            quests: true,
+            equipped: true
         }
     });
 
     return characters.map((character) => Character.from(character));
 }
 
-async function updateCharacter(id: number, { name, role, level, power, mana, health, defense, mount, weapons, quests, currency }: CharacterDTO): Promise<Character> {
+async function updateCharacter(id: number, { name, role, level, power, mana, health, defense, mount, weapons, quests, currency, equipped }: CharacterDTO): Promise<Character> {
     try {
-        console.log(name);
         const character = await db.character.update({
             where: { id },
             data: {
@@ -78,11 +84,12 @@ async function updateCharacter(id: number, { name, role, level, power, mana, hea
                 health,
                 defense,
                 currency,
-                mount: mount ? {
-                    connect: { id: mount.id }
-                } : {
-                    disconnect: true
-                },
+                ...(mount !== undefined && {
+                    mount: mount ? { connect: { id: mount.id } } : { disconnect: true }
+                }),
+                ...(equipped !== undefined && {
+                    equipped: equipped ? { connect: { id: equipped.id } } : { disconnect: true }
+                }),
                 weapons: {
                     connect: weapons?.map(weapon => ({ id: weapon.id}))
                 },
@@ -93,7 +100,8 @@ async function updateCharacter(id: number, { name, role, level, power, mana, hea
             include: {
                 weapons: true,
                 quests: true,
-                mount: true
+                mount: true,
+                equipped: true
             },
         });
         return Character.from(character);
@@ -115,7 +123,8 @@ async function acceptQuest(characterId: number, questId: number): Promise<Charac
             include: {
                 weapons: true,
                 quests: true,
-                mount: true
+                mount: true,
+                equipped: true
             },
         });
 
@@ -128,58 +137,51 @@ async function acceptQuest(characterId: number, questId: number): Promise<Charac
 
 async function switchWeapon(characterId: number, weaponId: number): Promise<Character> {
     try {
-        // Fetch the current weapons
-        const character = await db.character.findUnique({
-            where: { id: characterId },
-            include: { weapons: true },
-        });
-
-        if (!character) {
-            throw new Error('Character not found');
-        }
-
-        // Reorder weapons so the selected weapon is first
-        const reorderedWeapons = [
-            ...character.weapons.filter((weapon) => weapon.id === weaponId),
-            ...character.weapons.filter((weapon) => weapon.id !== weaponId),
-        ];
-
-        // Update the character's weapons with the new order
-        await db.character.update({
+        const character = await db.character.update({
             where: { id: characterId },
             data: {
-                weapons: {
-                    set: [], // Temporarily detach all weapons
-                    connect: reorderedWeapons.map((weapon) => ({ id: weapon.id })), // Reconnect in new order
+                equipped: {
+                    connect: { id: weaponId },
                 },
             },
             include: {
                 weapons: true,
                 quests: true,
                 mount: true,
+                equipped: true
             },
         });
 
-        const updatedCharacter = await db.character.findUnique({
-            where: { id: characterId },
-            include: {
-                weapons: true,
-                quests: true,
-                mount: true,
-            },
-        });
-
-        if (!updatedCharacter) {
-            throw new Error('Character not found');
-        }
-
-        return Character.from(updatedCharacter);
+        return Character.from(character);
     } catch (error) {
         console.error("Error updating character:", error);
         throw new Error('Failed to update character');
     }
 }
 
+async function switchMount(characterId: number, mountId: number): Promise<Character> {
+    try {
+        const character = await db.character.update({
+            where: { id: characterId },
+            data: {
+                mount: {
+                    connect: { id: mountId },
+                },
+            },
+            include: {
+                weapons: true,
+                quests: true,
+                mount: true,
+                equipped: true
+            },
+        });
+
+        return Character.from(character);
+    } catch (error) {
+        console.error("Error updating character:", error);
+        throw new Error('Failed to update character');
+    }
+}
 
 export default {
     getCharacterById,
@@ -188,5 +190,6 @@ export default {
     getAllCharacters,
     updateCharacter,
     acceptQuest,
-    switchWeapon
+    switchWeapon,
+    switchMount
 };

@@ -34,9 +34,10 @@ function ProfileCollection() {
 
     return (
         <div className="flex justify-center">
+            {quests && quests.length > 0 ? (
             <Carousel className="max-w-sm">
                 <CarouselContent>
-                    {quests && quests.map((quest, index) => (
+                    {quests.map((quest, index) => (
                         <CarouselItem key={index}>
                             <div className="flex justify-center p-1">
                                 <Profile quest={quest}/>
@@ -47,6 +48,9 @@ function ProfileCollection() {
                 <CarouselPrevious />
                 <CarouselNext />
             </Carousel>
+            ) : (
+                <p className="text-xl, font-medium my-10">No quests!</p>
+            )}
         </div>
 
     )}

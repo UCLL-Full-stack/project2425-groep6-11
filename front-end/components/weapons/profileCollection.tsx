@@ -26,7 +26,7 @@ function ProfileCollection() {
             setCharacter(characterData);
         };
 
-        fetchCharacters().then(_ => console.log("Fetching characters..."));
+        fetchCharacters().then(() => console.log("Fetching characters..."));
         const interval = setInterval(fetchCharacters, 10000);
 
         return () => clearInterval(interval);
@@ -34,21 +34,25 @@ function ProfileCollection() {
 
     return (
         <div className="flex justify-center">
-            <Carousel className="max-w-sm">
-                <CarouselContent>
-                    {character?._weapons && character._weapons.map((weapon, index) => (
-                        <CarouselItem key={index}>
-                            <div className="flex justify-center p-1">
-                                <Profile weapon={weapon}/>
-                            </div>
-                        </CarouselItem>
-                    ))}
-                </CarouselContent>
-                <CarouselPrevious />
-                <CarouselNext />
-            </Carousel>
+            {character?._weapons && character?._weapons.length > 0 ? (
+                <Carousel className="max-w-sm">
+                    <CarouselContent>
+                        {character._weapons.map((weapon, index) => (
+                            <CarouselItem key={index}>
+                                <div className="flex justify-center p-1">
+                                    <Profile weapon={weapon} />
+                                </div>
+                            </CarouselItem>
+                        ))}
+                    </CarouselContent>
+                    <CarouselPrevious />
+                    <CarouselNext />
+                </Carousel>
+            ) : (
+                <p className="text-xl font-medium my-10">No weapons yet!</p>
+            )}
         </div>
-
-    )}
+    );
+}
 
 export default ProfileCollection;

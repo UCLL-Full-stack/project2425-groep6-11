@@ -14,19 +14,31 @@ datasource db {
 }
 
 model Character {
-  id       Int      @id @default(autoincrement())
-  name     String   @unique
-  role     String
-  level    Int      @default(0)
-  power    Int      @default(0)
-  mana     Int      @default(100)
-  health   Int      @default(100)
-  defense  Int      @default(100)
-  currency Int      @default(0)
-  mountId  Int?     @unique
-  mount    Mount?   @relation(fields: [mountId], references: [id])
-  weapons  Weapon[]
-  quests   Quest[]
+  id         Int      @id @default(autoincrement())
+  name       String   @unique
+  role       String
+  level      Int      @default(0)
+  power      Int      @default(0)
+  mana       Int      @default(100)
+  health     Int      @default(100)
+  defense    Int      @default(100)
+  currency   Int      @default(0)
+  mountId    Int?     @unique
+  mount      Mount?   @relation(fields: [mountId], references: [id], onUpdate: Cascade, onDelete: Cascade)
+  weapons    Weapon[]
+  equippedId Int?     @unique
+  equipped   Weapon?  @relation("EquippedWeapon", fields: [equippedId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  quests     Quest[]
+  user       User?
+}
+
+model User {
+  id          Int        @id @default(autoincrement())
+  username    String     @unique
+  email       String     @unique
+  password    String
+  character   Character? @relation(fields: [characterId], references: [id], onDelete: Cascade)
+  characterId Int?       @unique
 }
 
 model Mount {
@@ -49,6 +61,7 @@ model Weapon {
   cost        Int        @default(0)
   character   Character? @relation(fields: [characterId], references: [id])
   characterId Int?
+  equippedBy  Character? @relation("EquippedWeapon")
 }
 
 model Quest {

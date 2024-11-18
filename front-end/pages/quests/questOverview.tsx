@@ -17,7 +17,7 @@ const WeaponOverview: React.FC = () => {
                     <TabsContent value="overview">
                         <ProfileCollection />
                     </TabsContent>
-                    <TabsContent value="craft">
+                    <TabsContent value="create">
                         <Create />
                     </TabsContent>
                 </Tabs>

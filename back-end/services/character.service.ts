@@ -95,14 +95,29 @@ async function switchWeapon(characterId: number, weaponId: number): Promise<Char
         const switchWeapon = await characterDB.switchWeapon(characterId, weaponId);
 
         if (!switchWeapon) {
-            throw new Error(`Weapon with id ${characterId} does not exist or could not be updated.`);
+            throw new Error(`Character with id ${characterId} does not exist or could not be updated.`);
         }
 
         return switchWeapon
-        } catch (error) {
-            console.error(`Error updating weapon with id ${characterId}:`, error);
-            throw new Error('Failed to update character.');
+    } catch (error) {
+        console.error(`Error updating character with id ${characterId}:`, error);
+        throw new Error('Failed to update character.');
+    }
+}
+
+async function switchMount(characterId: number, mountID: number): Promise<Character> {
+    try {
+        const switchMount = await characterDB.switchMount(characterId, mountID);
+
+        if (!switchMount) {
+            throw new Error(`Character with id ${characterId} does not exist or could not be updated.`);
         }
+
+        return switchMount
+    } catch (error) {
+        console.error(`Error updating character with id ${characterId}:`, error);
+        throw new Error('Failed to update character.');
+    }
 }
 
 export default {
@@ -112,5 +127,6 @@ export default {
     getAllCharacters,
     updateCharacter,
     acceptQuest,
-    switchWeapon
+    switchWeapon,
+    switchMount
 };

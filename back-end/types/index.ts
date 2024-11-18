@@ -8,6 +8,7 @@ export interface CharacterDTO {
     health?: number;
     defense?: number;
     currency?: number;
+    equipped?: WeaponDTO;
     mount?: MountDTO;
     weapons?: WeaponDTO[];
     quests?: QuestDTO[];
