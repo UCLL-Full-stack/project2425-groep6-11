@@ -4,7 +4,7 @@ import ProfileCollection from '@/components/quests/profileCollection';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import Create from '@/components/quests/create';
 
-const WeaponOverview: React.FC = () => {
+const QuestOverview: React.FC = () => {
     return (
         <>
             <NavBar />
@@ -26,4 +26,4 @@ const WeaponOverview: React.FC = () => {
     );
 }
 
-export default WeaponOverview;
+export default QuestOverview;

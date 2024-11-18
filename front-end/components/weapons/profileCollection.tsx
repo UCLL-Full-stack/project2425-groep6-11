@@ -11,10 +11,11 @@ import { Character, Weapon } from '@/types';
 import Profile from './profile';
 import WeaponService from '@/services/weaponService';
 
-const getCharacterById = async (): Promise<Character> => {
+const getCharacterById = async (): Promise<Character | undefined> => {
     const id = localStorage.getItem('id');
-    const character = await CharacterService.getCharacterById(Number(id));
-    return character || [];
+    if (id) {
+        return await CharacterService.getCharacterById(Number(id)) || undefined;
+    }
 };
 
 function ProfileCollection() {

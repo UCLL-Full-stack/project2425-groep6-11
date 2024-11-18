@@ -1,7 +1,7 @@
 import { CreateQuestDTO } from '@/types';
 
 const getAllQuests = async () => {
-    const res = await fetch(process.env.NEXT_PUBLIC_API_URL + "/quests", {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/quests`, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json'
@@ -33,9 +33,9 @@ const createQuest = async ({ title, description, xp, reward }: CreateQuestDTO) =
 };
 
 
-const MountService = {
+const QuestService = {
     getAllQuests,
     createQuest,
 };
 
-export default MountService;
+export default QuestService;

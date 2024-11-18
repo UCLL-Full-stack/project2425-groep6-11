@@ -136,22 +136,7 @@ export class Character {
     public addQuest(quest: Quest) {
         this._quests.push(quest);
     }
-
-    public equipWeapon(id: number) {
-        const idx = this.weapons.findIndex(weapon => weapon._id === id);
-
-        if (idx === -1) {
-            throw new Error("Weapon not found");
-        }
-
-        const equippedWeapon = this.weapons.splice(idx, 1)[0];
-        this.weapons.unshift(equippedWeapon);
-    }
-
-    public getEquippedWeapon() {
-        return this.weapons[0];
-    }
-
+    
     equals(other: Character): boolean {
         return (
             this._id === other._id &&

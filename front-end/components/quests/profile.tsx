@@ -49,7 +49,7 @@ function Profile({ quest }: ProfileProps) {
     const characterId = React.useMemo(() => localStorage.getItem("id"), []);
 
     const handleClick = () => {
-        if (_id !== undefined) {
+        if (_id && characterId) {
             handleAcceptQuest(characterId, _id).then(_ => console.log("Accepting quest..."));
         }
     };

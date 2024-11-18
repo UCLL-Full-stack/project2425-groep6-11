@@ -16,7 +16,7 @@ import {
     SelectItem,
     SelectTrigger,
     SelectValue,
-} from "@/components/ui/select";
+} from '@/components/ui/select';
 import { Input } from '@/components/ui/input';
 import CharacterService from '@/services/characterService';
 import { useToast } from '@/hooks/use-toast';

@@ -5,8 +5,14 @@ import {
     Quest as QuestPrisma,
     Weapon as WeaponPrisma,
     User as UserPrisma,
-    Character as CharacterPrisma
+    Character as CharacterPrisma,
+    Role as RolePrisma
 } from '.prisma/client';
+
+export enum Role {
+    GameMaster = 'game master',
+    Player = 'player',
+}
 
 export class User {
     readonly _id?: number;
@@ -14,6 +20,7 @@ export class User {
     private _email: string;
     private _password: string;
     private _character?: Character;
+    private _role: Role
 
     constructor(user: {
         id?: number;
@@ -21,12 +28,14 @@ export class User {
         email: string;
         password: string;
         character?: Character;
+        role: Role
     }) {
         this._id = user.id;
         this._username = user.username;
         this._email = user.email;
         this._password = user.password;
         this._character = user.character;
+        this._role = user.role;
     }
 
     public get username() {
@@ -61,13 +70,22 @@ export class User {
         this._character = character;
     }
 
+    public get role(): Role {
+        return this._role;
+    }
+
+    public set role(role: Role) {
+        this._role = role;
+    }
+
     equals(other: User): boolean {
         return (
             this._id === other._id &&
             this._username === other._username &&
             this._password === other._password &&
             this._email === other._email &&
-            this._character === other._character
+            this._character === other._character &&
+            this._role === other._role
         );
     }
 
@@ -77,15 +95,24 @@ export class User {
             username,
             password,
             email,
-            character
+            character,
+            role
         }: UserPrisma
-            & { character: CharacterPrisma
-                &  { mount: MountPrisma | null }
-                & { equipped: WeaponPrisma }
+            & {
+            character: CharacterPrisma
+                & { mount: MountPrisma | null }
+                & { equipped: WeaponPrisma | null }
                 & { weapons: WeaponPrisma[] }
                 & { quests: QuestPrisma[] }
-            }
-        ) {
-        return new User({ id, username, password, email, character: Character.from(character) });
+            } | null
+            & { role: RolePrisma }
+    ) {
+        return new User({
+            id,
+            username,
+            password,
+            email,
+            character: character ? Character.from(character) : undefined,
+            role: role === RolePrisma.GAME_MASTER ? Role.GameMaster : Role.Player });
     }
 }

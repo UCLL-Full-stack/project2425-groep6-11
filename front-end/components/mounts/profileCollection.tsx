@@ -11,10 +11,11 @@ import MountService from '@/services/mountService';
 import { Character, Mount } from '@/types';
 import CharacterService from '@/services/characterService';
 
-const getCharacterById = async (): Promise<Character> => {
+const getCharacterById = async (): Promise<Character | undefined> => {
     const id = localStorage.getItem('id');
-    const character = await CharacterService.getCharacterById(Number(id));
-    return character || [];
+    if (id) {
+        return await CharacterService.getCharacterById(Number(id)) || undefined;
+    }
 };
 
 function ProfileCollection() {
@@ -34,7 +35,7 @@ function ProfileCollection() {
 
     return (
         <div className="flex justify-center">
-            {character?._mount ? (
+            {character && character?._mount ? (
                 <Profile mount={character?._mount}/>
             ) :
                 <p className="text-xl font-medium my-10">No mount yet!</p>}

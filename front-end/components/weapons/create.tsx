@@ -36,12 +36,34 @@ function Create() {
 
     const createWeapon = async (name: string, type: string) => {
         const id = localStorage.getItem('id');
-        await WeaponService.createWeapon(Number(id), { name, type }).then(_ => {
+
+        try {
+            if (id) {
+                await WeaponService.createWeapon(Number(id), { name, type }).then(_ => {
+                    toast({
+                        title: "Crafted weapon successfully!",
+                        description: `${type} weapon: ${name}`,
+                    })
+                });
+            }
+            else {
+                toast({
+                    title: "Create a character first!",
+                    description: "No character to add weapon.",
+                    variant: "destructive"
+                })
+            }
+        } catch (error) {
+            console.error("Error creating weapon:", error);
             toast({
-                title: "Crafted weapon successfully!",
-                description: `${type} weapon: ${name}`,
-            })
-        });
+                title: "Weapon creation failed",
+                description: "There was an error creating your weapon.",
+                variant: "destructive",
+            });
+        }
+
+
+
     }
 
     return (

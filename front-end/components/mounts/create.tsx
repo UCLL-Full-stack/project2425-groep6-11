@@ -56,12 +56,31 @@ function Create() {
 
     const createMount = async (name: string, type: string, legs: number, can_fly: boolean) => {
         const id = localStorage.getItem('id');
-        await MountService.createMount(Number(id), { name, type, legs, can_fly }).then(_ => {
+
+        try {
+            if (id) {
+                await MountService.createMount(Number(id), { name, type, legs, can_fly }).then(_ => {
+                    toast({
+                        title: "Mount created successfully!",
+                        description: `${legs} legged ${type}: ${name}`,
+                    });
+                });
+            }
+            else {
+                toast({
+                    title: "Create a character first!",
+                    description: "No character to add mount.",
+                    variant: "destructive"
+                });
+            }
+        } catch (error) {
+            console.error("Error creating mount:", error);
             toast({
-                title: "Mount created successfully!",
-                description: `${legs} legged ${type}: ${name}`,
+                title: "Mount creation failed",
+                description: "There was an error creating your mount.",
+                variant: "destructive",
             });
-        });
+        }
     }
 
     return (

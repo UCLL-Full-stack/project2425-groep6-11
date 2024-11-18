@@ -6,15 +6,13 @@ import {
     CarouselNext,
     CarouselPrevious,
 } from "@/components/ui/carousel";
-import CharacterService from '@/services/characterService';
-import { Character, Quest } from '@/types';
+import { Quest } from '@/types';
 import Profile from './profile';
 import { useState } from 'react';
 import QuestService from '@/services/questService';
 
 const getAllQuests = async (): Promise<Quest[]> => {
-    const quests = await QuestService.getAllQuests();
-    return quests || [];
+    return await QuestService.getAllQuests();
 };
 
 function ProfileCollection() {
@@ -27,7 +25,7 @@ function ProfileCollection() {
         };
 
         fetchQuests().then(_ => console.log("Fetching characters..."));
-        const interval = setInterval(fetchQuests, 10000);
+        const interval = setInterval(fetchQuests, 5000);
 
         return () => clearInterval(interval);
     }, []);

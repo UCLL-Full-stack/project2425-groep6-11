@@ -38,12 +38,22 @@ function Create() {
     };
 
     const createQuest = async (title: string, description: string, xp: number, reward: number) => {
-        await QuestService.createQuest({ title, description, xp, reward }).then(_ => {
+        try {
+            await QuestService.createQuest({ title, description, xp, reward }).then(_ => {
+                toast({
+                    title: "Created quest successfully!",
+                    description: `${title}`,
+                })
+            });
+        } catch (error) {
+            console.error("Error creating quest:", error);
             toast({
-                title: "Created quest successfully!",
-                description: `${title}`,
-            })
-        });
+                title: "Quest creation failed",
+                description: "There was an error creating your quest.",
+                variant: "destructive",
+            });
+        }
+
     }
 
     return (
