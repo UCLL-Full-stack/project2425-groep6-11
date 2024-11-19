@@ -95,16 +95,8 @@ export class User {
             username,
             password,
             email,
-            character,
             role
         }: UserPrisma
-            & {
-            character: CharacterPrisma
-                & { mount: MountPrisma | null }
-                & { equipped: WeaponPrisma | null }
-                & { weapons: WeaponPrisma[] }
-                & { quests: QuestPrisma[] }
-            } | null
             & { role: RolePrisma }
     ) {
         return new User({
@@ -112,7 +104,6 @@ export class User {
             username,
             password,
             email,
-            character: character ? Character.from(character) : undefined,
             role: role === RolePrisma.GAME_MASTER ? Role.GameMaster : Role.Player });
     }
 }

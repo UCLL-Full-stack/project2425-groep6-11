@@ -8,6 +8,7 @@ import characterRouter from "./controller/character.routes";
 import mountRouter from './controller/mount.routes';
 import weaponRouter from './controller/weapon.routes';
 import questRouter from './controller/quest.routes';
+import userRouter from './controller/user.routes';
 
 const app = express();
 dotenv.config();
@@ -38,6 +39,7 @@ app.use('/characters', characterRouter);
 app.use('/mounts', mountRouter);
 app.use('/weapons', weaponRouter);
 app.use('/quests', questRouter);
+app.use('/users', userRouter);
 
 app.listen(port || 3000, () => {
     console.log(`Back-end is running on port ${port}.`);

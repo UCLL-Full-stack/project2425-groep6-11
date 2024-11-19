@@ -37,6 +37,11 @@ function NavBar(): ReactElement {
                             Mount
                         </NavigationMenuLink>
                     </NavigationMenuItem>
+                    <NavigationMenuItem>
+                        <NavigationMenuLink className={navigationMenuTriggerStyle()} href="/users/signupPage">
+                            Account
+                        </NavigationMenuLink>
+                    </NavigationMenuItem>
                 </NavigationMenuList>
             </NavigationMenu>
         </div>

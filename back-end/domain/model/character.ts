@@ -5,8 +5,10 @@ import {
     Character as CharacterPrisma,
     Mount as MountPrisma,
     Weapon as WeaponPrisma,
-    Quest as QuestPrisma
+    Quest as QuestPrisma,
+    User as UserPrisma
 } from "@prisma/client";
+import { User } from './user';
 
 export class Character {
     readonly _id?: number;
@@ -25,6 +27,8 @@ export class Character {
     private _equipped?: Weapon;
     private _quests: Quest[];
 
+    private _user?: User;
+
     constructor(character: {
         id?: number,
         name: string,
@@ -39,6 +43,7 @@ export class Character {
         equipped?: Weapon,
         mount?: Mount,
         quests: Quest[]
+        user?: User,
     }) {
         this._id = character.id;
         this._name = character.name;
@@ -55,6 +60,8 @@ export class Character {
         this._equipped = character.equipped;
         this._mount = character.mount;
         this._quests = character.quests;
+
+        this._user = character.user;
     }
 
     public get name() {
@@ -148,7 +155,8 @@ export class Character {
             this._health === other._health &&
             this._defense === other._defense &&
             this._currency === other._currency &&
-            this._equipped === other._equipped
+            this._equipped === other._equipped &&
+            this._user === other._user
         );
     }
 
@@ -165,12 +173,14 @@ export class Character {
         equipped,
         mount,
         weapons,
-        quests
+        quests,
+        user
     }: CharacterPrisma
         & { mount: MountPrisma | null }
         & { weapons: WeaponPrisma[] }
         & { equipped: WeaponPrisma | null }
         & { quests: QuestPrisma[] }
+        & { user: UserPrisma | null }
     ): Character {
         return new Character({
             id,
@@ -185,7 +195,8 @@ export class Character {
             equipped: equipped ? Weapon.from(equipped) : undefined,
             mount: mount ? Mount.from(mount) : undefined,
             weapons: weapons.map((weapon: any) => Weapon.from(weapon)),
-            quests: quests.map((quest: any) => Quest.from(quest))
+            quests: quests.map((quest: any) => Quest.from(quest)),
+            user: user ? User.from(user) : undefined
         });
     }
 }

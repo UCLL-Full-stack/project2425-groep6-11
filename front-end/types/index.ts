@@ -3,6 +3,12 @@ export type CreateCharacterDTO = {
     role: string
 }
 
+export type CreateUserDTO = {
+    username: string,
+    password: string,
+    email: string,
+    role: string
+}
 export type CreateWeaponDTO = {
     name: string,
     type: string

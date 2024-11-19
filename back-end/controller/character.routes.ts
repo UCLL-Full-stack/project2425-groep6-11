@@ -26,10 +26,11 @@ const characterRouter = express.Router();
  *       500:
  *         description: Internal server error
  */
-characterRouter.post('/', async (req: Request, res: Response) => {
+characterRouter.post('/:id', async (req: Request, res: Response) => {
     try {
         const { name, role } = req.body;
-        const newCharacter = await characterService.createCharacter({ name, role });
+        const id = Number(req.params.id);
+        const newCharacter = await characterService.createCharacter(id, { name, role });
         res.status(201).json(newCharacter);
     } catch (error: any) {
         res.status(500).json({ status: 'error', errorMessage: error.message });

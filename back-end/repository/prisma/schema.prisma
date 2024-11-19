@@ -19,13 +19,12 @@ enum Role {
 }
 
 model User {
-  id          Int        @id @default(autoincrement())
-  username    String     @unique
-  email       String     @unique
-  password    String
-  character   Character? @relation(fields: [characterId], references: [id], onDelete: Cascade)
-  characterId Int?       @unique
-  role        Role       @default(PLAYER)
+  id        Int        @id @default(autoincrement())
+  username  String     @unique
+  email     String     @unique
+  password  String
+  character Character?
+  role      Role       @default(PLAYER)
 }
 
 model Character {
@@ -44,7 +43,8 @@ model Character {
   equippedId Int?     @unique
   equipped   Weapon?  @relation("EquippedWeapon", fields: [equippedId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   quests     Quest[]
-  user       User?
+  user       User?    @relation(fields: [userId], references: [id], onUpdate: Cascade, onDelete: Cascade)
+  userId     Int?     @unique
 }
 
 model Mount {

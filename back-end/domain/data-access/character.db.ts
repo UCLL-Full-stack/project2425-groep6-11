@@ -10,12 +10,13 @@ async function getCharacterById(id: number): Promise<Character | null> {
             weapons: true,
             quests: true,
             equipped: true,
+            user: true
         }
     });
 
     return character ? Character.from(character) : null
 }
-async function createCharacter({ name, role }: CharacterDTO): Promise<Character> {
+async function createCharacter(id: number, { name, role }: CharacterDTO): Promise<Character> {
     const character = await db.character.create({
         data: {
             name,
@@ -31,13 +32,17 @@ async function createCharacter({ name, role }: CharacterDTO): Promise<Character>
             },
             equipped: {
                 create: undefined
+            },
+            user: {
+                connect: { id }
             }
         },
         include: {
             mount: true,
             quests: true,
             weapons: true,
-            equipped: true
+            equipped: true,
+            user: true
         }
     });
 
@@ -51,7 +56,8 @@ async function deleteCharacter(id: number): Promise<Character> {
             mount: true,
             weapons: true,
             quests: true,
-            equipped: true
+            equipped: true,
+            user: true
         }
     });
 
@@ -64,14 +70,15 @@ async function getAllCharacters(): Promise<Character[]> {
             mount: true,
             weapons: true,
             quests: true,
-            equipped: true
+            equipped: true,
+            user: true
         }
     });
 
     return characters.map((character) => Character.from(character));
 }
 
-async function updateCharacter(id: number, { name, role, level, power, mana, health, defense, mount, weapons, quests, currency, equipped }: CharacterDTO): Promise<Character> {
+async function updateCharacter(id: number, { name, role, level, power, mana, health, defense, mount, weapons, quests, currency, equipped, user }: CharacterDTO): Promise<Character> {
     try {
         const character = await db.character.update({
             where: { id },
@@ -90,6 +97,9 @@ async function updateCharacter(id: number, { name, role, level, power, mana, hea
                 ...(equipped !== undefined && {
                     equipped: equipped ? { connect: { id: equipped.id } } : { disconnect: true }
                 }),
+                ...(user !== undefined && {
+                    equipped: equipped ? { connect: { id: equipped.id } } : { disconnect: true }
+                }),
                 weapons: {
                     connect: weapons?.map(weapon => ({ id: weapon.id}))
                 },
@@ -101,7 +111,8 @@ async function updateCharacter(id: number, { name, role, level, power, mana, hea
                 weapons: true,
                 quests: true,
                 mount: true,
-                equipped: true
+                equipped: true,
+                user: true
             },
         });
         return Character.from(character);
@@ -124,7 +135,8 @@ async function acceptQuest(characterId: number, questId: number): Promise<Charac
                 weapons: true,
                 quests: true,
                 mount: true,
-                equipped: true
+                equipped: true,
+                user: true
             },
         });
 
@@ -148,7 +160,8 @@ async function switchWeapon(characterId: number, weaponId: number): Promise<Char
                 weapons: true,
                 quests: true,
                 mount: true,
-                equipped: true
+                equipped: true,
+                user: true
             },
         });
 
@@ -172,7 +185,8 @@ async function switchMount(characterId: number, mountId: number): Promise<Charac
                 weapons: true,
                 quests: true,
                 mount: true,
-                equipped: true
+                equipped: true,
+                user: true
             },
         });
 

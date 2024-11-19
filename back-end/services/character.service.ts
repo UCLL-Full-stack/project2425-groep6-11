@@ -17,13 +17,13 @@ async function getCharacterById(id: number): Promise<Character> {
     }
 }
 
-async function createCharacter({ name, role }: CharacterDTO): Promise<Character> {
-    if (!name || !role) {
-        throw new Error('Invalid data: name and role are required for character creation.');
+async function createCharacter(id: number, { name, role }: CharacterDTO): Promise<Character> {
+    if (!name || !role || !id) {
+        throw new Error('Invalid data: name, role and user are required for character creation.');
     }
 
     try {
-        const character = await characterDB.createCharacter({ name, role });
+        const character = await characterDB.createCharacter(id, { name, role });
 
         if (!character) {
             throw new Error(`Failed to create character with name: ${name}.`);
@@ -60,9 +60,9 @@ async function getAllCharacters(): Promise<Character[]> {
     }
 }
 
-async function updateCharacter( id: number, { name, role, level, power, mana, health, defense, mount, weapons, quests, currency }: CharacterDTO): Promise<Character> {
+async function updateCharacter( id: number, { name, role, level, power, mana, health, defense, mount, weapons, quests, currency, user }: CharacterDTO): Promise<Character> {
     try {
-        const character = await characterDB.updateCharacter(id, { name, role, level, power, mana, health, defense, mount, weapons, quests, currency });
+        const character = await characterDB.updateCharacter(id, { name, role, level, power, mana, health, defense, mount, weapons, quests, currency, user });
 
         if (!character) {
             throw new Error(`Character with id ${id} does not exist or could not be updated.`);

@@ -12,8 +12,16 @@ export interface CharacterDTO {
     mount?: MountDTO;
     weapons?: WeaponDTO[];
     quests?: QuestDTO[];
+    user?: UserDTO;
 }
 
+export interface UserDTO {
+    id?: number;
+    username: string;
+    password: string;
+    email: string;
+    role: string;
+}
 export interface MountDTO {
     id?: number,
     name: string,
