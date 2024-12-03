@@ -47,10 +47,11 @@ function ProfileCollection() {
                 <CarouselNext />
             </Carousel>
             ) : (
-                <p className="text-xl, font-medium my-10">No quests!</p>
+                <p className="text-xl font-medium my-10">No quests!</p>
             )}
         </div>
 
-    )}
+    )
+}
 
 export default ProfileCollection;

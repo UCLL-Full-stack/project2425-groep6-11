@@ -81,7 +81,6 @@ const Profile = ({ character, onCharacterEdit }: ProfileProps) => {
         setShowSelect((prev) => !prev);
     };
 
-    // @ts-ignore
     return (
         <div className="grid grid-rows-2">
             <Card className="w-[350px]">
@@ -113,8 +112,6 @@ const Profile = ({ character, onCharacterEdit }: ProfileProps) => {
                                                 if (characterId) {
                                                     await CharacterService.deleteCharacter(characterId);
                                                 }
-                                                localStorage.removeItem('id');
-                                                localStorage.removeItem('name');
                                                 onCharacterEdit();
                                             }}>
                                                 Delete

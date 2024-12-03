@@ -1,31 +1,101 @@
 import { Character, CreateCharacterDTO, Quest, Weapon } from '@/types';
 
 const getCharacterById = async (id: number) => {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/characters/${id}`, {
-        method: 'GET',
-        headers: {
-            'Content-Type': 'application/json'
+    try {
+        const token = localStorage.getItem('token');
+
+        if (!token) {
+            throw new Error("No token found");
         }
-    });
-    return await res.json();
+
+        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/characters/${id}`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            },
+        });
+
+        if (!res.ok) {
+            throw new Error(`Failed to fetch characters: ${res.statusText}`);
+        }
+
+        return await res.json();
+    } catch (error) {
+        console.error("Error fetching characters:", error);
+        throw error;
+    }
+}
+
+const getCharacterByUserId = async (id: number) => {
+    try {
+        const token = localStorage.getItem('token');
+
+        if (!token) {
+            throw new Error("No token found");
+        }
+
+        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/characters/user/${id}`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            },
+        });
+
+        console.log(res);
+        if (!res.ok) {
+            throw new Error(`Failed to fetch characters: ${res.statusText}`);
+        }
+
+        return await res.json();
+    } catch (error) {
+        console.error("Error fetching characters:", error);
+        throw error;
+    }
 }
 
 const getAllCharacters = async () => {
-    const res = await fetch(process.env.NEXT_PUBLIC_API_URL + "/characters", {
-        method: 'GET',
-        headers: {
-            'Content-Type': 'application/json'
+    try {
+        const token = localStorage.getItem('token');
+
+        if (!token) {
+            throw new Error("No token found");
         }
-    });
-    return await res.json();
+
+        const res = await fetch(process.env.NEXT_PUBLIC_API_URL + "/characters", {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`,
+            }
+        });
+
+        if (!res.ok) {
+            throw new Error(`Failed to fetch characters: ${res.statusText}`);
+        }
+
+        return await res.json();
+    } catch (error) {
+        console.error("Error fetching characters:", error);
+        throw error;
+    }
 };
 
-const createCharacter = async ({ name, role }: CreateCharacterDTO) => {
+
+const createCharacter = async (id: number, { name, role }: CreateCharacterDTO) => {
     try {
-        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/characters`, {
+        const token = localStorage.getItem('token');
+
+        if (!token) {
+            throw new Error("No token found");
+        }
+
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/characters/${id}`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
             },
             body: JSON.stringify({ name: name, role: role }),
         });
@@ -42,10 +112,17 @@ const createCharacter = async ({ name, role }: CreateCharacterDTO) => {
 
 const deleteCharacter = async (characterId: number) => {
     try {
+        const token = localStorage.getItem('token');
+
+        if (!token) {
+            throw new Error("No token found");
+        }
+
         const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/characters/${characterId}/`, {
             method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
             }
         })
 
@@ -53,16 +130,24 @@ const deleteCharacter = async (characterId: number) => {
             throw new Error(`Error: ${response.status} ${response.statusText}`);
         }
     } catch (error) {
-        console.error("Failed to delete weapon:", error);
+        console.error("Failed to delete weapon: ", error);
         throw error;
     }
 }
 const switchWeapon = async (characterId: number, weaponId: number) => {
+
     try {
+        const token = localStorage.getItem('token');
+
+        if (!token) {
+            throw new Error("No token found");
+        }
+
         const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/characters/switchWeapon/${characterId}/${weaponId}`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
             }
         })
 
@@ -79,10 +164,16 @@ const switchWeapon = async (characterId: number, weaponId: number) => {
 
 const updateCharacter = async (characterId: number, character: Character) => {
     try {
+        const token = localStorage.getItem('token');
+
+        if (!token) {
+            throw new Error("No token found");
+        }
         const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/characters/${characterId}`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
             },
             body: JSON.stringify(character)
         });
@@ -120,6 +211,7 @@ const CharacterService = {
     getAllCharacters,
     createCharacter,
     getCharacterById,
+    getCharacterByUserId,
     acceptQuest,
     switchWeapon,
     updateCharacter,

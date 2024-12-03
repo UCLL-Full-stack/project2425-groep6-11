@@ -19,7 +19,6 @@ export class User {
     private _username: string;
     private _email: string;
     private _password: string;
-    private _character?: Character;
     private _role: Role
 
     constructor(user: {
@@ -34,7 +33,6 @@ export class User {
         this._username = user.username;
         this._email = user.email;
         this._password = user.password;
-        this._character = user.character;
         this._role = user.role;
     }
 
@@ -61,15 +59,7 @@ export class User {
     public set password(password: string) {
         this._password = password;
     }
-
-    public get character(): Character | undefined {
-        return this._character;
-    }
-
-    public set character(character: Character | undefined) {
-        this._character = character;
-    }
-
+    
     public get role(): Role {
         return this._role;
     }
@@ -84,7 +74,6 @@ export class User {
             this._username === other._username &&
             this._password === other._password &&
             this._email === other._email &&
-            this._character === other._character &&
             this._role === other._role
         );
     }
@@ -95,7 +84,7 @@ export class User {
             username,
             password,
             email,
-            role
+            role,
         }: UserPrisma
             & { role: RolePrisma }
     ) {

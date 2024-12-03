@@ -3,6 +3,9 @@ import Header from '@/components/nav/header';
 import React from 'react';
 import { Theme } from '@radix-ui/themes';
 import NavBar from '@/components/nav/header';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import Login from '@/components/users/login';
+import SignUp from '@/components/users/signup';
 
 export default function Home() {
         return (
@@ -15,7 +18,21 @@ export default function Home() {
                 </Head>
 
                 <main>
-                    <NavBar></NavBar>
+                    <NavBar />
+                    <div className="flex justify-center">
+                        <Tabs defaultValue="create" className="w-[350px]">
+                            <TabsList className="grid w-full grid-cols-2">
+                                <TabsTrigger value="login">Login</TabsTrigger>
+                                <TabsTrigger value="create">Sign up</TabsTrigger>
+                            </TabsList>
+                            <TabsContent value="login">
+                                <Login />
+                            </TabsContent>
+                            <TabsContent value="create">
+                                <SignUp />
+                            </TabsContent>
+                        </Tabs>
+                    </div>
                 </main>
             </>
         );

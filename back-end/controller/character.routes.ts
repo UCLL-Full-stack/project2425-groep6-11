@@ -114,6 +114,20 @@ characterRouter.get('/:id', async (req: Request, res: Response) => {
     }
 });
 
+characterRouter.get('/user/:id', async (req: Request, res: Response) => {
+    try {
+        const id = parseInt(req.params.id, 10);
+
+        if (isNaN(id)) {
+            return res.status(400).json({ status: 'error', errorMessage: 'Invalid user ID' });
+        }
+        const character = await characterService.getCharacterByUserId(id);
+        res.status(200).json(character);
+    } catch (error: any) {
+        res.status(500).json({ status: 'error', errorMessage: error.message });
+    }
+});
+
 /**
  * @swagger
  * /characters:

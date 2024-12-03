@@ -132,7 +132,13 @@ weaponRouter.put('/:id', async (req: Request, res: Response) => {
                         return res.status(400).json({ status: 'error', errorMessage: 'Invalid weapon ID' });
                 }
 
-                const { name, type, damage, quality }: WeaponDTO = req.body;
+                const { _name, _type, _damage, _quality } = req.body;
+
+                const name = _name
+                const type = _type
+                const damage = _damage
+                const quality = _quality
+
                 const updatedWeapon = await weaponService.updateWeapon(Number(id), { name, type, damage, quality });
                 res.status(200).json(updatedWeapon);
         } catch (error: any) {

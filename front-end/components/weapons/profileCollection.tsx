@@ -14,19 +14,19 @@ import WeaponService from '@/services/weaponService';
 const getCharacterById = async (): Promise<Character | undefined> => {
     const id = localStorage.getItem('id');
     if (id) {
-        return await CharacterService.getCharacterById(Number(id)) || undefined;
+        return await CharacterService.getCharacterByUserId(Number(id)) || undefined;
     }
 };
 
 function ProfileCollection() {
     const [character, setCharacter] = React.useState<Character>();
 
-    React.useEffect(() => {
-        const fetchCharacters = async () => {
-            const characterData = await getCharacterById();
-            setCharacter(characterData);
-        };
+    const fetchCharacters = async () => {
+        const characterData = await getCharacterById();
+        setCharacter(characterData);
+    };
 
+    React.useEffect(() => {
         fetchCharacters().then(() => console.log("Fetching characters..."));
         const interval = setInterval(fetchCharacters, 10000);
 
@@ -41,7 +41,7 @@ function ProfileCollection() {
                         {character._weapons.map((weapon, index) => (
                             <CarouselItem key={index}>
                                 <div className="flex justify-center p-1">
-                                    <Profile weapon={weapon} />
+                                    <Profile weapon={weapon} onWeaponEdit={fetchCharacters}/>
                                 </div>
                             </CarouselItem>
                         ))}

@@ -7,7 +7,9 @@ import Profile from "./profile";
 const getCharacterById = async (): Promise<Character | undefined> => {
     const id = localStorage.getItem('id');
     if (id) {
-        return await CharacterService.getCharacterById(Number(id)) || undefined;
+        const character = await CharacterService.getCharacterByUserId(Number(id)) || undefined;
+        console.log(character);
+        return character;
     }
 };
 

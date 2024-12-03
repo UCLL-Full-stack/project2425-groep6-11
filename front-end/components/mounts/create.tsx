@@ -33,8 +33,7 @@ function Create() {
     const [type, setType] = useState("Hound");
     const [legs, setLegs] = useState<number>(2);
 
-    // I know this notation is wrong
-    // It looks like shit
+    // doodoo notation
     const [can_fly, setCan_fly] = useState<boolean>(false);
 
     const handleSubmit = (event: React.FormEvent) => {
@@ -44,10 +43,6 @@ function Create() {
 
     const handleChangeLegs = (legs: number) => {
         setLegs(legs);
-    }
-
-    const handleChangeType = (type: string) => {
-        setType(type);
     }
 
     const handleChangeSetFly = (can_fly: boolean) => {
@@ -100,9 +95,9 @@ function Create() {
                             </div>
 
                             <div className="flex flex-col space-y-3 mt-3">
-                                <Label htmlFor="name">Type</Label>
-                                <Select>
-                                    <SelectTrigger id="framework">
+                                <Label htmlFor="type">Type</Label>
+                                <Select onValueChange={(value) => setType(value)}>
+                                    <SelectTrigger id="type">
                                         <SelectValue placeholder="Type"/>
                                     </SelectTrigger>
                                     <SelectContent position="popper">
@@ -120,7 +115,7 @@ function Create() {
                             </div>
                             <Separator className="my-5" />
                             <div className="flex gap-1 mt-5">
-                                <Checkbox />
+                                <Checkbox onChange={_ => handleChangeSetFly(!can_fly)}/>
                                 <Label htmlFor="role">My mount can fly!</Label>
                             </div>
 

@@ -41,6 +41,17 @@ export interface WeaponDTO {
     cost?: number
 }
 
+export interface LoginDTO {
+    username: string,
+    password: string
+}
+
+export interface AuthResponse {
+    token: string;
+    username: string;
+    id?: number;
+    role: string;
+}
 export interface QuestDTO {
     id?: number,
     xp: number,

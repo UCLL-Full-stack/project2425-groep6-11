@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import { PinBottomIcon, TrashIcon } from '@radix-ui/react-icons';
+import { Pencil2Icon, PinBottomIcon, TrashIcon } from '@radix-ui/react-icons';
 
 import {
     Card,
@@ -13,13 +13,37 @@ import { Label } from '@/components/ui/label';
 import { Badge } from '@/components/ui/badge';
 import { Mount, Weapon } from '@/types';
 import { Separator } from '@/components/ui/separator';
+import { ChangeEvent } from 'react';
+import WeaponService from '@/services/weaponService';
+import MountService from '@/services/mountService';
 
 
 type ProfileProps = {
-    mount: Mount
+    mount: Mount,
+    onMountEdit: () => void,
 }
 
-function Profile({ mount }: ProfileProps) {
+function Profile({ mount, onMountEdit }: ProfileProps) {
+    const [selectedName, setSelectedName] = React.useState(mount._name);
+    const [showSelect, setShowSelect] = React.useState(false);
+
+    const handleNameChange = async (e: ChangeEvent<HTMLInputElement>) => {
+        const newName = e.target.value;
+        setSelectedName(newName);
+
+        const mountId = mount._id;
+        if (mountId) {
+            await MountService.updateMount(mountId, {
+                ...mount,
+                _name: newName,
+            }).then(_ => onMountEdit());
+        }
+    };
+
+    const toggleShowSelect = () => {
+        setShowSelect((prev) => !prev);
+    };
+
     return (
         <Card className="my-1 w-[350px]">
             <div>
@@ -29,9 +53,14 @@ function Profile({ mount }: ProfileProps) {
                     <CardDescription className="pt-1">
                         <div className="flex gap-2">
                             <Badge>{mount._base}</Badge>
-                            <PinBottomIcon className="mt-1 hover:cursor-pointer" />
-                            <TrashIcon className="mt-1 hover:cursor-pointer text-red-500" />
-
+                            <Pencil2Icon className="mt-1 hover:cursor-pointer" onClick={toggleShowSelect} />
+                            <TrashIcon onClick={async () => {
+                                const mountId = mount._id;
+                                if (mountId) {
+                                    await MountService.deleteMount(mountId);
+                                }
+                                onMountEdit();
+                            }} className="mt-1 hover:cursor-pointer text-red-500" />
                         </div>
                     </CardDescription>
                 </CardHeader>

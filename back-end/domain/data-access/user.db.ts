@@ -4,7 +4,14 @@ import { UserDTO } from '../../types';
 
 async function getUserById(id: number): Promise<User | null> {
     const user = await db.user.findUnique({
-        where: { id },
+        where: { id }
+    });
+    return user ? User.from(user) : null;
+}
+
+async function getUserByUsername(username: string): Promise<User | null> {
+    const user = await db.user.findUnique({
+        where: { username },
     });
     return user ? User.from(user) : null;
 }
@@ -52,5 +59,6 @@ export default {
     getUserById,
     deleteUser,
     updateUser,
-    createUser
+    createUser,
+    getUserByUsername
 }

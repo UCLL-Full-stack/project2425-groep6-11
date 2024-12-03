@@ -17,6 +17,15 @@ async function getCharacterById(id: number): Promise<Character> {
     }
 }
 
+async function getCharacterByUserId(id: number): Promise<Character | null> {
+    try {
+        return await characterDB.getCharacterByUserId(id);
+    } catch (error) {
+        console.error(`Error retrieving character with user ${id}:`, error);
+        throw new Error('Failed to retrieve character.');
+    }
+}
+
 async function createCharacter(id: number, { name, role }: CharacterDTO): Promise<Character> {
     if (!name || !role || !id) {
         throw new Error('Invalid data: name, role and user are required for character creation.');
@@ -126,6 +135,7 @@ export default {
     deleteCharacter,
     getAllCharacters,
     updateCharacter,
+    getCharacterByUserId,
     acceptQuest,
     switchWeapon,
     switchMount

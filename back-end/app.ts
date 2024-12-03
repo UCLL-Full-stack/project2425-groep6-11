@@ -9,6 +9,7 @@ import mountRouter from './controller/mount.routes';
 import weaponRouter from './controller/weapon.routes';
 import questRouter from './controller/quest.routes';
 import userRouter from './controller/user.routes';
+import { expressjwt } from 'express-jwt';
 
 const app = express();
 dotenv.config();
@@ -16,6 +17,20 @@ const port = process.env.APP_PORT || 3000;
 
 app.use(cors());
 app.use(bodyParser.json());
+
+const jwtSecret = process.env.JWT_SECRET;
+if (!jwtSecret) {
+    throw new Error("JWT_SECRET is not defined in the environment variables.");
+}
+
+app.use(
+    expressjwt({
+        secret: jwtSecret, // Now guaranteed to be a string
+        algorithms: ['HS256']
+    }).unless({
+        path: ['/api-docs', '/users/login', '/users/register', /^\api-docs\/.*/, '/status'],
+    })
+);
 
 app.get('/status', (req, res) => {
     res.json({ message: 'Back-end is running...' });
@@ -33,6 +48,7 @@ const swaggerOpts = {
 }
 
 const swaggerSpec = swaggerJSDoc(swaggerOpts);
+
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 app.use('/characters', characterRouter);

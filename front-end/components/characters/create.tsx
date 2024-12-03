@@ -35,12 +35,10 @@ function Create() {
 
     const createCharacter = async (name: string, role: string) => {
         try {
-            const character = await CharacterService.createCharacter({ name, role });
+            const id = localStorage.getItem('id')
+            const character = await CharacterService.createCharacter(Number(id), { name, role });
 
             if (character) {
-                localStorage.setItem('id', character._id.toString());
-                localStorage.setItem('name', character._name);
-
                 toast({
                     title: "Character created successfully!",
                     description: `${name} as a ${role}`,

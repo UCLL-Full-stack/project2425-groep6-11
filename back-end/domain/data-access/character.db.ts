@@ -64,6 +64,22 @@ async function deleteCharacter(id: number): Promise<Character> {
     return Character.from(character);
 }
 
+async function getCharacterByUserId(id: number): Promise<Character | null> {
+    const character = await db.character.findUnique({
+        where: {
+            userId: id,
+        },
+        include: {
+            mount: true,
+            weapons: true,
+            quests: true,
+            equipped: true,
+            user: true
+        }
+    });
+    return character ? Character.from(character) : null;
+}
+
 async function getAllCharacters(): Promise<Character[]> {
     const characters = await db.character.findMany({
         include: {
@@ -203,6 +219,7 @@ export default {
     deleteCharacter,
     getAllCharacters,
     updateCharacter,
+    getCharacterByUserId,
     acceptQuest,
     switchWeapon,
     switchMount

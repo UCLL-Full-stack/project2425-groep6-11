@@ -9,6 +9,12 @@ export type CreateUserDTO = {
     email: string,
     role: string
 }
+
+export type LoginDTO = {
+    username: string,
+    password: string,
+}
+
 export type CreateWeaponDTO = {
     name: string,
     type: string

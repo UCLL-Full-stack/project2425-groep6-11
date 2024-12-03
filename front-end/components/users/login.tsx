@@ -14,35 +14,41 @@ import { Checkbox } from '@/components/ui/checkbox';
 import UserService from '@/services/userService';
 import { Separator } from '@/components/ui/separator';
 
-function SignUp() {
+function Login() {
     const { toast } = useToast()
 
     const [username, setUsername] = React.useState("");
     const [password, setPassword] = React.useState("");
-    const [email, setEmail] = React.useState("");
-    const [role, setRole] = React.useState("Player");
 
     const handleSubmit = (event: React.FormEvent) => {
         event.preventDefault();
-        createUser(username, password, email, role).then(_ => console.log("Creating user..."));
+        loginUser(username, password).then(_ => console.log("Creating user..."));
     };
 
-    const createUser = async (username: string, password: string, email: string, role: string) => {
+    const loginUser = async (username: string, password: string ) => {
         try {
-            const user = await UserService.createUser({ username, password, email, role });
+            const user = await UserService.loginUser({ username, password });
 
             if (user) {
+                console.log(user)
+                localStorage.setItem('id', user.id);
+                localStorage.setItem('username', user.username);
+                localStorage.setItem('token', user.token);
+                localStorage.setItem('role', user.role);
+
                 toast({
-                    title: "User created successfully!",
-                    description: `${username} as a ${role}`,
+                    title: "User logged in successfully!",
+                    description: `Welcome ${username}!`,
                     variant: "default"
                 });
+
+                window.location.href = "/characters/characterOverview";
             }
         } catch (error) {
-            console.error("Error signing up user:", error);
+            console.error("Error creating user:", error);
             toast({
-                title: "Signup failed",
-                description: "There was an error signing in your user.",
+                title: "User login failed",
+                description: "There was an error logging in your user.",
                 variant: "destructive",
             });
         }
@@ -77,27 +83,9 @@ function SignUp() {
                                 />
                             </div>
                         </div>
-
-                        <div className="my-5">
-                            <div className="flex flex-col space-y-3">
-                                <Label htmlFor="email">Email</Label>
-                                <Input
-                                    id="email"
-                                    placeholder="Email"
-                                    value={email}
-                                    onChange={(e) => setEmail(e.target.value)}
-                                />
-                            </div>
-                        </div>
-
-                        <Separator/>
-                        <div className="flex gap-1 my-5">
-                            <Checkbox />
-                            <Label htmlFor="role">I am a game master!</Label>
-                        </div>
-
+                        <Separator className="my-4"/>
                         <CardFooter className="p-0">
-                            <Button type="submit" className="font-semibold">Sign up</Button>
+                            <Button type="submit" className="font-semibold">Login</Button>
                         </CardFooter>
                     </form>
                 </CardContent>
@@ -107,4 +95,4 @@ function SignUp() {
     );
 }
 
-export default SignUp;
+export default Login;

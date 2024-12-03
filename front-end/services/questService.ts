@@ -1,13 +1,30 @@
 import { CreateQuestDTO } from '@/types';
 
 const getAllQuests = async () => {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/quests`, {
-        method: 'GET',
-        headers: {
-            'Content-Type': 'application/json'
+    try {
+        const token = localStorage.getItem("token");
+
+        if (!token) {
+            throw new Error("No token found");
         }
-    });
-    return await res.json();
+
+        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/quests`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`,
+            }
+        });
+
+        if (!res.ok) {
+            throw new Error(`Failed to retrieve quest: ${res.statusText}`);
+        }
+
+        return await res.json();
+    } catch (error) {
+        console.error("Error fetching quests:", error);
+        throw error;
+    }
 };
 
 const createQuest = async ({ title, description, xp, reward }: CreateQuestDTO) => {

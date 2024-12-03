@@ -4,6 +4,7 @@ import ProfileCollection from '@/components/quests/profileCollection';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import Create from '@/components/quests/create';
 import SignUp from '@/components/users/signup';
+import Login from '@/components/users/login';
 
 const QuestOverview: React.FC = () => {
     return (
@@ -16,7 +17,7 @@ const QuestOverview: React.FC = () => {
                         <TabsTrigger value="create">Sign up</TabsTrigger>
                     </TabsList>
                     <TabsContent value="login">
-                        <ProfileCollection />
+                        <Login />
                     </TabsContent>
                     <TabsContent value="create">
                         <SignUp />
