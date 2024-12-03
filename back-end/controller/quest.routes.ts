@@ -180,9 +180,15 @@ questRouter.get('/', async (req, res) => {
  */
 questRouter.put('/:id', async (req, res) => {
     const { id } = req.params;
-    const data: QuestDTO = req.body;
+    const { _title, _description, _xp, _reward } = req.body;
+
+    const title = _title;
+    const description = _description;
+    const xp = _xp;
+    const reward = _reward;
+
     try {
-        const quest = await questService.updateQuest(parseInt(id, 10), data);
+        const quest = await questService.updateQuest(parseInt(id, 10), { title, description, xp, reward });
         res.status(200).json(quest);
     } catch (error: any) {
         res.status(500).json({ error: error.message });

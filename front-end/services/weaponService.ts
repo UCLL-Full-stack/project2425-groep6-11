@@ -21,6 +21,27 @@ const getAllWeapons = async () => {
     }
 };
 
+const getWeaponById = async (id: number) => {
+    try {
+        const token = localStorage.getItem('token');
+
+        if (!token) {
+            throw new Error("No token found");
+        }
+        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/weapons/${id}`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`,
+            }
+        });
+        return await res.json();
+    } catch (error) {
+        console.error(error);
+        throw error;
+    }
+};
+
 const updateWeapon = async (id: number, weapon: Weapon) => {
     try {
         const token = localStorage.getItem('token');
@@ -108,7 +129,8 @@ const WeaponService = {
     getAllWeapons,
     createWeapon,
     deleteWeapon,
-    updateWeapon
+    updateWeapon,
+    getWeaponById
 };
 
 export default WeaponService;

@@ -22,7 +22,8 @@ async function createUser({ username, password, email, role }: UserDTO): Promise
             username,
             password,
             email,
-            role: role === 'game master' ? 'GAME_MASTER' : 'PLAYER'        }
+            role: role === 'Game Master' ? 'GAME_MASTER' : 'PLAYER'
+        }
     })
 
     return User.from(user);

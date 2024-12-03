@@ -21,10 +21,16 @@ function SignUp() {
     const [password, setPassword] = React.useState("");
     const [email, setEmail] = React.useState("");
     const [role, setRole] = React.useState("Player");
+    const [isAdmin, setIsAdmin] = React.useState(false);
 
     const handleSubmit = (event: React.FormEvent) => {
         event.preventDefault();
         createUser(username, password, email, role).then(_ => console.log("Creating user..."));
+    };
+
+    const handleChange = (checked: boolean) => {
+        setIsAdmin(checked);
+        setRole(checked ? "Game Master" : "Player");
     };
 
     const createUser = async (username: string, password: string, email: string, role: string) => {
@@ -92,8 +98,8 @@ function SignUp() {
 
                         <Separator/>
                         <div className="flex gap-1 my-5">
-                            <Checkbox />
-                            <Label htmlFor="role">I am a game master!</Label>
+                            <Checkbox id="role" checked={isAdmin} onCheckedChange={handleChange}/>
+                            <Label htmlFor="role">Enroll as game master</Label>
                         </div>
 
                         <CardFooter className="p-0">

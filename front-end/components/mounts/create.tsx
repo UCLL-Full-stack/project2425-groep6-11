@@ -25,6 +25,8 @@ import { useState } from 'react';
 import { Separator } from '@/components/ui/separator';
 import MountService from '@/services/mountService';
 import { Toaster } from '@/components/ui/toaster';
+import CharacterService from '@/services/characterService';
+import { Character, Mount } from '@/types';
 
 function Create() {
     const { toast } = useToast()
@@ -36,17 +38,26 @@ function Create() {
     // doodoo notation
     const [can_fly, setCan_fly] = useState<boolean>(false);
 
-    const handleSubmit = (event: React.FormEvent) => {
+    const handleSubmit = async (event: React.FormEvent) => {
         event.preventDefault();
-        createMount(name, type, legs, can_fly).then(_ => console.log("Creating character..."));
+        const characterId = localStorage.getItem('id');
+
+        await createMount(name, type, legs, can_fly).then(_ => console.log("Creating character..."));
+        const character = await CharacterService.getCharacterById(Number(characterId));
+
+        await CharacterService.updateCharacter(Number(characterId), {
+            ...character,
+            _mana: character._mount._speed * 5,
+            _hp: character._mount._legs * character._hp
+        })
     };
 
     const handleChangeLegs = (legs: number) => {
         setLegs(legs);
     }
 
-    const handleChangeSetFly = (can_fly: boolean) => {
-        setCan_fly(can_fly);
+    const handleChangeSetFly = (checked: boolean) => {
+        setCan_fly(checked);
     }
 
     const createMount = async (name: string, type: string, legs: number, can_fly: boolean) => {
@@ -107,7 +118,6 @@ function Create() {
                                     </SelectContent>
                                 </Select>
                             </div>
-
                             <div className="flex flex-col gap-3 mt-3">
                                 <Label htmlFor="role">Legs: {legs}</Label>
                                 <Slider defaultValue={[legs]} max={8} step={2}
@@ -115,8 +125,8 @@ function Create() {
                             </div>
                             <Separator className="my-5" />
                             <div className="flex gap-1 mt-5">
-                                <Checkbox onChange={_ => handleChangeSetFly(!can_fly)}/>
-                                <Label htmlFor="role">My mount can fly!</Label>
+                                <Checkbox id="canFly" checked={can_fly} onCheckedChange={handleChangeSetFly}/>
+                                <Label htmlFor="canFly">My mount can fly!</Label>
                             </div>
 
                         </div>

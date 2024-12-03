@@ -16,6 +16,7 @@ import { Separator } from '@/components/ui/separator';
 import { ChangeEvent } from 'react';
 import WeaponService from '@/services/weaponService';
 import MountService from '@/services/mountService';
+import { Input } from '@/components/ui/input';
 
 
 type ProfileProps = {
@@ -48,7 +49,12 @@ function Profile({ mount, onMountEdit }: ProfileProps) {
         <Card className="my-1 w-[350px]">
             <div>
                 <CardHeader>
-                    <CardTitle>{mount._name}
+                    <CardTitle className="flex gap-1">
+                        {showSelect ? (
+                            <Input placeholder={mount._name} onChange={e => handleNameChange(e)} />
+                        ) : (
+                            <p>{selectedName}</p>
+                        )}
                     </CardTitle>
                     <CardDescription className="pt-1">
                         <div className="flex gap-2">

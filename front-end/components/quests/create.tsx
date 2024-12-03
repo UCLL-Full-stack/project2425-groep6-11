@@ -79,7 +79,7 @@ function Create() {
                             <div className="grid grid-cols-2 gap-10 mt-4">
                                 <div className="flex flex-col gap-3">
                                     <Label htmlFor="xp">XP: {xp}</Label>
-                                    <Slider defaultValue={[xp]} max={100} step={1}
+                                    <Slider defaultValue={[xp]} max={12} step={1}
                                             onValueChange={value => handleChangeXp(value[0])} />
                                 </div>
 

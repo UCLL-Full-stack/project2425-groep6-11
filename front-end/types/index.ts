@@ -31,7 +31,7 @@ export type CreateQuestDTO = {
     title: string,
     description: string,
     xp: number,
-    reward: number
+    reward: number,
 }
 export interface Character {
     _id: number,

@@ -190,10 +190,17 @@ const updateCharacter = async (characterId: number, character: Character) => {
 
 const acceptQuest = async (characterId: number, questId: number) => {
     try {
+        const token = localStorage.getItem('token');
+
+        if (!token) {
+            throw new Error("No token found");
+        }
+
         const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/characters/acceptQuest/${characterId}/${questId}`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
             },
         });
 

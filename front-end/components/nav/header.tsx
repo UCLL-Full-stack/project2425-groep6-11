@@ -4,24 +4,41 @@ import React, { ReactElement, useEffect, useState } from "react";
 
 import {
     NavigationMenu,
-    NavigationMenuContent,
     NavigationMenuItem,
     NavigationMenuLink,
     NavigationMenuList,
-    NavigationMenuTrigger,
     navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu";
-import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
+import { Badge } from "../ui/badge";
+import {
+    DropdownMenu,
+    DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem,
+    DropdownMenuLabel,
+    DropdownMenuSeparator, DropdownMenuShortcut,
+    DropdownMenuTrigger
+} from '@/components/ui/dropdown-menu';
+import {
+    BookmarkFilledIcon,
+    BookmarkIcon,
+    CookieIcon,
+    ExitIcon,
+    Pencil2Icon,
+    TrashIcon
+} from '@radix-ui/react-icons';
+import CharacterService from '@/services/characterService';
 
 function NavBar(): ReactElement {
     const [username, setUsername] = useState<string | null>(null);
+    const [role, setRole] = useState<string | null>(null);
 
     useEffect(() => {
         const userId = localStorage.getItem("id");
         const storedUsername = localStorage.getItem("username");
+        const storedRole = localStorage.getItem("role");
 
-        if (userId && storedUsername) {
+        if (userId && storedUsername && storedRole) {
             setUsername(storedUsername);
+            setRole(storedRole);
         }
     }, []);
 
@@ -65,6 +82,14 @@ function NavBar(): ReactElement {
                             <NavigationMenuItem>
                                 <NavigationMenuLink
                                     className={navigationMenuTriggerStyle()}
+                                    href="/mounts/mountOverview"
+                                >
+                                    Mount
+                                </NavigationMenuLink>
+                            </NavigationMenuItem>
+                            <NavigationMenuItem>
+                                <NavigationMenuLink
+                                    className={navigationMenuTriggerStyle()}
                                     href="/quests/questOverview"
                                 >
                                     Quests
@@ -73,30 +98,31 @@ function NavBar(): ReactElement {
                             <NavigationMenuItem>
                                 <NavigationMenuLink
                                     className={navigationMenuTriggerStyle()}
-                                    href="/mounts/mountOverview"
+                                    href="#"
                                 >
-                                    Mount
-                                </NavigationMenuLink>
-                            </NavigationMenuItem>
-                            <NavigationMenuItem>
-                                <button
-                                    className={navigationMenuTriggerStyle()}
-                                    onClick={handleLogout}
-                                >
-                                    Logout
-                                </button>
-                            </NavigationMenuItem>
-                            <NavigationMenuItem>
-                                <NavigationMenuLink
-                                    className={navigationMenuTriggerStyle()}
-                                    href="/"
-                                >
-                                    <div className="flex items-center gap-4">
-                                        <Avatar>
-                                            <AvatarImage src="/" alt={username} />
-                                            <AvatarFallback>{username[0]}</AvatarFallback>
-                                        </Avatar>
-                                    </div>
+                                    <DropdownMenu>
+                                        <DropdownMenuTrigger asChild className="m-1 p-0.5">
+                                            <div>{username}</div>
+                                        </DropdownMenuTrigger>
+                                        <DropdownMenuContent className="w-56">
+                                            <DropdownMenuLabel>Account</DropdownMenuLabel>
+                                            <DropdownMenuSeparator />
+                                            <DropdownMenuGroup>
+                                                <DropdownMenuItem onClick={handleLogout}>
+                                                    Log out
+                                                    <DropdownMenuShortcut>
+                                                        <ExitIcon className="hover:cursor-pointer" />
+                                                    </DropdownMenuShortcut>
+                                                </DropdownMenuItem>
+                                                <DropdownMenuItem onClick={handleLogout}>
+                                                    Role
+                                                    <DropdownMenuShortcut>
+                                                        {role === 'game master' ? <Badge className="px-4">GM</Badge> : <Badge className="px-4">P</Badge>}
+                                                    </DropdownMenuShortcut>
+                                                </DropdownMenuItem>
+                                            </DropdownMenuGroup>
+                                        </DropdownMenuContent>
+                                    </DropdownMenu>
                                 </NavigationMenuLink>
                             </NavigationMenuItem>
                         </>

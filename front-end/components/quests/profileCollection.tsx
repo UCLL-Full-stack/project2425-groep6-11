@@ -18,12 +18,12 @@ const getAllQuests = async (): Promise<Quest[]> => {
 function ProfileCollection() {
     const [quests, setQuests] = useState<Quest[]>();
 
-    React.useEffect(() => {
-        const fetchQuests = async () => {
-            const questData = await getAllQuests();
-            setQuests(questData);
-        };
+    const fetchQuests = async () => {
+        const questData = await getAllQuests();
+        setQuests(questData);
+    };
 
+    React.useEffect(() => {
         fetchQuests().then(_ => console.log("Fetching characters..."));
         const interval = setInterval(fetchQuests, 5000);
 
@@ -38,7 +38,7 @@ function ProfileCollection() {
                     {quests.map((quest, index) => (
                         <CarouselItem key={index}>
                             <div className="flex justify-center p-1">
-                                <Profile quest={quest}/>
+                                <Profile quest={quest} onQuestEdit={fetchQuests}/>
                             </div>
                         </CarouselItem>
                     ))}

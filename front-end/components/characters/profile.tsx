@@ -15,7 +15,7 @@ import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
-import { Character, Quest } from '@/types';
+import { Character, Quest, Weapon } from '@/types';
 import { Progress } from '@/components/ui/progress';
 import { Input } from '@/components/ui/input';
 import { Separator } from '@/components/ui/separator';
@@ -30,6 +30,8 @@ import {
     DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu';
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '../ui/carousel';
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
+import WeaponService from '@/services/weaponService';
 
 type ProfileProps = {
     character: Character;
@@ -47,12 +49,12 @@ const Profile = ({ character, onCharacterEdit }: ProfileProps) => {
     const [showQuests, setShowQuests] = useState<boolean>(false);
     const [quests, setQuests] = useState<Quest[]>();
 
-    useEffect(() => {
-        const fetchQuests = async () => {
-            const questData = await getAllQuests();
-            setQuests(questData);
-        };
+    const fetchQuests = async () => {
+        const questData = await getAllQuests();
+        setQuests(questData);
+    };
 
+    useEffect(() => {
         fetchQuests().then(_ => console.log("Fetching quests..."));
         const interval = setInterval(fetchQuests, 10000);
 
@@ -72,9 +74,30 @@ const Profile = ({ character, onCharacterEdit }: ProfileProps) => {
         }
     };
 
+    const updateStats = async (xp: number, reward: number, id: number) => {
+        const characterId = character._id;
+        if (characterId) {
+            await CharacterService.updateCharacter(characterId, {
+                ...character,
+                _level: character._level + xp,
+                _currency: character._currency + reward
+            }).then(_ => onCharacterEdit());
+        }
+
+        await QuestService.deleteQuest(id);
+        fetchQuests().then(_ => console.log("Refreshing quests..."));
+    }
+
     const handleWeaponChange = async (weaponId: string) => {
         const characterId = character._id;
+        const weapon = await WeaponService.getWeaponById(Number(weaponId)) as Weapon
+
         await CharacterService.switchWeapon(characterId, Number(weaponId)).then(_ => onCharacterEdit());
+        await CharacterService.updateCharacter(characterId, {
+            ...character,
+            _defense: weapon._quality,
+            _power: weapon._damage,
+        })
     };
 
     const toggleShowSelect = () => {
@@ -255,18 +278,18 @@ const Profile = ({ character, onCharacterEdit }: ProfileProps) => {
             <div className="mt-3 flex justify-center">
                 {showQuests && (
                     character._quests && character._quests.length > 0 ? (
-                        <Carousel className="max-w-sm">
-                            <CarouselContent>
-                                {character._quests.map((quest, index) => (
-                                    <CarouselItem key={index}>
-                                        <h3>{quest._title}</h3>
-                                        <p>{quest._description}</p>
-                                    </CarouselItem>
-                                ))}
-                            </CarouselContent>
-                            <CarouselPrevious />
-                            <CarouselNext />
-                        </Carousel>
+                        <Accordion type="single" collapsible className="w-full">
+                            {character._quests.map((quest, index) => (
+                                <AccordionItem key={index} value={quest._title}>
+                                    <AccordionTrigger>{quest._title}</AccordionTrigger>
+                                    <AccordionContent>
+                                        <p className="mb-2">{quest._description}</p>
+                                        <Button onClick={_ => updateStats(quest._xp, quest._reward, quest._id)}>Complete!</Button>
+                                    </AccordionContent>
+                                </AccordionItem>
+                            ))
+                            }
+                        </Accordion>
                     ) : (
                         <p>No quests here!</p>
                     )

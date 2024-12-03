@@ -16,14 +16,14 @@ async function getMountById(id: number): Promise<Mount> {
 }
 
 async function createMount(id: number, { name, base, legs, can_fly }: MountDTO): Promise<Mount> {
-    const defaultSpeed = 10;
+    const speed = Math.floor((Math.random() * 100) + 1);
 
     if (!name) {
         throw new Error('Invalid data: name is required for mount creation.');
     }
 
     try {
-        const mount = await mountDB.createMount(id, { name, speed: defaultSpeed, base, legs, can_fly });
+        const mount = await mountDB.createMount(id, { name, speed: speed, base, legs, can_fly });
         if (!mount) {
             throw new Error(`Failed to create mount with name: ${name}.`);
         }

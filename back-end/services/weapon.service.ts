@@ -16,15 +16,15 @@ async function getWeaponById(id: number): Promise<Weapon> {
 }
 
 async function createWeapon(id: number, { name, type }: WeaponDTO): Promise<Weapon> {
-        const defaultDamage = 10;
-        const defaultQuality = 50;
+        const damage = Math.floor((Math.random() * 60) + 1);
+        const quality = Math.floor((Math.random() * 100) + 1);
 
         if (!name || !type) {
                 throw new Error('Invalid data: name and type are required for weapon creation.');
         }
 
         try {
-                const weapon = await weaponDB.createWeapon(id, { name, type, damage: defaultDamage, quality: defaultQuality });
+                const weapon = await weaponDB.createWeapon(id, { name, type, damage: damage, quality: quality });
                 if (!weapon) {
                         throw new Error(`Failed to create weapon with name: ${name}.`);
                 }

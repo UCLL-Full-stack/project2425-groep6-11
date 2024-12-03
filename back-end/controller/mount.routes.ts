@@ -82,7 +82,7 @@ mountRouter.delete('/:id', async (req: Request, res: Response) => {
                 if (!mount) {
                         return res.status(404).json({ status: 'error', errorMessage: 'Mount not found' });
                 }
-                res.status(204).send();
+                res.status(200).json({ status: 'success', message: 'Mount deleted successfully' });
         } catch (error: any) {
                 res.status(500).json({ status: 'error', errorMessage: error.message });
         }
@@ -207,7 +207,13 @@ mountRouter.put('/:id', async (req: Request, res: Response) => {
         }
 
         try {
-                const { name, speed, base, legs } = req.body;
+                const { _name, _speed, _base, _legs } = req.body;
+
+                const name = _name
+                const speed = _speed
+                const base = _base
+                const legs = _legs
+
                 const updatedMount = await mountService.updateMount(id, { name, speed, base, legs });
                 return res.status(200).json(updatedMount);
         } catch (error) {
