@@ -4,18 +4,32 @@
     "login": "Login",
     "logout": "Logout",
     "sign_up": "Sign up",
-    "role": "Role"
+    "role": "Role",
+    "account": "Account",
+    "username": "Username",
+    "password": "Password",
+    "email": "Email",
+    "enroll_gm": "Enroll as game master"
   },
   "header": {
     "profile": "Profile",
     "weapons": "Weapons",
     "mount": "Mount",
-    "quests": "Quests"
+    "quests": "Quests",
+    "home": "Home",
+    "language": "Language"
   },
   "character_profile": {
     "nav": {
       "overview": "Overview",
       "create": "Create"
+    },
+    "edit": {
+      "actions": "Actions",
+      "delete": "Delete",
+      "edit": "Edit",
+      "quests": "Quests",
+      "currency": "Currency"
     },
     "class": {
       "warrior": "Warrior",
@@ -41,7 +55,8 @@
       "sword": "Sword",
       "staff": "Staff",
       "bow": "Bow"
-    }
+    },
+    "quality": "Quality"
   },
   "weapon_craft": {
     "name": "Name",
@@ -80,6 +95,8 @@
     "description": "Description",
     "description_placeholder": "Kill 10 Hell Hornets!",
     "reward": "Reward",
-    "create_quest": "Create quest"
+    "create_quest": "Create quest",
+    "complete": "Complete!",
+    "no_quests": "No quests here!"
   }
 }

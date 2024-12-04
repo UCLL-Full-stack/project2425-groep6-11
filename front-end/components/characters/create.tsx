@@ -21,9 +21,11 @@ import { Input } from '@/components/ui/input';
 import CharacterService from '@/services/characterService';
 import { useToast } from '@/hooks/use-toast';
 import { Toaster } from '@/components/ui/toaster';
+import { useTranslation } from 'next-i18next';
 
 function Create() {
     const { toast } = useToast()
+    const { t } = useTranslation();
 
     const [name, setName] = React.useState("");
     const [role, setRole] = React.useState("Warrior");
@@ -62,32 +64,60 @@ function Create() {
                     <form onSubmit={handleSubmit}>
                         <div className="my-5">
                             <div className="flex flex-col space-y-3">
-                                <Label htmlFor="name">Name</Label>
+                                <Label htmlFor="name">
+                                    {
+                                        // @ts-ignore
+                                        t("character_create.name")
+                                    }
+                                </Label>
                                 <Input
                                     id="name"
-                                    placeholder="Name"
+                                    placeholder={
+                                        // @ts-ignore
+                                        t("character_create.name")
+                                    }
                                     value={name}
                                     onChange={(e) => setName(e.target.value)}
                                 />
                             </div>
 
                             <div className="flex flex-col space-y-3 mt-3">
-                                <Label htmlFor="role">Role</Label>
+                                <Label htmlFor="role">
+                                    {
+                                        // @ts-ignore
+                                        t("character_create.role")
+                                    }
+                                </Label>
                                 <Select onValueChange={(value) => setRole(value)}>
                                     <SelectTrigger id="role">
-                                        <SelectValue placeholder="Warrior" />
+                                        <SelectValue placeholder={
+                                            // @ts-ignore
+                                            t("character_profile.class.warrior")
+                                        }/>
                                     </SelectTrigger>
                                     <SelectContent position="popper">
-                                        <SelectItem value="warrior">Warrior</SelectItem>
-                                        <SelectItem value="mage">Mage</SelectItem>
-                                        <SelectItem value="ranger">Ranger</SelectItem>
+                                        <SelectItem value="warrior">{
+                                            // @ts-ignore
+                                            t("character_profile.class.warrior")
+                                        }</SelectItem>
+                                        <SelectItem value="mage">{
+                                            // @ts-ignore
+                                            t("character_profile.class.mage")
+                                        }</SelectItem>
+                                        <SelectItem value="ranger">{
+                                            // @ts-ignore
+                                            t("character_profile.class.ranger")
+                                        }</SelectItem>
 
                                     </SelectContent>
                                 </Select>
                             </div>
                         </div>
                         <CardFooter className="p-0">
-                            <Button type="submit" className="font-semibold">Create Character</Button>
+                            <Button type="submit" className="font-semibold">{
+                                // @ts-ignore
+                                t("character_create.create_character")
+                            }</Button>
                         </CardFooter>
                     </form>
                 </CardContent>

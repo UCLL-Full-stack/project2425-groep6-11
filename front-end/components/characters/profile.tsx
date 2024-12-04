@@ -32,6 +32,7 @@ import {
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '../ui/carousel';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import WeaponService from '@/services/weaponService';
+import { useTranslation } from 'next-i18next';
 
 type ProfileProps = {
     character: Character;
@@ -44,6 +45,8 @@ const getAllQuests = async (): Promise<Quest[]> => {
 };
 
 const Profile = ({ character, onCharacterEdit }: ProfileProps) => {
+    const { t } = useTranslation();
+
     const [showSelect, setShowSelect] = useState(false);
     const [selectedName, setSelectedName] = useState(character._name);
     const [showQuests, setShowQuests] = useState<boolean>(false);
@@ -127,7 +130,10 @@ const Profile = ({ character, onCharacterEdit }: ProfileProps) => {
                                         <DotsHorizontalIcon />
                                     </DropdownMenuTrigger>
                                     <DropdownMenuContent className="w-56">
-                                        <DropdownMenuLabel>Actions</DropdownMenuLabel>
+                                        <DropdownMenuLabel>{
+                                            // @ts-ignore
+                                            t("character_profile.edit.actions")
+                                        }</DropdownMenuLabel>
                                         <DropdownMenuSeparator />
                                         <DropdownMenuGroup>
                                             <DropdownMenuItem onClick={async () => {
@@ -137,13 +143,19 @@ const Profile = ({ character, onCharacterEdit }: ProfileProps) => {
                                                 }
                                                 onCharacterEdit();
                                             }}>
-                                                Delete
+                                                {
+                                                    // @ts-ignore
+                                                    t("character_profile.edit.delete")
+                                                }
                                                 <DropdownMenuShortcut>
                                                     <TrashIcon className="text-red-500" />
                                                 </DropdownMenuShortcut>
                                             </DropdownMenuItem>
                                             <DropdownMenuItem onClick={toggleShowSelect}>
-                                                Edit
+                                                {
+                                                    // @ts-ignore
+                                                    t("character_profile.edit.edit")
+                                                }
                                                 <DropdownMenuShortcut>
                                                     <Pencil2Icon className="hover:cursor-pointer" />
                                                 </DropdownMenuShortcut>
@@ -152,7 +164,10 @@ const Profile = ({ character, onCharacterEdit }: ProfileProps) => {
                                         <DropdownMenuSeparator />
                                         <DropdownMenuGroup>
                                             <DropdownMenuItem onClick={_ => setShowQuests(!showQuests)}>
-                                                Quests
+                                                {
+                                                    // @ts-ignore
+                                                    t("character_profile.edit.quests")
+                                                }
                                                 <DropdownMenuShortcut>
                                                     {showQuests ? (
                                                         <BookmarkFilledIcon className="text-yellow-500" />
@@ -162,7 +177,10 @@ const Profile = ({ character, onCharacterEdit }: ProfileProps) => {
                                                 </DropdownMenuShortcut>
                                             </DropdownMenuItem>
                                             <DropdownMenuItem>
-                                                Currency
+                                                {
+                                                    // @ts-ignore
+                                                    t("character_profile.edit.currency")
+                                                }
                                                 <DropdownMenuShortcut>
                                                     <div className="flex items-center">
                                                         <CookieIcon />
@@ -185,7 +203,10 @@ const Profile = ({ character, onCharacterEdit }: ProfileProps) => {
                     <Separator />
                     <div className="mb-3">
                         <div className="grid grid-cols-2 py-4 items-center">
-                            <Label className="font-semibold">Mount</Label>
+                            <Label className="font-semibold">{
+                                // @ts-ignore
+                                t("character_profile.body.mount")
+                            }</Label>
                             <div>{character._mount ? (
                                 <>
                                     <Label className="font-semibold">{character._mount?._name}</Label>
@@ -199,15 +220,24 @@ const Profile = ({ character, onCharacterEdit }: ProfileProps) => {
                                         <HoverCardContent>
                                             <div className="grid grid-cols-3">
                                                 <div>
-                                                    <Label htmlFor="stats" className="font-semibold">Speed</Label>
+                                                    <Label htmlFor="stats" className="font-semibold">{
+                                                        // @ts-ignore
+                                                        t("mount_profile.stats.speed")
+                                                    }</Label>
                                                     <p>{character._mount._speed}</p>
                                                 </div>
                                                 <div>
-                                                    <Label htmlFor="stats" className="font-semibold">Legs</Label>
+                                                    <Label htmlFor="stats" className="font-semibold">{
+                                                        // @ts-ignore
+                                                        t("mount_profile.stats.legs")
+                                                    }</Label>
                                                     <p>{character._mount._legs}</p>
                                                 </div>
                                                 <div>
-                                                    <Label htmlFor="stats" className="font-semibold">Flying</Label>
+                                                    <Label htmlFor="stats" className="font-semibold">{
+                                                        // @ts-ignore
+                                                        t("mount_profile.stats.flying")
+                                                    }</Label>
                                                     <p>{character._mount._can_fly ? 'Yes' : 'No'}</p>
                                                 </div>
                                             </div>
@@ -222,7 +252,10 @@ const Profile = ({ character, onCharacterEdit }: ProfileProps) => {
                                 <Label htmlFor="Weapons" className="font-semibold">Weapons</Label>
                                 <Select onValueChange={value => handleWeaponChange(value)}>
                                     <SelectTrigger id="Weapons">
-                                        <SelectValue placeholder="Weapons" />
+                                        <SelectValue placeholder={
+                                            // @ts-ignore
+                                            t("header.weapons")
+                                        } />
                                     </SelectTrigger>
                                     <SelectContent position="popper">
                                         {character._weapons && character._weapons.map((weapon, index) => (
@@ -234,7 +267,10 @@ const Profile = ({ character, onCharacterEdit }: ProfileProps) => {
                             </div>
                         ) : (
                             <div className="grid grid-cols-2 py-4 items-center">
-                                <Label className="font-semibold">Weapon</Label>
+                                <Label className="font-semibold">{
+                                    // @ts-ignore
+                                    t("character_profile.body.weapon")
+                                }</Label>
                                 <p>{character._equipped ? (
                                     <>
                                         <Label className="font-semibold">{character._equipped?._name}</Label>
@@ -242,7 +278,7 @@ const Profile = ({ character, onCharacterEdit }: ProfileProps) => {
                                             <HoverCardTrigger asChild>
                                                 <Button
                                                     className="text-md p-0 shadow-none bg-transparent text-black hover:bg-transparent hover:underline underline-offset-4"><ExternalLinkIcon
-                                                    className="ml-1" /></Button>
+                                                    className="ml-1"/></Button>
                                             </HoverCardTrigger>
                                             <HoverCardContent>
                                                 <div className="grid grid-cols-2">
@@ -284,22 +320,27 @@ const Profile = ({ character, onCharacterEdit }: ProfileProps) => {
                                     <AccordionTrigger>{quest._title}</AccordionTrigger>
                                     <AccordionContent>
                                         <p className="mb-2">{quest._description}</p>
-                                        <Button onClick={_ => updateStats(quest._xp, quest._reward, quest._id)}>Complete!</Button>
+                                        <Button onClick={_ => updateStats(quest._xp, quest._reward, quest._id)}>{
+                                            // @ts-ignore
+                                            t("quests_create.complete")
+                                        }</Button>
                                     </AccordionContent>
                                 </AccordionItem>
                             ))
                             }
                         </Accordion>
                     ) : (
-                        <p>No quests here!</p>
+                        <p>
+                            {
+                                // @ts-ignore
+                                t("quests_create.no_quests")
+                            }
+                        </p>
                     )
                 )}
             </div>
-
         </div>
-
-    )
-        ;
+    );
 };
 
 const renderStat = (label: string, value: number) => (

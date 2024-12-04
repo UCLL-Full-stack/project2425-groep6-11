@@ -17,6 +17,7 @@ import { ChangeEvent } from 'react';
 import WeaponService from '@/services/weaponService';
 import MountService from '@/services/mountService';
 import { Input } from '@/components/ui/input';
+import { useTranslation } from 'next-i18next';
 
 
 type ProfileProps = {
@@ -25,6 +26,7 @@ type ProfileProps = {
 }
 
 function Profile({ mount, onMountEdit }: ProfileProps) {
+    const { t } = useTranslation();
     const [selectedName, setSelectedName] = React.useState(mount._name);
     const [showSelect, setShowSelect] = React.useState(false);
 
@@ -75,15 +77,24 @@ function Profile({ mount, onMountEdit }: ProfileProps) {
                         <Separator />
                         <div className="grid grid-cols-3">
                             <div>
-                                <Label htmlFor="stats" className="font-semibold">Legs</Label>
+                                <Label htmlFor="stats" className="font-semibold">{
+                                    // @ts-ignore
+                                    t("mount_profile.stats.legs")
+                                }</Label>
                                 <p>{mount._legs}</p>
                             </div>
                             <div>
-                                <Label htmlFor="stats" className="font-semibold">Speed</Label>
+                                <Label htmlFor="stats" className="font-semibold">{
+                                    // @ts-ignore
+                                    t("mount_profile.stats.speed")
+                                }</Label>
                                 <p>{mount._speed}</p>
                             </div>
                             <div>
-                                <Label htmlFor="stats" className="font-semibold">Flying</Label>
+                                <Label htmlFor="stats" className="font-semibold">{
+                                    // @ts-ignore
+                                    t("mount_profile.stats.flying")
+                                }</Label>
                                 <p>{mount._can_fly ? 'Yes' : 'No'}</p>
                             </div>
                         </div>

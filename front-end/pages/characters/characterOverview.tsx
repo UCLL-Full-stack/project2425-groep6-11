@@ -4,16 +4,22 @@ import ProfileCollection from '@/components/characters/profileCollection';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import Create from '@/components/characters/create';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
+import { useTranslation } from 'next-i18next';
 
 export default function CharacterOverview()  {
+    const { t } = useTranslation();
     return (
         <>
             <NavBar />
             <div className="flex justify-center">
                 <Tabs defaultValue="overview" className="w-[350px]">
                     <TabsList className="grid w-full grid-cols-2">
-                        <TabsTrigger value="overview">Overview</TabsTrigger>
-                        <TabsTrigger value="create">Create</TabsTrigger>
+                        <TabsTrigger value="overview">{
+                            // @ts-ignore
+                            t("character_profile.nav.overview")}</TabsTrigger>
+                        <TabsTrigger value="create">{
+                            // @ts-ignore
+                            t("character_profile.nav.create")}</TabsTrigger>
                     </TabsList>
                     <TabsContent value="overview">
                         <ProfileCollection />

@@ -13,9 +13,11 @@ import { Toaster } from '@/components/ui/toaster';
 import { Checkbox } from '@/components/ui/checkbox';
 import UserService from '@/services/userService';
 import { Separator } from '@/components/ui/separator';
+import { useTranslation } from 'next-i18next';
 
 function Login() {
     const { toast } = useToast()
+    const { t } = useTranslation()
 
     const [username, setUsername] = React.useState("");
     const [password, setPassword] = React.useState("");
@@ -61,10 +63,16 @@ function Login() {
                     <form onSubmit={handleSubmit}>
                         <div className="my-5">
                             <div className="flex flex-col space-y-3">
-                                <Label htmlFor="username">Username</Label>
+                                <Label htmlFor="username">{
+                                    // @ts-ignore
+                                    t("account.username")
+                                }</Label>
                                 <Input
                                     id="username"
-                                    placeholder="Username"
+                                    placeholder={
+                                    // @ts-ignore
+                                    t("account.username")
+                                }
                                     value={username}
                                     onChange={(e) => setUsername(e.target.value)}
                                 />
@@ -73,10 +81,16 @@ function Login() {
 
                         <div className="my-5">
                             <div className="flex flex-col space-y-3">
-                                <Label htmlFor="password">Password</Label>
+                                <Label htmlFor="password">{
+                                    // @ts-ignore
+                                    t("account.password")
+                                }</Label>
                                 <Input
                                     id="password"
-                                    placeholder="Password"
+                                    placeholder={
+                                        // @ts-ignore
+                                        t("account.password")
+                                    }
                                     value={password}
                                     type='password'
                                     onChange={(e) => setPassword(e.target.value)}
@@ -85,7 +99,10 @@ function Login() {
                         </div>
                         <Separator className="my-4"/>
                         <CardFooter className="p-0">
-                            <Button type="submit" className="font-semibold">Login</Button>
+                            <Button type="submit" className="font-semibold">{
+                                // @ts-ignore
+                                t("account.login")
+                            }</Button>
                         </CardFooter>
                     </form>
                 </CardContent>

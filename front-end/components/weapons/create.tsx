@@ -22,9 +22,11 @@ import CharacterService from '@/services/characterService';
 import { useToast } from '@/hooks/use-toast';
 import WeaponService from '@/services/weaponService';
 import { Toaster } from '@/components/ui/toaster';
+import { useTranslation } from 'next-i18next';
 
 function Create() {
     const { toast } = useToast()
+    const { t } = useTranslation()
 
     const [name, setName] = React.useState("");
     const [role, setRole] = React.useState("Sword");
@@ -73,31 +75,55 @@ function Create() {
                     <form onSubmit={handleSubmit}>
                         <div className="my-5">
                             <div className="flex flex-col space-y-3">
-                                <Label htmlFor="name">Name</Label>
+                                <Label htmlFor="name">{
+                                    // @ts-ignore
+                                    t("weapon_craft.name")
+                                }</Label>
                                 <Input
                                     id="name"
-                                    placeholder="Name"
+                                    placeholder={
+                                        // @ts-ignore
+                                        t("weapon_craft.name")
+                                    }
                                     value={name}
                                     onChange={(e) => setName(e.target.value)}
                                 />
                             </div>
 
                             <div className="flex flex-col space-y-3 mt-3">
-                                <Label htmlFor="type">Type</Label>
+                                <Label htmlFor="type">{
+                                    // @ts-ignore
+                                    t("weapon_craft.type")
+                                }</Label>
                                 <Select onValueChange={(value) => setRole(value)}>
                                     <SelectTrigger id="type">
-                                        <SelectValue placeholder="Sword" />
+                                        <SelectValue placeholder={
+                                            // @ts-ignore
+                                            t("weapon_profile.type.sword")
+                                        }/>
                                     </SelectTrigger>
                                     <SelectContent position="popper">
-                                        <SelectItem value="sword">Sword</SelectItem>
-                                        <SelectItem value="staff">Staff</SelectItem>
-                                        <SelectItem value="bow">Bow</SelectItem>
+                                        <SelectItem value="sword">{
+                                            // @ts-ignore
+                                            t("weapon_profile.type.sword")
+                                        }</SelectItem>
+                                        <SelectItem value="staff">{
+                                            // @ts-ignore
+                                            t("weapon_profile.type.staff")
+                                        }</SelectItem>
+                                        <SelectItem value="bow">{
+                                            // @ts-ignore
+                                            t("weapon_profile.type.bow")
+                                        }</SelectItem>
                                     </SelectContent>
                                 </Select>
                             </div>
                         </div>
                         <CardFooter className="p-0">
-                            <Button type="submit" className="font-semibold">Craft weapon</Button>
+                            <Button type="submit" className="font-semibold">{
+                                // @ts-ignore
+                                t("weapon_craft.craft_weapon")
+                            }</Button>
                         </CardFooter>
                     </form>
                 </CardContent>

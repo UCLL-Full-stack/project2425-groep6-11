@@ -15,9 +15,11 @@ import { useState } from 'react';
 import QuestService from '@/services/questService';
 import { Textarea } from '@/components/ui/textarea';
 import { Slider } from '@/components/ui/slider';
+import { useTranslation } from 'next-i18next';
 
 function Create() {
     const { toast } = useToast()
+    const { t } = useTranslation()
 
     const [title, setTitle] = useState("");
     const [description, setDescription] = useState("");
@@ -63,18 +65,30 @@ function Create() {
                     <form onSubmit={handleSubmit}>
                         <div className="my-5">
                             <div className="flex flex-col space-y-3">
-                                <Label htmlFor="Title">Title</Label>
+                                <Label htmlFor="Title">{
+                                    // @ts-ignore
+                                    t("quests_create.title")
+                                }</Label>
                                 <Input
                                     id="Title"
-                                    placeholder="Death from above!"
+                                    placeholder={
+                                        // @ts-ignore
+                                        t("quests_create.title_placeholder")
+                                    }
                                     value={title}
                                     onChange={(e) => setTitle(e.target.value)}
                                 />
                             </div>
 
                             <div className="flex flex-col space-y-3 mt-3">
-                                <Label htmlFor="type">Description</Label>
-                                <Textarea placeholder="Kill 10 Hell Hornets!" onChange={(e) => setDescription(e.target.value)} />
+                                <Label htmlFor="type">{
+                                    // @ts-ignore
+                                    t("quests_create.description")
+                                }</Label>
+                                <Textarea placeholder={
+                                    // @ts-ignore
+                                    t("quests_create.description_placeholder")
+                                } onChange={(e) => setDescription(e.target.value)} />
                             </div>
                             <div className="grid grid-cols-2 gap-10 mt-4">
                                 <div className="flex flex-col gap-3">
@@ -84,7 +98,10 @@ function Create() {
                                 </div>
 
                                 <div className="flex flex-col gap-3">
-                                    <Label htmlFor="reward">Reward: {reward}</Label>
+                                    <Label htmlFor="reward">{
+                                        // @ts-ignore
+                                        t("quests_create.reward")
+                                    }: {reward}</Label>
                                     <Slider defaultValue={[reward]} max={100} step={1}
                                             onValueChange={value => handleChangeReward(value[0])} />
                                 </div>
@@ -92,7 +109,10 @@ function Create() {
 
                         </div>
                         <CardFooter className="p-0">
-                            <Button type="submit" className="font-semibold">Create quest</Button>
+                            <Button type="submit" className="font-semibold">{
+                                // @ts-ignore
+                                t("quests_create.create_quest")
+                            }</Button>
                         </CardFooter>
                     </form>
                 </CardContent>

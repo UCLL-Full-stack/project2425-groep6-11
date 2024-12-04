@@ -17,6 +17,7 @@ import WeaponService from '@/services/weaponService';
 import { ChangeEvent } from 'react';
 import CharacterService from '@/services/characterService';
 import { Input } from '@/components/ui/input';
+import { useTranslation } from 'next-i18next';
 
 type ProfileProps = {
     weapon: Weapon,
@@ -26,6 +27,7 @@ type ProfileProps = {
 
 
 function Profile({ weapon, onWeaponEdit }: ProfileProps) {
+    const { t } = useTranslation()
     const [selectedName, setSelectedName] = React.useState(weapon._name);
     const [showSelect, setShowSelect] = React.useState(false);
 
@@ -80,7 +82,10 @@ function Profile({ weapon, onWeaponEdit }: ProfileProps) {
                                 <p>{weapon._damage}</p>
                             </div>
                             <div>
-                                <Label htmlFor="stats" className="font-semibold">Quality</Label>
+                                <Label htmlFor="stats" className="font-semibold">{
+                                    // @ts-ignore
+                                    t("weapon_profile.quality")
+                                }</Label>
                                 <p>{weapon._quality}</p>
                             </div>
                         </div>

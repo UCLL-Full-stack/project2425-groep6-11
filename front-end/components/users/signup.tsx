@@ -13,9 +13,11 @@ import { Toaster } from '@/components/ui/toaster';
 import { Checkbox } from '@/components/ui/checkbox';
 import UserService from '@/services/userService';
 import { Separator } from '@/components/ui/separator';
+import { useTranslation } from 'next-i18next';
 
 function SignUp() {
     const { toast } = useToast()
+    const { t } = useTranslation()
 
     const [username, setUsername] = React.useState("");
     const [password, setPassword] = React.useState("");
@@ -61,10 +63,16 @@ function SignUp() {
                     <form onSubmit={handleSubmit}>
                         <div className="my-5">
                             <div className="flex flex-col space-y-3">
-                                <Label htmlFor="username">Username</Label>
+                                <Label htmlFor="username">{
+                                    // @ts-ignore
+                                    t("account.username")
+                                }</Label>
                                 <Input
                                     id="username"
-                                    placeholder="Username"
+                                    placeholder={
+                                        // @ts-ignore
+                                        t("account.username")
+                                    }
                                     value={username}
                                     onChange={(e) => setUsername(e.target.value)}
                                 />
@@ -73,10 +81,16 @@ function SignUp() {
 
                         <div className="my-5">
                             <div className="flex flex-col space-y-3">
-                                <Label htmlFor="password">Password</Label>
+                                <Label htmlFor="password">{
+                                    // @ts-ignore
+                                    t("account.password")
+                                }</Label>
                                 <Input
                                     id="password"
-                                    placeholder="Password"
+                                    placeholder={
+                                        // @ts-ignore
+                                        t("account.password")
+                                    }
                                     value={password}
                                     type='password'
                                     onChange={(e) => setPassword(e.target.value)}
@@ -86,10 +100,16 @@ function SignUp() {
 
                         <div className="my-5">
                             <div className="flex flex-col space-y-3">
-                                <Label htmlFor="email">Email</Label>
+                                <Label htmlFor="email">{
+                                    // @ts-ignore
+                                    t("account.email")
+                                }</Label>
                                 <Input
                                     id="email"
-                                    placeholder="Email"
+                                    placeholder={
+                                        // @ts-ignore
+                                        t("account.email")
+                                    }
                                     value={email}
                                     onChange={(e) => setEmail(e.target.value)}
                                 />
@@ -99,11 +119,17 @@ function SignUp() {
                         <Separator/>
                         <div className="flex gap-1 my-5">
                             <Checkbox id="role" checked={isAdmin} onCheckedChange={handleChange}/>
-                            <Label htmlFor="role">Enroll as game master</Label>
+                            <Label htmlFor="role">{
+                                // @ts-ignore
+                                t("account.enroll_gm")
+                            }</Label>
                         </div>
 
                         <CardFooter className="p-0">
-                            <Button type="submit" className="font-semibold">Sign up</Button>
+                            <Button type="submit" className="font-semibold">{
+                                // @ts-ignore
+                                t("account.sign_up")
+                            }</Button>
                         </CardFooter>
                     </form>
                 </CardContent>

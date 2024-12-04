@@ -27,9 +27,11 @@ import MountService from '@/services/mountService';
 import { Toaster } from '@/components/ui/toaster';
 import CharacterService from '@/services/characterService';
 import { Character, Mount } from '@/types';
+import { useTranslation } from 'next-i18next';
 
 function Create() {
     const { toast } = useToast()
+    const { t } = useTranslation()
 
     const [name, setName] = useState("");
     const [type, setType] = useState("Hound");
@@ -96,42 +98,72 @@ function Create() {
                     <form onSubmit={handleSubmit}>
                         <div className="my-5">
                             <div className="flex flex-col space-y-3">
-                                <Label htmlFor="name">Name</Label>
+                                <Label htmlFor="name">{
+                                    // @ts-ignore
+                                    t("mount_create.name")
+                                }</Label>
                                 <Input
                                     id="name"
-                                    placeholder="Name"
+                                    placeholder={
+                                        // @ts-ignore
+                                        t("mount_create.name")
+                                    }
                                     value={name}
                                     onChange={(e) => setName(e.target.value)}
                                 />
                             </div>
 
                             <div className="flex flex-col space-y-3 mt-3">
-                                <Label htmlFor="type">Type</Label>
+                                <Label htmlFor="type">{
+                                    // @ts-ignore
+                                    t("mount_create.type")
+                                }</Label>
                                 <Select onValueChange={(value) => setType(value)}>
                                     <SelectTrigger id="type">
-                                        <SelectValue placeholder="Type"/>
+                                        <SelectValue placeholder={
+                                            // @ts-ignore
+                                            t("mount_create.type")
+                                        }/>
                                     </SelectTrigger>
                                     <SelectContent position="popper">
-                                        <SelectItem value="hound">Hound</SelectItem>
-                                        <SelectItem value="pegasus">Pegasus</SelectItem>
-                                        <SelectItem value="drake">Drake</SelectItem>
+                                        <SelectItem value="hound">{
+                                            // @ts-ignore
+                                            t("mount_profile.base.hound")
+                                        }</SelectItem>
+                                        <SelectItem value="pegasus">{
+                                            // @ts-ignore
+                                            t("mount_profile.base.pegasus")
+                                        }</SelectItem>
+                                        <SelectItem value="drake">{
+                                            // @ts-ignore
+                                            t("mount_profile.base.drake")
+                                        }</SelectItem>
                                     </SelectContent>
                                 </Select>
                             </div>
                             <div className="flex flex-col gap-3 mt-3">
-                                <Label htmlFor="role">Legs: {legs}</Label>
+                                <Label htmlFor="role">{
+                                    // @ts-ignore
+                                    t("mount_create.legs")
+                                }: {legs}</Label>
                                 <Slider defaultValue={[legs]} max={8} step={2}
                                         onValueChange={value => handleChangeLegs(value[0])} />
                             </div>
                             <Separator className="my-5" />
                             <div className="flex gap-1 mt-5">
                                 <Checkbox id="canFly" checked={can_fly} onCheckedChange={handleChangeSetFly}/>
-                                <Label htmlFor="canFly">My mount can fly!</Label>
+                                <Label htmlFor="canFly">{
+                                    // @ts-ignore
+                                    t("mount_create.can_fly")
+                                }</Label>
                             </div>
 
                         </div>
                         <CardFooter className="p-0">
-                            <Button type="submit" className="font-semibold">Craft mount</Button>
+                            <Button type="submit" className="font-semibold">{
+                                // @ts-ignore
+                                t("mount_create.craft_mount")
+                            }</Button>
                         </CardFooter>
                     </form>
                 </CardContent>

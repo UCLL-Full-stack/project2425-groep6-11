@@ -1,0 +1,102 @@
+{
+  "account": {
+    "welcome_message": "WebMMOへようこそ！",
+    "login": "ログイン",
+    "logout": "ログアウト",
+    "sign_up": "サインアップ",
+    "role": "役割",
+    "account": "アカウント",
+    "username": "ユーザー名",
+    "password": "パスワード",
+    "email": "メール",
+    "enroll_gm": "ゲームマスターとして登録"
+  },
+  "header": {
+    "profile": "プロフィール",
+    "weapons": "武器",
+    "mount": "乗り物",
+    "quests": "クエスト",
+    "home": "ホーム",
+    "language": "言語"
+  },
+  "character_profile": {
+    "nav": {
+      "overview": "概要",
+      "create": "作成"
+    },
+    "edit": {
+      "actions": "アクション",
+      "delete": "削除",
+      "edit": "編集",
+      "quests": "クエスト",
+      "currency": "通貨"
+    },
+    "class": {
+      "warrior": "戦士",
+      "mage": "魔法使い",
+      "ranger": "レンジャー"
+    },
+    "body": {
+      "mount": "乗り物",
+      "weapon": "武器"
+    }
+  },
+  "character_create": {
+    "name": "名前",
+    "role": "役割",
+    "create_character": "キャラクターを作成"
+  },
+  "weapon_profile": {
+    "nav": {
+      "overview": "概要",
+      "craft": "作成"
+    },
+    "type": {
+      "sword": "剣",
+      "staff": "杖",
+      "bow": "弓"
+    },
+    "quality": "品質"
+  },
+  "weapon_craft": {
+    "name": "名前",
+    "type": "タイプ",
+    "craft_weapon": "武器を作成"
+  },
+  "mount_profile": {
+    "base": {
+      "pegasus": "ペガサス",
+      "drake": "ドラゴン",
+      "hound": "猟犬"
+    },
+    "stats": {
+      "legs": "脚",
+      "speed": "速度",
+      "flying": "飛行"
+    }
+  },
+  "mount_create": {
+    "name": "名前",
+    "type": "タイプ",
+    "legs": "脚",
+    "can_fly": "私の乗り物は飛べます！",
+    "craft_mount": "乗り物を作成"
+  },
+  "quests_profile": {
+    "nav": {
+      "overview": "概要",
+      "create": "作成"
+    },
+    "accept_quest": "クエストを受ける！"
+  },
+  "quests_create": {
+    "title": "タイトル",
+    "title_placeholder": "空からの死！",
+    "description": "説明",
+    "description_placeholder": "ヘルホーネットを10匹倒せ！",
+    "reward": "報酬",
+    "create_quest": "クエストを作成",
+    "complete": "完了！",
+    "no_quests": "ここにクエストはありません！"
+  }
+}

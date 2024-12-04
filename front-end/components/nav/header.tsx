@@ -27,8 +27,11 @@ import {
 } from '@radix-ui/react-icons';
 import CharacterService from '@/services/characterService';
 import Language from '@/components/nav/language';
+import { useTranslation } from 'next-i18next';
 
 function NavBar(): ReactElement {
+    const { t } = useTranslation();
+
     const [username, setUsername] = useState<string | null>(null);
     const [role, setRole] = useState<string | null>(null);
 
@@ -59,7 +62,10 @@ function NavBar(): ReactElement {
                                 className={navigationMenuTriggerStyle()}
                                 href="/"
                             >
-                                Welcome @ WebMMO!
+                                {
+                                    // @ts-ignore
+                                    t("header.home")
+                                }
                             </NavigationMenuLink>
                         </NavigationMenuItem>
                     ) : (
@@ -67,9 +73,23 @@ function NavBar(): ReactElement {
                             <NavigationMenuItem>
                                 <NavigationMenuLink
                                     className={navigationMenuTriggerStyle()}
+                                    href="/"
+                                >
+                                    {
+                                        // @ts-ignore
+                                        t("header.home")
+                                    }
+                                </NavigationMenuLink>
+                            </NavigationMenuItem>
+                            <NavigationMenuItem>
+                                <NavigationMenuLink
+                                    className={navigationMenuTriggerStyle()}
                                     href="/characters/characterOverview"
                                 >
-                                    Profile
+                                    {
+                                        // @ts-ignore
+                                        t("header.profile")
+                                    }
                                 </NavigationMenuLink>
                             </NavigationMenuItem>
                             <NavigationMenuItem>
@@ -77,7 +97,10 @@ function NavBar(): ReactElement {
                                     className={navigationMenuTriggerStyle()}
                                     href="/weapons/weaponOverview"
                                 >
-                                    Weapons
+                                    {
+                                        // @ts-ignore
+                                        t("header.weapons")
+                                    }
                                 </NavigationMenuLink>
                             </NavigationMenuItem>
                             <NavigationMenuItem>
@@ -85,7 +108,10 @@ function NavBar(): ReactElement {
                                     className={navigationMenuTriggerStyle()}
                                     href="/mounts/mountOverview"
                                 >
-                                    Mount
+                                    {
+                                        // @ts-ignore
+                                        t("header.mount")
+                                    }
                                 </NavigationMenuLink>
                             </NavigationMenuItem>
                             <NavigationMenuItem>
@@ -93,7 +119,10 @@ function NavBar(): ReactElement {
                                     className={navigationMenuTriggerStyle()}
                                     href="/quests/questOverview"
                                 >
-                                    Quests
+                                    {
+                                        // @ts-ignore
+                                        t("header.quests")
+                                    }
                                 </NavigationMenuLink>
                             </NavigationMenuItem>
                             <NavigationMenuItem>
@@ -106,19 +135,40 @@ function NavBar(): ReactElement {
                                             <div>{username}</div>
                                         </DropdownMenuTrigger>
                                         <DropdownMenuContent className="w-56">
-                                            <DropdownMenuLabel>Account</DropdownMenuLabel>
+                                            <DropdownMenuLabel>{
+                                                // @ts-ignore
+                                                t("account.account")
+                                            }</DropdownMenuLabel>
                                             <DropdownMenuSeparator />
                                             <DropdownMenuGroup>
-                                                <DropdownMenuItem onClick={handleLogout}>
-                                                    Log out
+                                                <DropdownMenuItem>
+                                                    {
+                                                        // @ts-ignore
+                                                        t("account.role")
+                                                    }
                                                     <DropdownMenuShortcut>
-                                                        <ExitIcon className="hover:cursor-pointer" />
+                                                        {role === 'game master' ? <Badge>GM</Badge> : <Badge>P</Badge>}
                                                     </DropdownMenuShortcut>
                                                 </DropdownMenuItem>
-                                                <DropdownMenuItem onClick={handleLogout}>
-                                                    Role
+                                                <DropdownMenuItem>
+                                                    {
+                                                        // @ts-ignore
+                                                        t("header.language")
+                                                    }
                                                     <DropdownMenuShortcut>
-                                                        {role === 'game master' ? <Badge className="px-4">GM</Badge> : <Badge className="px-4">P</Badge>}
+                                                        <Language/>
+                                                    </DropdownMenuShortcut>
+                                                </DropdownMenuItem>
+                                            </DropdownMenuGroup>
+                                            <DropdownMenuSeparator/>
+                                            <DropdownMenuGroup>
+                                                <DropdownMenuItem onClick={handleLogout}>
+                                                    {
+                                                        // @ts-ignore
+                                                        t("account.logout")
+                                                    }
+                                                    <DropdownMenuShortcut>
+                                                        <ExitIcon className="hover:cursor-pointer" />
                                                     </DropdownMenuShortcut>
                                                 </DropdownMenuItem>
                                             </DropdownMenuGroup>
@@ -126,7 +176,6 @@ function NavBar(): ReactElement {
                                     </DropdownMenu>
                                 </NavigationMenuLink>
                             </NavigationMenuItem>
-                            <Language/>
                         </>
                     )}
                 </NavigationMenuList>

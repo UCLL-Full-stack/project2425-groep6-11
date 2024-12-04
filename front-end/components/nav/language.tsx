@@ -14,12 +14,12 @@ function Language() {
 
     return (
         <Select onValueChange={handleLanguageChange} value={locale}>
-            <SelectTrigger className="w-[75px]">
+            <SelectTrigger className="w-[60px]">
                 <SelectValue placeholder="Theme" />
             </SelectTrigger>
             <SelectContent>
                 <SelectItem value="en">EN</SelectItem>
-                <SelectItem value="de">DE</SelectItem>
+                <SelectItem value="jp">JP</SelectItem>
             </SelectContent>
         </Select>
     )

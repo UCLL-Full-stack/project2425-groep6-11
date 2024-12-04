@@ -19,6 +19,7 @@ import MountService from '@/services/mountService';
 import QuestService from '@/services/questService';
 import { Input } from '@/components/ui/input';
 import { ChangeEvent } from 'react';
+import { useTranslation } from 'next-i18next';
 
 type ProfileProps = {
     quest: Quest;
@@ -51,6 +52,8 @@ const handleAcceptQuest = async (characterId: string | null, questId: number) =>
 };
 
 function Profile({ quest, onQuestEdit }: ProfileProps) {
+    const { t } = useTranslation()
+
     const [showSelect, setShowSelect] = React.useState<boolean>(false);
     const [selectedTitle, setSelectedTitle] = React.useState(quest._title);
     const [selectedDescription, setSelectedDescription] = React.useState(quest._description);
@@ -137,7 +140,10 @@ function Profile({ quest, onQuestEdit }: ProfileProps) {
                 <CardContent>
                     <div className="grid w-full items-center gap-4">
                         <Separator />
-                        <Button onClick={handleClick}>Accept quest!</Button>
+                        <Button onClick={handleClick}>{
+                            // @ts-ignore
+                            t("quests_profile.accept_quest")
+                        }</Button>
                     </div>
                 </CardContent>
             </Card>
