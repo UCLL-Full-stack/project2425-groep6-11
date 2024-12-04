@@ -1,0 +1,85 @@
+{
+  "account": {
+    "welcome_message": "Welcome @ WebMMO!",
+    "login": "Login",
+    "logout": "Logout",
+    "sign_up": "Sign up",
+    "role": "Role"
+  },
+  "header": {
+    "profile": "Profile",
+    "weapons": "Weapons",
+    "mount": "Mount",
+    "quests": "Quests"
+  },
+  "character_profile": {
+    "nav": {
+      "overview": "Overview",
+      "create": "Create"
+    },
+    "class": {
+      "warrior": "Warrior",
+      "mage": "Mage",
+      "ranger": "Ranger"
+    },
+    "body": {
+      "mount": "Mount",
+      "weapon": "Weapon"
+    }
+  },
+  "character_create": {
+    "name": "Name",
+    "role": "Role",
+    "create_character": "Create character"
+  },
+  "weapon_profile": {
+    "nav": {
+      "overview": "Overview",
+      "craft": "Craft"
+    },
+    "type": {
+      "sword": "Sword",
+      "staff": "Staff",
+      "bow": "Bow"
+    }
+  },
+  "weapon_craft": {
+    "name": "Name",
+    "type": "Type",
+    "craft_weapon": "Craft weapon"
+  },
+  "mount_profile": {
+    "base": {
+      "pegasus": "Pegasus",
+      "drake": "Drake",
+      "hound": "Hound"
+    },
+    "stats": {
+      "legs": "Legs",
+      "speed": "Speed",
+      "flying": "Flying"
+    }
+  },
+  "mount_create": {
+    "name": "Name",
+    "type": "Type",
+    "legs": "Legs",
+    "can_fly": "My mount can fly!",
+    "craft_mount": "Craft mount"
+  },
+  "quests_profile": {
+    "nav": {
+      "overview": "Overview",
+      "create": "Create"
+    },
+    "accept_quest": "Accept quest!"
+  },
+  "quests_create": {
+    "title": "Title",
+    "title_placeholder": "Death from above!",
+    "description": "Description",
+    "description_placeholder": "Kill 10 Hell Hornets!",
+    "reward": "Reward",
+    "create_quest": "Create quest"
+  }
+}

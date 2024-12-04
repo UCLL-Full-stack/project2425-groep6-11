@@ -1,0 +1,77 @@
+{
+  "account": {
+    "welcome_message": "Willkommen @ WebMMO!",
+    "login": "Anmelden",
+    "logout": "Abmelden",
+    "sign_up": "Registrieren",
+    "role": "Rolle"
+  },
+  "header": {
+    "profile": "Profil",
+    "weapons": "Waffen",
+    "mount": "Reittier",
+    "quests": "Quests"
+  },
+  "character_profile": {
+    "nav": {
+      "overview": "Übersicht",
+      "create": "Erstellen"
+    },
+    "class": {
+      "warrior": "Krieger",
+      "mage": "Magier",
+      "ranger": "Waldläufer"
+    },
+    "body": {
+      "mount": "Reittier",
+      "weapon": "Waffe"
+    }
+  },
+  "character_create": {
+    "name": "Name",
+    "role": "Rolle",
+    "create_character": "Charakter erstellen"
+  },
+  "weapon_profile": {
+    "type": {
+      "sword": "Schwert",
+      "staff": "Stab",
+      "bow": "Bogen"
+    }
+  },
+  "weapon_craft": {
+    "name": "Name",
+    "type": "Typ",
+    "craft_weapon": "Waffe herstellen"
+  },
+  "mount_profile": {
+    "base": {
+      "pegasus": "Pegasus",
+      "drake": "Drache",
+      "hound": "Hund"
+    },
+    "stats": {
+      "legs": "Beine",
+      "speed": "Geschwindigkeit",
+      "flying": "Fliegend"
+    }
+  },
+  "mount_create": {
+    "name": "Name",
+    "type": "Typ",
+    "legs": "Beine",
+    "can_fly": "Mein Reittier kann fliegen!",
+    "craft_mount": "Reittier herstellen"
+  },
+  "quests_profile": {
+    "accept_quest": "Quest annehmen!"
+  },
+  "quests_create": {
+    "title": "Titel",
+    "title_placeholder": "Tod von oben!",
+    "description": "Beschreibung",
+    "description_placeholder": "Töte 10 Höllenwespen!",
+    "reward": "Belohnung",
+    "create_quest": "Quest erstellen"
+  }
+}

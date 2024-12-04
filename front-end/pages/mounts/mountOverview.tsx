@@ -3,8 +3,9 @@ import NavBar from '@/components/nav/header';
 import ProfileCollection from '@/components/mounts/profileCollection';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import Create from '@/components/mounts/create';
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 
-const CharacterOverview: React.FC = () => {
+export default function MountOverview() {
     return (
         <>
             <NavBar />
@@ -26,4 +27,13 @@ const CharacterOverview: React.FC = () => {
     );
 }
 
-export default CharacterOverview;
+// @ts-ignore
+export const getServerSideProps = async (context) => {
+    const { locale } = context;
+
+    return {
+        props: {
+            ...(await serverSideTranslations(locale ?? "en", ["common"])),
+        },
+    };
+}

@@ -26,6 +26,7 @@ import {
     TrashIcon
 } from '@radix-ui/react-icons';
 import CharacterService from '@/services/characterService';
+import Language from '@/components/nav/language';
 
 function NavBar(): ReactElement {
     const [username, setUsername] = useState<string | null>(null);
@@ -58,7 +59,7 @@ function NavBar(): ReactElement {
                                 className={navigationMenuTriggerStyle()}
                                 href="/"
                             >
-                                Start here!
+                                Welcome @ WebMMO!
                             </NavigationMenuLink>
                         </NavigationMenuItem>
                     ) : (
@@ -101,7 +102,7 @@ function NavBar(): ReactElement {
                                     href="#"
                                 >
                                     <DropdownMenu>
-                                        <DropdownMenuTrigger asChild className="m-1 p-0.5">
+                                        <DropdownMenuTrigger asChild>
                                             <div>{username}</div>
                                         </DropdownMenuTrigger>
                                         <DropdownMenuContent className="w-56">
@@ -125,6 +126,7 @@ function NavBar(): ReactElement {
                                     </DropdownMenu>
                                 </NavigationMenuLink>
                             </NavigationMenuItem>
+                            <Language/>
                         </>
                     )}
                 </NavigationMenuList>
