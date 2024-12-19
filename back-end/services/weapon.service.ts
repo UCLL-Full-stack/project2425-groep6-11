@@ -19,6 +19,10 @@ async function createWeapon(id: number, { name, type }: WeaponDTO): Promise<Weap
         const damage = Math.floor((Math.random() * 60) + 1);
         const quality = Math.floor((Math.random() * 100) + 1);
 
+        if (!id) {
+                throw new Error('You must have a character to craft a weapon!')
+        }
+
         if (!name || !type) {
                 throw new Error('Invalid data: name and type are required for weapon creation.');
         }

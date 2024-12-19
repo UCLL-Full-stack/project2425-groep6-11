@@ -11,7 +11,7 @@ export default function QuestOverview() {
     const [role, setRole] = useState<string | null>(null);
 
     useEffect(() => {
-        const storedRole = localStorage.getItem('role');
+        const storedRole = sessionStorage.getItem('role');
         setRole(storedRole);
     }, []);
 

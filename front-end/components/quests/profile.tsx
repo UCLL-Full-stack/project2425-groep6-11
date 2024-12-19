@@ -13,9 +13,8 @@ import { Quest } from "@/types";
 import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";
 import CharacterService from "@/services/characterService";
-import { toast, useToast } from '@/hooks/use-toast';
+import { useToast } from '@/hooks/use-toast';
 import { Toaster } from "@/components/ui/toaster";
-import MountService from '@/services/mountService';
 import QuestService from '@/services/questService';
 import { Input } from '@/components/ui/input';
 import { ChangeEvent } from 'react';
@@ -26,40 +25,39 @@ type ProfileProps = {
     onQuestEdit: () => void;
 };
 
-const handleAcceptQuest = async (characterId: string | null, questId: number) => {
-    if (!characterId) {
-        toast({
-            title: "Error",
-            description: "Character ID not found.",
-        });
-        return;
-    }
-
-    try {
-        await CharacterService.acceptQuest(Number(characterId), questId);
-        toast({
-            title: "Quest accepted!",
-        });
-    } catch (error) {
-        toast({
-            title: "Error",
-            description: "Failed to accept quest.",
-            variant: "destructive"
-        });
-
-        console.error(error);
-    }
-};
 
 function Profile({ quest, onQuestEdit }: ProfileProps) {
+    const { toast } = useToast()
     const { t } = useTranslation()
 
     const [showSelect, setShowSelect] = React.useState<boolean>(false);
     const [selectedTitle, setSelectedTitle] = React.useState(quest._title);
     const [selectedDescription, setSelectedDescription] = React.useState(quest._description);
 
-    const { _id, _title, _xp, _reward, _description } = quest;
-    const characterId = React.useMemo(() => localStorage.getItem("id"), []);
+    const handleAcceptQuest = async (characterId: string | null, questId: number) => {
+        if (!characterId) {
+            toast({
+                title: "Error",
+                description: "Character ID not found.",
+            });
+            return;
+        }
+
+        try {
+            await CharacterService.acceptQuest(Number(characterId), questId);
+            toast({
+                title: "Quest accepted!",
+            });
+        } catch (error) {
+            toast({
+                title: "Error accepting quest",
+                description: `${error}`,
+                variant: "destructive"
+            });
+
+            console.error(error);
+        }
+    };
 
     const handleNameChange = async (e: ChangeEvent<HTMLInputElement>) => {
         const newTitle = e.target.value;
@@ -91,14 +89,31 @@ function Profile({ quest, onQuestEdit }: ProfileProps) {
         setShowSelect((prev) => !prev);
     };
 
-    const handleClick = () => {
-        if (_id && characterId) {
-            handleAcceptQuest(characterId, _id).then(_ => console.log("Accepting quest..."));
+    const handleClick = async () => {
+        const userId = sessionStorage.getItem("id");
+        const character = await CharacterService.getCharacterByUserId(Number(userId));
+
+        if (quest._id && character) {
+            try {
+                handleAcceptQuest(character._id, quest._id).then(_ => console.log("Accepting quest..."));
+            } catch (error) {
+                toast({
+                    title: "Accepting quest failed",
+                    description: `${error}`,
+                    variant: "destructive",
+                });
+            }
+        } else {
+            toast({
+                title: "Create a character first!",
+                description: "No character to accept quest.",
+                variant: "destructive"
+            });
         }
     };
 
     return (
-        <div>
+        <div className="flex justify-center">
             <Card className="my-1 w-[350px]">
                 <CardHeader>
                     <CardTitle>
@@ -110,12 +125,12 @@ function Profile({ quest, onQuestEdit }: ProfileProps) {
                     </CardTitle>
                     <CardDescription className="pt-1">
                         <div className="flex gap-2">
-                            <Badge>{_xp}XP</Badge>
+                            <Badge>{quest._xp}XP</Badge>
                             <Badge>
-                                <span className="mx-1">{_reward}</span>
+                                <span className="mx-1">{quest._reward}</span>
                                 <CookieIcon />
                             </Badge>
-                            {localStorage.getItem('role') === 'game master' && (
+                            {sessionStorage.getItem('role') === 'game master' && (
                                 <div className="flex gap-2">
                                     <Pencil2Icon className="mt-1 hover:cursor-pointer" onClick={toggleShowSelect}/>
                                     <TrashIcon onClick={async () => {
@@ -147,10 +162,9 @@ function Profile({ quest, onQuestEdit }: ProfileProps) {
                     </div>
                 </CardContent>
             </Card>
-            <Toaster />
+            <Toaster/>
         </div>
-
-);
+    );
 }
 
 export default Profile;

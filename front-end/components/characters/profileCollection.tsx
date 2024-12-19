@@ -5,11 +5,15 @@ import { Character } from '@/types';
 import Profile from "./profile";
 
 const getCharacterById = async (): Promise<Character | undefined> => {
-    const id = localStorage.getItem('id');
+    const id = sessionStorage.getItem('id');
     if (id) {
-        const character = await CharacterService.getCharacterByUserId(Number(id)) || undefined;
-        console.log(character);
-        return character;
+        try {
+            const character = await CharacterService.getCharacterByUserId(Number(id)) || undefined;
+            console.log(character);
+            return character;
+        } catch (error) {
+            console.log(error);
+        }
     }
 };
 

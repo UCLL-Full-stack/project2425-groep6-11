@@ -36,9 +36,9 @@ function NavBar(): ReactElement {
     const [role, setRole] = useState<string | null>(null);
 
     useEffect(() => {
-        const userId = localStorage.getItem("id");
-        const storedUsername = localStorage.getItem("username");
-        const storedRole = localStorage.getItem("role");
+        const userId = sessionStorage.getItem("id");
+        const storedUsername = sessionStorage.getItem("username");
+        const storedRole = sessionStorage.getItem("role");
 
         if (userId && storedUsername && storedRole) {
             setUsername(storedUsername);
@@ -47,7 +47,7 @@ function NavBar(): ReactElement {
     }, []);
 
     const handleLogout = () => {
-        localStorage.clear();
+        sessionStorage.clear();
         setUsername(null);
         window.location.href = "/";
     };

@@ -6,7 +6,7 @@ export class Weapon {
     readonly _type: string;
     readonly _damage: number;
     readonly _quality: number;
-    readonly _cost: number;
+    private _cost: number;
 
     constructor(weapon: {
         id?: number,
@@ -16,6 +16,8 @@ export class Weapon {
         quality: number,
         cost: number
     }) {
+        this.validate(weapon);
+
         this._id = weapon.id
         this._name = weapon.name;
         this._type = weapon.type;
@@ -40,6 +42,20 @@ export class Weapon {
         return this._quality;
     }
 
+    public get cost() {
+        return this._cost;
+    }
+
+    public set cost(value: number) {
+        this._cost = value;
+    }
+
+    validate(weapon: { id?: number; name: string; type: string; damage: number; quality: number; cost: number }) {
+        if (weapon.name.length < 3) {
+            throw new Error("Name must be at least 3 characters long")
+        }
+    }
+    
     equals(other: Weapon): boolean {
         return (
             this._id === other._id &&

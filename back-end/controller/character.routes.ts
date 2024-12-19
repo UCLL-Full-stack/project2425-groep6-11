@@ -114,6 +114,54 @@ characterRouter.get('/:id', async (req: Request, res: Response) => {
     }
 });
 
+/**
+ * @swagger
+ * /characters/user/{id}:
+ *   get:
+ *     summary: Retrieve a character by user ID
+ *     tags:
+ *       - Characters
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *         description: The ID of the user whose character is being retrieved
+ *     responses:
+ *       200:
+ *         description: Character retrieved successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Character'
+ *       400:
+ *         description: Invalid user ID
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 status:
+ *                   type: string
+ *                   example: error
+ *                 errorMessage:
+ *                   type: string
+ *                   example: Invalid user ID
+ *       500:
+ *         description: Internal server error
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 status:
+ *                   type: string
+ *                   example: error
+ *                 errorMessage:
+ *                   type: string
+ *                   example: An error message
+ */
 characterRouter.get('/user/:id', async (req: Request, res: Response) => {
     try {
         const id = parseInt(req.params.id, 10);
@@ -231,12 +279,42 @@ characterRouter.put('/:id', async (req: Request, res: Response) => {
 
         const updatedCharacter = await characterService.updateCharacter(id, { name, role, level, power, mana, health, defense, currency });
         return res.status(200).json(updatedCharacter);
-    } catch (error) {
+    } catch (error: any) {
         console.error(error);
-        return res.status(500).json({ error: 'Failed to update character' });
+        return res.status(500).json({ error: 'Failed to update character', errorMessage: error.message });
     }
 });
-
+/**
+ * @swagger
+ * /characters/acceptQuest/{characterId}/{questId}:
+ *     put:
+ *       summary: Accept a quest for a character
+ *       tags: [Characters]
+ *       parameters:
+ *         - in: path
+ *           name: characterId
+ *           required: true
+ *           schema:
+ *             type: integer
+ *           description: The character ID
+ *         - in: path
+ *           name: questId
+ *           required: true
+ *           schema:
+ *             type: integer
+ *           description: The quest ID
+ *       responses:
+ *         200:
+ *           description: Quest accepted successfully
+ *           content:
+ *             application/json:
+ *               schema:
+ *                 $ref: '#/components/schemas/Character'
+ *         400:
+ *           description: Invalid character or quest ID
+ *         500:
+ *           description: Internal server error
+ */
 characterRouter.put('/acceptQuest/:characterId/:questId', async (req: Request, res: Response) => {
     const characterId = Number(req.params.characterId);
     const questId = Number(req.params.questId);
@@ -250,10 +328,41 @@ characterRouter.put('/acceptQuest/:characterId/:questId', async (req: Request, r
         return res.status(200).json(acceptQuest);
     } catch (error: any) {
         console.error("Error in accepting quest:", error);
-        return res.status(500).json({ error: 'Failed to accept quest', details: error.message });
+        return res.status(500).json({ error: 'Failed to accept quest', errorMessage: error.message });
     }
 });
 
+/**
+ * @swagger
+ *  /characters/switchWeapon/{characterId}/{weaponId}:
+ *     put:
+ *       summary: Switch weapon for a character
+ *       tags: [Characters]
+ *       parameters:
+ *         - in: path
+ *           name: characterId
+ *           required: true
+ *           schema:
+ *             type: integer
+ *           description: The character ID
+ *         - in: path
+ *           name: weaponId
+ *           required: true
+ *           schema:
+ *             type: integer
+ *           description: The weapon ID
+ *       responses:
+ *         200:
+ *           description: Weapon switched successfully
+ *           content:
+ *             application/json:
+ *               schema:
+ *                 $ref: '#/components/schemas/Character'
+ *         400:
+ *           description: Invalid character or weapon ID
+ *         500:
+ *           description: Internal server error
+ */
 characterRouter.put('/switchWeapon/:characterId/:weaponId', async (req: Request, res: Response) => {
     const characterId = Number(req.params.characterId);
     const weaponId = Number(req.params.weaponId);
@@ -267,10 +376,41 @@ characterRouter.put('/switchWeapon/:characterId/:weaponId', async (req: Request,
         return res.status(200).json(switchWeapon);
     } catch (error: any) {
         console.error("Error in switching weapon:", error);
-        return res.status(500).json({ error: 'Failed to switch weapon', details: error.message });
+        return res.status(500).json({ error: 'Failed to switch weapon', errorMessage: error.message });
     }
 });
 
+/**
+ * @swagger
+ *   /characters/switchMount/{characterId}/{mountId}:
+ *     put:
+ *       summary: Switch mount for a character
+ *       tags: [Characters]
+ *       parameters:
+ *         - in: path
+ *           name: characterId
+ *           required: true
+ *           schema:
+ *             type: integer
+ *           description: The character ID
+ *         - in: path
+ *           name: mountId
+ *           required: true
+ *           schema:
+ *             type: integer
+ *           description: The mount ID
+ *       responses:
+ *         200:
+ *           description: Mount switched successfully
+ *           content:
+ *             application/json:
+ *               schema:
+ *                 $ref: '#/components/schemas/Character'
+ *         400:
+ *           description: Invalid character or mount ID
+ *         500:
+ *           description: Internal server error
+ */
 characterRouter.put('/switchMount/:characterId/:mountId', async (req: Request, res: Response) => {
     const characterId = Number(req.params.characterId);
     const mountId = Number(req.params.mountId);
@@ -284,7 +424,7 @@ characterRouter.put('/switchMount/:characterId/:mountId', async (req: Request, r
         return res.status(200).json(switchMount);
     } catch (error: any) {
         console.error("Error in switching mount:", error);
-        return res.status(500).json({ error: 'Failed to switch mount', details: error.message });
+        return res.status(500).json({ error: 'Failed to switch mount', errorMessage: error.message });
     }
 });
 

@@ -2,7 +2,7 @@ import { CreateQuestDTO, Quest } from '@/types';
 
 const getAllQuests = async () => {
     try {
-        const token = localStorage.getItem("token");
+        const token = sessionStorage.getItem("token");
 
         if (!token) {
             throw new Error("No token found");
@@ -30,7 +30,7 @@ const getAllQuests = async () => {
 const createQuest = async ({ title, description, xp, reward }: CreateQuestDTO) => {
     try {
 
-        const token = localStorage.getItem("token");
+        const token = sessionStorage.getItem("token");
 
         if (!token) {
             throw new Error("No token found");
@@ -59,7 +59,7 @@ const createQuest = async ({ title, description, xp, reward }: CreateQuestDTO) =
 const deleteQuest = async (id: number) => {
     try {
 
-        const token = localStorage.getItem("token");
+        const token = sessionStorage.getItem("token");
 
         if (!token) {
             throw new Error("No token found");
@@ -85,7 +85,7 @@ const deleteQuest = async (id: number) => {
 
 const updateQuest = async (id: number, quest: Quest) => {
     try {
-        const token = localStorage.getItem("token");
+        const token = sessionStorage.getItem("token");
 
         if (!token) {
             throw new Error("No token found");

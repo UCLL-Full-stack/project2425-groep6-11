@@ -37,7 +37,7 @@ function Create() {
 
     const createCharacter = async (name: string, role: string) => {
         try {
-            const id = localStorage.getItem('id')
+            const id = sessionStorage.getItem('id')
             const character = await CharacterService.createCharacter(Number(id), { name, role });
 
             if (character) {
@@ -47,11 +47,11 @@ function Create() {
                     variant: "default"
                 });
             }
-        } catch (error) {
+        } catch (error: any) {
             console.error("Error creating character:", error);
             toast({
                 title: "Character creation failed",
-                description: "There was an error creating your character.",
+                description: `${error}`,
                 variant: "destructive",
             });
         }

@@ -1,6 +1,7 @@
 import { Character } from "../domain/model/character";
 import characterDB from "../domain/data-access/character.db";
 import { CharacterDTO } from '../types';
+import { Quest } from '../domain/model/quest';
 
 async function getCharacterById(id: number): Promise<Character> {
     try {
@@ -27,8 +28,10 @@ async function getCharacterByUserId(id: number): Promise<Character | null> {
 }
 
 async function createCharacter(id: number, { name, role }: CharacterDTO): Promise<Character> {
-    if (!name || !role || !id) {
-        throw new Error('Invalid data: name, role and user are required for character creation.');
+    const character = await getCharacterByUserId(id);
+
+    if (character) {
+        throw new Error("A character already exists for this user.")
     }
 
     try {
@@ -85,6 +88,16 @@ async function updateCharacter( id: number, { name, role, level, power, mana, he
 }
 
 async function acceptQuest(characterId: number, questId: number): Promise<Character> {
+    const character = await getCharacterById(characterId);
+
+    if (!characterId) {
+        throw new Error('You must have a character to create a mount!')
+    }
+
+    if (character.quests.some((quest: Quest) => quest._id === questId)) {
+        throw new Error("This quest has already been accepted by this character!")
+    }
+
     try {
         const acceptQuest = await characterDB.acceptQuest(characterId, questId);
 

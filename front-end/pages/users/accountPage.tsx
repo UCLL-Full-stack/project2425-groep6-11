@@ -32,7 +32,7 @@ export default function AccountPage() {
                 </Tabs>
             </div>
         </>
-    );
+    )
 }
 
 // @ts-ignore

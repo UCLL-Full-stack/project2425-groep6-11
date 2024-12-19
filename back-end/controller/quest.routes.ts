@@ -6,13 +6,6 @@ const questRouter = express.Router();
 
 /**
  * @swagger
- * tags:
- *   name: Quests
- *   description: Quest management API
- */
-
-/**
- * @swagger
  * /quests/{id}:
  *   get:
  *     summary: Retrieve a quest by ID

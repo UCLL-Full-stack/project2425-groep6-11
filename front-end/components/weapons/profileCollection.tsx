@@ -12,7 +12,7 @@ import Profile from './profile';
 import WeaponService from '@/services/weaponService';
 
 const getCharacterById = async (): Promise<Character | undefined> => {
-    const id = localStorage.getItem('id');
+    const id = sessionStorage.getItem('id');
     if (id) {
         return await CharacterService.getCharacterByUserId(Number(id)) || undefined;
     }

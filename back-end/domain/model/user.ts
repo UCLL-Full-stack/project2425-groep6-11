@@ -29,6 +29,8 @@ export class User {
         character?: Character;
         role: Role
     }) {
+        this.validate(user);
+
         this._id = user.id;
         this._username = user.username;
         this._email = user.email;
@@ -68,6 +70,22 @@ export class User {
         this._role = role;
     }
 
+    validate(user: {
+        id?: number;
+        username: string;
+        email: string;
+        password: string;
+        character?: Character;
+        role: Role
+    }) {
+        if (user.username.length < 3) {
+            throw new Error("Username must be at least 3 characters long");
+        } else if (user.password.length < 8) {
+            throw new Error("Password must be at least 8 characters long");
+        } else if (user.email.trim() === "") {
+            throw new Error("Email can't be empty");
+        }
+    }
     equals(other: User): boolean {
         return (
             this._id === other._id &&

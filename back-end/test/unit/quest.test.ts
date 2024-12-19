@@ -1,29 +1,46 @@
 import { Quest } from '../../domain/model/quest';
 
-describe('Quest', () => {
+describe("Quest Domain Model", () => {
     let quest: Quest;
 
     beforeEach(() => {
-        quest = new Quest({
-            xp: 100,
-            title: 'Defeat the Dragon',
-            description: 'You must defeat the dragon to save the village.'
-        });
+        quest = new Quest({ id: 1, description: 'This is my 1st quest', title: 'Quest1', xp: 0, reward: 100 });
     });
 
-    it('should create a quest with correct properties', () => {
-        expect(quest.xp).toBe(100);
-        expect(quest.title).toBe('Defeat the Dragon');
-        expect(quest.description).toBe('You must defeat the dragon to save the village.');
+    test("Quest initializes correctly", () => {
+        expect(quest.title).toBe("Quest1");
+        expect(quest.description).toBe("This is my 1st quest");
+        expect(quest.xp).toBe(0);
+        expect(quest.reward).toBe(100);
         expect(quest.completed).toBe(false);
     });
 
-    it('should allow setting the completion status of the quest', () => {
-        quest.completed = true;
-        expect(quest.completed).toBe(true);
+    test("Quest title validation", () => {
+        expect(() => {
+            quest = new Quest({ id: 1, description: 'This is my 1st quest', title: ' ', xp: 0, reward: 100 });
+        }).toThrow("Title can't be empty");
     });
 
-    it('should return false for completed by default', () => {
-        expect(quest.completed).toBe(false);
+    test("Quest description validation", () => {
+        expect(() => {
+            quest = new Quest({ id: 1, description: ' ', title: 'Quest1', xp: 0, reward: 100 });
+        }).toThrow("Description can't be empty");
+    });
+
+    test("Quest XP validation", () => {
+        expect(() => {
+            quest = new Quest({ id: 1, description: 'This is my 1st quest', title: 'Quest1', xp: -1, reward: 100 });
+        }).toThrow("Quest XP must be more than 0");
+    });
+
+    test("Quest reward validation", () => {
+        expect(() => {
+            quest = new Quest({ id: 1, description: 'This is my 1st quest', title: 'Quest1', xp: 0, reward: -1 });
+        }).toThrow("Quest reward must be more than 0");
+    });
+
+    test("Quest equality", () => {
+        const identicalQuest = new Quest({ id: 1, description: 'This is my 1st quest', title: 'Quest1', xp: 0, reward: 100 });
+        expect(quest.equals(identicalQuest)).toBe(true);
     });
 });

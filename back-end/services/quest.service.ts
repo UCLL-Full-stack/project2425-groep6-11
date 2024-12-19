@@ -13,10 +13,6 @@ async function getQuestById(id: number): Promise<Quest | null> {
 }
 
 async function createQuest({ title, description, xp, reward}: QuestDTO): Promise<Quest> {
-    if (!title || !description || xp == null) {
-        throw new Error('Invalid data: title, description, and xp are required');
-    }
-
     try {
         return await questDB.createQuest({ title, description, xp, reward});
     } catch (error) {

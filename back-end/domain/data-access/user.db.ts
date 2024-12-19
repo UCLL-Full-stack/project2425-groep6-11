@@ -16,6 +16,13 @@ async function getUserByUsername(username: string): Promise<User | null> {
     return user ? User.from(user) : null;
 }
 
+async function getUserByEmail(email: string): Promise<User | null> {
+    const user = await db.user.findUnique({
+        where: { email },
+    });
+    return user ? User.from(user) : null;
+}
+
 async function createUser({ username, password, email, role }: UserDTO): Promise<User> {
     const user = await db.user.create({
         data: {
@@ -61,5 +68,6 @@ export default {
     deleteUser,
     updateUser,
     createUser,
-    getUserByUsername
+    getUserByUsername,
+    getUserByEmail
 }

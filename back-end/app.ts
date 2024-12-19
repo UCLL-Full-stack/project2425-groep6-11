@@ -10,6 +10,7 @@ import weaponRouter from './controller/weapon.routes';
 import questRouter from './controller/quest.routes';
 import userRouter from './controller/user.routes';
 import { expressjwt } from 'express-jwt';
+import helmet from 'helmet';
 
 const app = express();
 dotenv.config();
@@ -17,6 +18,7 @@ const port = process.env.APP_PORT || 3000;
 
 app.use(cors());
 app.use(bodyParser.json());
+app.use(helmet())
 
 const jwtSecret = process.env.JWT_SECRET;
 if (!jwtSecret) {
@@ -25,10 +27,10 @@ if (!jwtSecret) {
 
 app.use(
     expressjwt({
-        secret: jwtSecret, // Now guaranteed to be a string
+        secret: jwtSecret,
         algorithms: ['HS256']
     }).unless({
-        path: ['/api-docs', '/users/login', '/users/register', /^\api-docs\/.*/, '/status'],
+        path: ['/api-docs', '/users/login', '/users/register', new RegExp('^/api-docs/.*'), '/status', 'swagger-ui/**', 'swagger-ui**'],
     })
 );
 
@@ -44,7 +46,7 @@ const swaggerOpts = {
             version: '1.0.0'
         },
     },
-    apis: ['./controller/*.routers.ts'],
+    apis: ['./controller/*.routes.ts'],
 }
 
 const swaggerSpec = swaggerJSDoc(swaggerOpts);

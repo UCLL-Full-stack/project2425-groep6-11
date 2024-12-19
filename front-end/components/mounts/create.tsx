@@ -26,7 +26,6 @@ import { Separator } from '@/components/ui/separator';
 import MountService from '@/services/mountService';
 import { Toaster } from '@/components/ui/toaster';
 import CharacterService from '@/services/characterService';
-import { Character, Mount } from '@/types';
 import { useTranslation } from 'next-i18next';
 
 function Create() {
@@ -42,16 +41,7 @@ function Create() {
 
     const handleSubmit = async (event: React.FormEvent) => {
         event.preventDefault();
-        const characterId = localStorage.getItem('id');
-
-        await createMount(name, type, legs, can_fly).then(_ => console.log("Creating character..."));
-        const character = await CharacterService.getCharacterById(Number(characterId));
-
-        await CharacterService.updateCharacter(Number(characterId), {
-            ...character,
-            _mana: character._mount._speed * 5,
-            _hp: character._mount._legs * character._hp
-        })
+        await createMount(name, type, legs, can_fly).then(_ => console.log("Creating mount..."));
     };
 
     const handleChangeLegs = (legs: number) => {
@@ -62,34 +52,43 @@ function Create() {
         setCan_fly(checked);
     }
 
-    const createMount = async (name: string, type: string, legs: number, can_fly: boolean) => {
-        const id = localStorage.getItem('id');
+        const createMount = async (name: string, type: string, legs: number, can_fly: boolean) => {
+            const id = sessionStorage.getItem('id');
+            const character = await CharacterService.getCharacterByUserId(Number(id))
 
-        try {
-            if (id) {
-                await MountService.createMount(Number(id), { name, type, legs, can_fly }).then(_ => {
-                    toast({
-                        title: "Mount created successfully!",
-                        description: `${legs} legged ${type}: ${name}`,
+            if (character) {
+                try {
+                    await MountService.createMount(Number(character._id), { name, type, legs, can_fly }).then(_ => {
+                        toast({
+                            title: "Mount created successfully!",
+                            description: `${legs} legged ${type}: ${name}`,
+                        });
                     });
-                });
-            }
-            else {
+
+                    const updatedCharacter = await CharacterService.getCharacterByUserId(Number(id));
+
+                    await CharacterService.updateCharacter(Number(updatedCharacter._id), {
+                        ...updatedCharacter,
+                        _mana: updatedCharacter._mount._speed * 5,
+                        _hp: updatedCharacter._mount._legs * updatedCharacter._hp
+                    })
+
+                } catch (error) {
+                    console.error("Error creating mount:", error);
+                    toast({
+                        title: "Mount creation failed",
+                        description: `${error}`,
+                        variant: "destructive",
+                    });
+                }
+            } else {
                 toast({
                     title: "Create a character first!",
                     description: "No character to add mount.",
                     variant: "destructive"
                 });
             }
-        } catch (error) {
-            console.error("Error creating mount:", error);
-            toast({
-                title: "Mount creation failed",
-                description: "There was an error creating your mount.",
-                variant: "destructive",
-            });
         }
-    }
 
     return (
         <div className="flex justify-center">

@@ -50,7 +50,7 @@ function SignUp() {
             console.error("Error signing up user:", error);
             toast({
                 title: "Signup failed",
-                description: "There was an error signing in your user.",
+                description: `${error}`,
                 variant: "destructive",
             });
         }

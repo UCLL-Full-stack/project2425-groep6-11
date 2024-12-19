@@ -6,7 +6,7 @@ export class Quest {
     readonly _title: string;
     readonly _description: string;
     private _completed: boolean;
-    readonly _reward: number;
+    private _reward: number;
 
     constructor(quest: {
         id?: number,
@@ -15,6 +15,8 @@ export class Quest {
         description: string,
         reward: number
     }) {
+        this.validate(quest);
+
         this._id = quest.id;
         this._xp = quest.xp;
         this._title = quest.title;
@@ -41,6 +43,26 @@ export class Quest {
 
     public set completed(value: boolean) {
         this._completed = value;
+    }
+
+    public get reward() {
+        return this._reward;
+    }
+
+    public set reward(value: number) {
+        this._reward = value;
+    }
+
+    validate(quest: { id?: number; xp: number; title: string; description: string; reward: number }) {
+        if (quest.xp < 0) {
+            throw new Error("Quest XP must be more than 0");
+        } else if (quest.reward < 0) {
+            throw new Error("Quest reward must be more than 0");
+        } else if (quest.title.trim() === "") {
+            throw new Error("Title can't be empty");
+        } else if (quest.description.trim() === "") {
+            throw new Error("Description can't be empty");
+        }
     }
 
     equals(other: Quest): boolean {

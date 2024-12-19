@@ -45,6 +45,8 @@ export class Character {
         quests: Quest[]
         user?: User,
     }) {
+        this.validate(character);
+
         this._id = character.id;
         this._name = character.name;
         this._role = character.role;
@@ -120,6 +122,14 @@ export class Character {
         this._defense = value;
     }
 
+    public get currency() {
+        return this._currency;
+    }
+
+    public set currency(value) {
+        this._currency = value;
+    }
+
     public get mount() {
         return this._mount;
     }
@@ -143,7 +153,7 @@ export class Character {
     public addQuest(quest: Quest) {
         this._quests.push(quest);
     }
-    
+
     equals(other: Character): boolean {
         return (
             this._id === other._id &&
@@ -158,6 +168,27 @@ export class Character {
             this._equipped === other._equipped &&
             this._user === other._user
         );
+    }
+
+    validate(character: {
+        id?: number;
+        name: string;
+        role: string;
+        level: number;
+        power: number;
+        mana: number;
+        health: number;
+        defense: number;
+        currency: number;
+        weapons: Weapon[];
+        equipped?: Weapon;
+        mount?: Mount;
+        quests: Quest[];
+        user?: User
+    }) {
+        if (character.name.length < 3) {
+            throw new Error("Name must be at least 3 characters long")
+        }
     }
 
     static from({

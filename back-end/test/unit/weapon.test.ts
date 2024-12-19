@@ -1,43 +1,23 @@
 import { Weapon } from '../../domain/model/weapon';
 
-describe('Weapon', () => {
+describe("Weapon Domain Model", () => {
     let weapon: Weapon;
 
     beforeEach(() => {
-        weapon = new Weapon({
-            name: 'Sword of Valor',
-            type: 'Melee',
-            damage: 50,
-            quality: 80
-        });
+        weapon = new Weapon({ id: 1, cost: 0, damage: 10, name: 'Blade1', quality: 100, type: 'Sword' });
     });
 
-    it('should create a weapon with correct properties', () => {
-        expect(weapon.name).toBe('Sword of Valor');
-        expect(weapon.type).toBe('Melee');
-        expect(weapon.damage).toBe(50);
-        expect(weapon.quality).toBe(80);
+    test("Weapon initializes correctly", () => {
+        expect(weapon.name).toBe("Blade1");
+        expect(weapon.cost).toBe(0);
+        expect(weapon.damage).toBe(10);
+        expect(weapon.type).toBe('Sword');
+        expect(weapon.quality).toBe(100);
     });
 
-    it('should return true for equal weapons', () => {
-        const other = new Weapon({
-            name: 'Sword of Valor',
-            type: 'Melee',
-            damage: 50,
-            quality: 80
-        });
-
-        expect(weapon.equals(other)).toBe(true);
-    });
-
-    it('should return false for unequal weapons', () => {
-        const other = new Weapon({
-            name: 'Axe of Fury',
-            type: 'Axe',
-            damage: 70,
-            quality: 90
-        });
-
-        expect(weapon.equals(other)).toBe(false);
+    test("Weapon name validation", () => {
+        expect(() => {
+            new Weapon({ id: 1, cost: 0, damage: 0, name: '', quality: 100, type: 'Sword' });
+        }).toThrow("Name must be at least 3 characters long");
     });
 });

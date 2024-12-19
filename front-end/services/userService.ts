@@ -11,7 +11,8 @@ const createUser = async ({ username, password, email, role }: CreateUserDTO) =>
         });
 
         if (!response.ok) {
-            throw new Error(`Error: ${response.status} ${response.statusText}`);
+            const error = await response.json();
+            throw new Error(`${error?.errorMessage}`);
         }
 
         return await response.json();
@@ -31,7 +32,8 @@ const loginUser = async( { username, password }: LoginDTO) => {
         });
 
         if (!response.ok) {
-            throw new Error(`Error: ${response.status} ${response.statusText}`);
+            const error = await response.json();
+            throw new Error(`${error?.errorMessage}`);
         }
 
         return await response.json();

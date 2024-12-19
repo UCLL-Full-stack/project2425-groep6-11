@@ -3,6 +3,7 @@ import userDB from "../domain/data-access/user.db";
 import { AuthResponse, LoginDTO, UserDTO } from '../types';
 import bcrypt from 'bcrypt';
 import generateJwtToken from '../util/jwt';
+import { exists } from 'node:fs';
 
 async function getUserById(id: number): Promise<User> {
     try {
@@ -19,6 +20,20 @@ async function getUserById(id: number): Promise<User> {
     }
 }
 
+async function getUserByEmail(email: string): Promise<User> {
+    try {
+        const user = await userDB.getUserByEmail(email);
+
+        if (!user) {
+            throw new Error(`User with email ${email} does not exist.`);
+        }
+
+        return user;
+    } catch (error) {
+        console.log(`Error retrieving user with email ${email}:`, error);
+        throw new Error('Failed to retrieve user.');
+    }
+}
 async function createUser({ username, password, email, role }: UserDTO): Promise<User> {
     if (!username || !password || !email || !role) {
         throw new Error('Invalid data: username, password, email and role are required for user creation');
@@ -119,5 +134,6 @@ export default {
     updateUser,
     createUser,
     deleteUser,
-    authenticate
+    authenticate,
+    getUserByEmail
 }

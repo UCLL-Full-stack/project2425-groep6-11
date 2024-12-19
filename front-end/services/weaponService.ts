@@ -2,7 +2,7 @@ import { CreateWeaponDTO, Weapon } from '@/types';
 
 const getAllWeapons = async () => {
     try {
-        const token = localStorage.getItem('token');
+        const token = sessionStorage.getItem('token');
 
         if (!token) {
             throw new Error("No token found");
@@ -23,7 +23,7 @@ const getAllWeapons = async () => {
 
 const getWeaponById = async (id: number) => {
     try {
-        const token = localStorage.getItem('token');
+        const token = sessionStorage.getItem('token');
 
         if (!token) {
             throw new Error("No token found");
@@ -44,7 +44,7 @@ const getWeaponById = async (id: number) => {
 
 const updateWeapon = async (id: number, weapon: Weapon) => {
     try {
-        const token = localStorage.getItem('token');
+        const token = sessionStorage.getItem('token');
 
         if (!token) {
             throw new Error("No token found");
@@ -73,7 +73,7 @@ const updateWeapon = async (id: number, weapon: Weapon) => {
 
 const createWeapon = async (id: number, { name, type }: CreateWeaponDTO) => {
     try {
-        const token = localStorage.getItem('token');
+        const token = sessionStorage.getItem('token');
 
         if (!token) {
             throw new Error("No token found");
@@ -102,7 +102,7 @@ const createWeapon = async (id: number, { name, type }: CreateWeaponDTO) => {
 
 const deleteWeapon = async (weaponId: number) => {
     try {
-        const token = localStorage.getItem('token');
+        const token = sessionStorage.getItem('token');
 
         if (!token) {
             throw new Error("No token found");

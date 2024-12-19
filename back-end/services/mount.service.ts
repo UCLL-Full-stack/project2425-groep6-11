@@ -1,6 +1,7 @@
 import mountDB from '../domain/data-access/mount.db';
 import { Mount } from '../domain/model/mount';
 import { MountDTO } from '../types';
+import CharacterService from './character.service';
 
 async function getMountById(id: number): Promise<Mount> {
     try {
@@ -18,8 +19,17 @@ async function getMountById(id: number): Promise<Mount> {
 async function createMount(id: number, { name, base, legs, can_fly }: MountDTO): Promise<Mount> {
     const speed = Math.floor((Math.random() * 100) + 1);
 
-    if (!name) {
-        throw new Error('Invalid data: name is required for mount creation.');
+    if (name.length < 3) {
+        throw new Error('Your mount name must have at least 3 characters');
+    }
+
+    if (!id) {
+        throw new Error('You must have a character to create a mount!')
+    }
+
+    const character = await CharacterService.getCharacterById(id)
+    if (character.mount) {
+        throw new Error("A mount already exists for this character!")
     }
 
     try {
@@ -57,11 +67,12 @@ async function getAllMounts(): Promise<Mount[]> {
 }
 
 async function updateMount(id: number, { name, speed, base, legs }: MountDTO): Promise<Mount> {
-    if (name == null || speed == null) {
-        throw new Error('Invalid data: name and speed are required for mount update.');
+    if (name.length < 3) {
+        throw new Error('Your mount name must have at least 3 characters');
     }
-
+    
     try {
+
         const mount = await mountDB.updateMount(id, { name, speed, base, legs });
         if (!mount) {
             throw new Error(`Mount with id ${id} does not exist or could not be updated.`);

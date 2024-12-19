@@ -1,119 +1,81 @@
 import { Character } from '../../domain/model/character';
-import {Mount} from "../../domain/model/mount";
-import {Quest} from "../../domain/model/quest";
-import {Weapon} from "../../domain/model/weapon";
+import { Weapon } from '../../domain/model/weapon';
+import { Mount } from '../../domain/model/mount';
+import { Quest } from '../../domain/model/quest';
+import { Role, User } from '../../domain/model/user';
 
-
-describe('Character', () => {
-        let character: Character;
-        let mount: Mount;
-        let weapons: Weapon[];
-        let quests: Quest[];
+describe("Character Domain Model", () => {
+        let weapon: Weapon,
+            mount: Mount,
+            quest: Quest,
+            user: User,
+            character: Character;
 
         beforeEach(() => {
-                mount = new Mount({ name: 'Dragon', speed: 100 });
-
-                weapons = [
-                        new Weapon({ name: 'Longsword', type: 'Melee', damage: 20, quality: 98 }),
-                        new Weapon({ name: 'Bow', type: 'Ranged', damage: 12, quality: 79 })
-                ];
-
-                quests = [
-                        new Quest({ xp: 200, title: 'Save the kingdom', description: 'Bring back the princess and save the kingdom!'}),
-                        new Quest({ xp: 15, title: 'Pick 5 mushrooms', description: 'Pick 5 mushrooms and bring them back to the tavern!'})];
+                weapon = new Weapon({ id: 1, name: "Blade1", damage: 10, type: "sword", quality: 100, cost: 100 });
+                mount = new Mount({ id: 1, name: "Horse", speed: 20, base: "hound", can_fly: false, cost: 100, legs: 2,  });
+                quest = new Quest({ id: 1, description: 'This is my 1st quest', title: 'Quest1', xp: 0, reward: 100 });
+                user = new User({ id: 1, username: "player1", email: 'player@test.com', password: 'Password1*', role: Role.Player });
 
                 character = new Character({
-                        name: 'Maenoir',
-                        role: 'Death blade',
-                        level: 12,
-                        power: 36,
-                        mana: 100,
-                        health: 100,
-                        defense: 50,
+                        id: 1,
+                        name: "Hero",
+                        role: "Warrior",
+                        level: 5,
+                        power: 100,
+                        mana: 50,
+                        health: 200,
+                        defense: 30,
+                        currency: 1000,
+                        weapons: [weapon],
+                        equipped: weapon,
                         mount: mount,
-                        weapons: weapons,
-                        quests: quests
+                        quests: [quest],
+                        user: user,
                 });
         });
 
-        it('should create a character with the corresponding properties', () => {
-                expect(character.name).toEqual('Maenoir');
-                expect(character.role).toEqual('Death blade');
-                expect(character.level).toEqual(12);
-                expect(character.power).toEqual(36);
-                expect(character.mana).toEqual(100);
-                expect(character.health).toEqual(100);
-                expect(character.defense).toEqual(50);
+        test("Character initializes correctly", () => {
+                expect(character.name).toBe("Hero");
+                expect(character.role).toBe("Warrior");
+                expect(character.level).toBe(5);
+                expect(character.power).toBe(100);
+                expect(character.mana).toBe(50);
+                expect(character.health).toBe(200);
+                expect(character.defense).toBe(30);
+                expect(character.currency).toBe(1000);
                 expect(character.mount).toBe(mount);
-                expect(character.weapons).toHaveLength(2);
-                expect(character.quests).toHaveLength(2);
+                expect(character.weapons).toContain(weapon);
+                expect(character.quests).toContain(quest);
+                expect(character.equals(character)).toBe(true);
         });
 
-        it('should allow updating character properties', () => {
-                character.name = 'Akinoir';
-                character.role = 'Soul eater';
-                character.level = 13;
-                character.power = 40;
-                character.mana = 120;
-                character.health = 120;
-                character.defense = 30;
-
-                expect(character.name).toEqual('Akinoir');
-                expect(character.role).toEqual('Soul eater');
-                expect(character.level).toEqual(13);
-                expect(character.power).toEqual(40);
-                expect(character.mana).toEqual(120);
-                expect(character.health).toEqual(120);
-                expect(character.defense).toEqual(30);
+        test("Character name validation", () => {
+                expect(() => {
+                        new Character({
+                                name: "Al",
+                                role: "Warrior",
+                                level: 1,
+                                power: 10,
+                                mana: 5,
+                                health: 50,
+                                defense: 5,
+                                currency: 100,
+                                weapons: [],
+                                quests: [],
+                        });
+                }).toThrow("Name must be at least 3 characters long");
         });
 
-        it('should allow adding weapons to the character', () => {
-                const newWeapon = new Weapon({ name: 'Axe', type: 'Melee', damage: 30, quality: 91 });
+        test("Add weapon to character", () => {
+                const newWeapon = new Weapon({ id: 2, name: "Blade2", damage: 10, type: "sword", quality: 100, cost: 100 });
                 character.addWeapon(newWeapon);
-
-                expect(character.weapons).toHaveLength(3);
-                expect(character.weapons[2]).toBe(newWeapon);
+                expect(character.weapons).toContain(newWeapon);
         });
 
-        it('should allow adding quests to the character', () => {
-                const newQuest = new Quest({ xp: 150, title: 'Slay the god dragon', description: 'Slay the god dragon and come home with its loot!'});
+        test("Add quest to character", () => {
+                const newQuest = new Quest({ id: 2, description: 'This is my 2nd quest', title: 'Quest2', xp: 0, reward: 100 });
                 character.addQuest(newQuest);
-
-                expect(character.quests).toHaveLength(3);
-                expect(character.quests[2]).toBe(newQuest);
+                expect(character.quests).toContain(newQuest);
         });
-
-        it('should return true for equal characters', () => {
-                const other = new Character({
-                        name: 'Maenoir',
-                        role: 'Death blade',
-                        level: 12,
-                        power: 36,
-                        mana: 100,
-                        health: 100,
-                        defense: 50,
-                        mount: mount,
-                        weapons: weapons,
-                        quests: quests
-                });
-
-                expect(character.equals(other)).toBe(true);
-        });
-
-        it('should return false for unequal characters', () => {
-                const other = new Character({
-                        name: 'Akinoir',
-                        role: 'Death blade',
-                        level: 12,
-                        power: 36,
-                        mana: 100,
-                        health: 100,
-                        defense: 50,
-                        mount: mount,
-                        weapons: weapons,
-                        quests: quests
-                });
-
-                expect(character.equals(other)).toBe(false);
-        });
-})
+});

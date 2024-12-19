@@ -2,7 +2,7 @@ import { Character, CreateCharacterDTO, Quest, Weapon } from '@/types';
 
 const getCharacterById = async (id: number) => {
     try {
-        const token = localStorage.getItem('token');
+        const token = sessionStorage.getItem('token');
 
         if (!token) {
             throw new Error("No token found");
@@ -17,7 +17,8 @@ const getCharacterById = async (id: number) => {
         });
 
         if (!res.ok) {
-            throw new Error(`Failed to fetch characters: ${res.statusText}`);
+            const error = await res.json();
+            throw new Error(`${error?.errorMessage}`);
         }
 
         return await res.json();
@@ -29,7 +30,7 @@ const getCharacterById = async (id: number) => {
 
 const getCharacterByUserId = async (id: number) => {
     try {
-        const token = localStorage.getItem('token');
+        const token = sessionStorage.getItem('token');
 
         if (!token) {
             throw new Error("No token found");
@@ -43,9 +44,9 @@ const getCharacterByUserId = async (id: number) => {
             },
         });
 
-        console.log(res);
         if (!res.ok) {
-            throw new Error(`Failed to fetch characters: ${res.statusText}`);
+            const error = await res.json();
+            throw new Error(`${error?.errorMessage}`);
         }
 
         return await res.json();
@@ -57,7 +58,7 @@ const getCharacterByUserId = async (id: number) => {
 
 const getAllCharacters = async () => {
     try {
-        const token = localStorage.getItem('token');
+        const token = sessionStorage.getItem('token');
 
         if (!token) {
             throw new Error("No token found");
@@ -72,7 +73,8 @@ const getAllCharacters = async () => {
         });
 
         if (!res.ok) {
-            throw new Error(`Failed to fetch characters: ${res.statusText}`);
+            const error = await res.json();
+            throw new Error(`${error?.errorMessage}`);
         }
 
         return await res.json();
@@ -85,7 +87,7 @@ const getAllCharacters = async () => {
 
 const createCharacter = async (id: number, { name, role }: CreateCharacterDTO) => {
     try {
-        const token = localStorage.getItem('token');
+        const token = sessionStorage.getItem('token');
 
         if (!token) {
             throw new Error("No token found");
@@ -101,7 +103,8 @@ const createCharacter = async (id: number, { name, role }: CreateCharacterDTO) =
         });
 
         if (!response.ok) {
-            throw new Error(`Error: ${response.status} ${response.statusText}`);
+            const error = await response.json();
+            throw new Error(`${error?.errorMessage}`);
         }
 
         return await response.json();
@@ -112,7 +115,7 @@ const createCharacter = async (id: number, { name, role }: CreateCharacterDTO) =
 
 const deleteCharacter = async (characterId: number) => {
     try {
-        const token = localStorage.getItem('token');
+        const token = sessionStorage.getItem('token');
 
         if (!token) {
             throw new Error("No token found");
@@ -127,7 +130,8 @@ const deleteCharacter = async (characterId: number) => {
         })
 
         if (!response.ok) {
-            throw new Error(`Error: ${response.status} ${response.statusText}`);
+            const error = await response.json();
+            throw new Error(`${error?.errorMessage}`);
         }
     } catch (error) {
         console.error("Failed to delete weapon: ", error);
@@ -137,7 +141,7 @@ const deleteCharacter = async (characterId: number) => {
 const switchWeapon = async (characterId: number, weaponId: number) => {
 
     try {
-        const token = localStorage.getItem('token');
+        const token = sessionStorage.getItem('token');
 
         if (!token) {
             throw new Error("No token found");
@@ -152,7 +156,8 @@ const switchWeapon = async (characterId: number, weaponId: number) => {
         })
 
         if (!response.ok) {
-            throw new Error(`Error: ${response.status} ${response.statusText}`);
+            const error = await response.json();
+            throw new Error(`${error?.errorMessage}`);
         }
 
         return await response.json();
@@ -164,7 +169,7 @@ const switchWeapon = async (characterId: number, weaponId: number) => {
 
 const updateCharacter = async (characterId: number, character: Character) => {
     try {
-        const token = localStorage.getItem('token');
+        const token = sessionStorage.getItem('token');
 
         if (!token) {
             throw new Error("No token found");
@@ -179,7 +184,8 @@ const updateCharacter = async (characterId: number, character: Character) => {
         });
 
         if (!response.ok) {
-            throw new Error(`Failed to update character: ${response.statusText}`);
+            const error = await response.json();
+            throw new Error(`${error?.errorMessage}`);
         }
 
         return await response.json();
@@ -190,7 +196,7 @@ const updateCharacter = async (characterId: number, character: Character) => {
 
 const acceptQuest = async (characterId: number, questId: number) => {
     try {
-        const token = localStorage.getItem('token');
+        const token = sessionStorage.getItem('token');
 
         if (!token) {
             throw new Error("No token found");
@@ -205,7 +211,8 @@ const acceptQuest = async (characterId: number, questId: number) => {
         });
 
         if (!response.ok) {
-            throw new Error(`Failed to accept quest: ${response.statusText}`);
+            const error = await response.json();
+            throw new Error(`${error?.errorMessage}`);
         }
 
         return await response.json();
